@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace App.CliSiTef_DLL
@@ -8,6 +9,8 @@ namespace App.CliSiTef_DLL
     {
         public string gTitulo { get; set; }
         public string gStrQrCode { get; set; }
+
+        bool EnterOuEscPrecionado { get; set; }
 
         Bitmap Gerar_QRCode(int width, int height, string text)
         {
@@ -25,6 +28,28 @@ namespace App.CliSiTef_DLL
                 throw;
             }
         }
+        async void ControlarTempoParaFechamento()
+        {
+            if (!EnterOuEscPrecionado)
+            {
+                int count = 30;
+                while (count > 0)
+                {
+                    try
+                    {
+                        lblTempoTela.Invoke((MethodInvoker)delegate
+                        {
+                            lblTempoTela.Text = count.ToString() + " segundos";
+                            lblTempoTela.Refresh();
+                        });
+                    }
+                    catch { }
+                    count--;
+                    await Task.Delay(1000);
+                }
+                Close();
+            }
+        }
 
         public FrmTefQrCode()
         {
@@ -38,16 +63,19 @@ namespace App.CliSiTef_DLL
             Image qrCode = Gerar_QRCode(lblQrCode.Size.Width - 2, lblQrCode.Size.Height - 2, gStrQrCode);
             lblQrCode.Image = qrCode;
             lblQrCode.Text = "";
+            ControlarTempoParaFechamento();
         }
         private void FrmTefQrCode_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
+                EnterOuEscPrecionado = true;
                 DialogResult = DialogResult.OK;
                 Close();
             }
             else if (e.KeyCode == Keys.Escape)
             {
+                EnterOuEscPrecionado = true;
                 DialogResult = DialogResult.Cancel;
                 Close();
             }
