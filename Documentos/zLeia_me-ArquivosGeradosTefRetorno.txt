@@ -11,6 +11,7 @@ De               -> Para
 *Operacao        000-000=CRT
 0                001-000=5691
 *DocViculado     002-000=827715
+*Id Transacao    002-001=8daa2aa3-41d6-4c26-bf13-f636a4d2d333     //Identificador de Transação para controle interno (Retaguarda que dever gerar esse Guid)
 *Valor Transacao 003-000=10,00           //Valores adicionais virá na sequencia 003-001 - 003-002 etc
 *Moeda           004-000=0
 *Status          009-000=0

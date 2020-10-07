@@ -5,6 +5,7 @@ namespace App.CliSiTef_DLL.Classes
 {
     public class TefTransacao
     {
+        public Guid IdentificadorTransacao { get; set; }
         public string DocumentoVinculado { get; set; }
         public decimal ValorTransacao { get; set; }
 
