@@ -47,6 +47,7 @@ namespace App.CliSiTef_DLL
                     count--;
                     await Task.Delay(1000);
                 }
+                DialogResult = DialogResult.OK;
                 Close();
             }
         }
