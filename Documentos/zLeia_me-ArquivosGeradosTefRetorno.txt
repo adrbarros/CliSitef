@@ -1,8 +1,8 @@
-O Aquivo de retorno gerado, referente as informações retornadas pela DLL do CliSiTef, coloquei para seguir um padrão do Layout NTK,
-utilizado pelo PayGo, Linx, Captta e outros. Assim quem esta familiarizado com este layouts, não vai ter problemas no entendimento
-das informações uteis para controle de sua aplicação
+O Aquivo de retorno gerado referente as informações retornadas pela DLL do CliSiTef, coloquei para seguir um padrão do Layout NTK,
+utilizado pelo PayGo, Linx, Captta e outros. Assim quem está familiarizado com este layout, não vai ter problemas no entendimento
+das informações uteis para controle na sua aplicação.
 
-De(SiTef - Interface Simplificada com a aplicação(VRS-231).pdf  [TipoCampo - inicio pag 31])
+De(SiTef - Interface Simplificada com a aplicação(VRS-236).pdf  [TipoCampo - inicio pag 33])
 Para(NTK-PGCliWin - Interface com a Automação Comercial - v2.19.pdf [Detalhamento dos campos - inicio pag 31])
 
 TipoCampo Sitef     Padrão Layout Pay&GO
@@ -57,5 +57,5 @@ SubGrupo Pagto   732-001=A VISTA         //** Recupera o Descrição da Modalida
 2022             747-000=1221
 156              748-000=CARDSE
 132              748-001=20032
-Bandeira Padrao  748-001=ELO|DEBITO|20032 //** Recupera o Dados da Bandeira parao Sitef baseado na lista estatica da classe BandeiraPadraoConst
+Bandeira Padrao  748-002=ELO|DEBITO|20032 //** Recupera o Dados da Bandeira parao Sitef baseado na lista estatica da classe BandeiraPadraoConst
 *Fixo            999-000=0
