@@ -18,7 +18,7 @@ namespace App.CliSiTef_DLL
         decimal gValorDasTransacoesEfetuadas { get; set; }
 
         TefSoftwareExpress mTefSoftwareExpress = new TefSoftwareExpress();
-        
+
         TefConfig mTefConfig { get; set; }
         Cupom mCupomVenda { get; set; }
 
@@ -54,10 +54,10 @@ namespace App.CliSiTef_DLL
                     sw.WriteLine("Porta=" + mTefConfig.Tef_PinPadPorta);
                     sw.WriteLine("");
                     sw.WriteLine("[CliSiTef]");
-                    sw.WriteLine("HabilitaTrace=1");
+                    sw.WriteLine("HabilitaTrace=0");
                     sw.WriteLine("");
                     sw.WriteLine("[CliSiTefI]");
-                    sw.WriteLine("HabilitaTrace=1");
+                    sw.WriteLine("HabilitaTrace=0");
                     sw.WriteLine("");
                     sw.WriteLine("[SiTef]");
                     sw.WriteLine("MantemConexaoAtiva=1");
@@ -170,12 +170,9 @@ namespace App.CliSiTef_DLL
         void LimparRetornoTef()
         {
             if (mTefSoftwareExpress.gCupomVenda != null)
-            {
                 mTefSoftwareExpress.gCupomVenda.Transacoes.Clear();
-                mTefSoftwareExpress.gCupomVenda = null;
-            }
-            if (mCupomVenda != null)
-                mCupomVenda = null;
+            mTefSoftwareExpress.gCupomVenda = null;
+            mCupomVenda = null;
         }
 
         public FrmTelaTesteVenda()
@@ -207,7 +204,7 @@ namespace App.CliSiTef_DLL
                         frm.ShowDialog();
                     }
                 }
-                else if(_tefFuncaoInterativa.DataType == DataTypeEnum.Confirmation)
+                else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Confirmation)
                 {
                     if (MessageBox.Show(_tefFuncaoInterativa.Mensagem, "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         _tefFuncaoInterativa.RespostaSitef = "0";
@@ -334,21 +331,17 @@ namespace App.CliSiTef_DLL
                     ValorTotal = 0
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
-            int sts = mTefSoftwareExpress.Adm(identificadorTransacao, txtDocumentoVinculado.Text);
+            int sts = mTefSoftwareExpress.Adm(txtDocumentoVinculado.Text);
             if (sts == 0)
             {
                 ImprimirComprovantes(txtDocumentoVinculado.Text);
-                LimparRetornoTef();
                 txtDocumentoVinculado.Text = "";
             }
             else
-            {
-                mCupomVenda = null;
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
-            }
+            LimparRetornoTef();
         }
         private void btnRecarga_Click(object sender, EventArgs e)
         {
@@ -368,24 +361,20 @@ namespace App.CliSiTef_DLL
                     ValorTotal = 0
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
-            int sts = mTefSoftwareExpress.RecargaCelular(identificadorTransacao, txtDocumentoVinculado.Text);
+            int sts = mTefSoftwareExpress.RecargaCelular(txtDocumentoVinculado.Text);
             if (sts == 0)
             {
                 ImprimirComprovantes(txtDocumentoVinculado.Text);
-                LimparRetornoTef();
                 lblMensagem.Text = "";
                 lblMensagem.Refresh();
                 txtValorVenda.Text = "0,00";
                 txtDocumentoVinculado.Text = "";
             }
             else
-            {
-                mCupomVenda = null;
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
-            }
+            LimparRetornoTef();
             txtDocumentoVinculado.Focus();
         }
         private void btnCrt_Click(object sender, EventArgs e)
@@ -404,7 +393,6 @@ namespace App.CliSiTef_DLL
             }
 
             gValorTotalDaTransacao = Convert.ToDecimal(txtValorVenda.Text);
-
             decimal valorParaEstaTransacao = (gValorTotalDaTransacao - gValorDasTransacoesEfetuadas);
             using (FrmConfirmarValor frm = new FrmConfirmarValor(valorParaEstaTransacao))
             {
@@ -418,7 +406,6 @@ namespace App.CliSiTef_DLL
                     MessageBox.Show("Valor para finalizar as transações é maior que o valor total da transação", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-
                 gValorDasTransacoesEfetuadas += valorParaEstaTransacao;
             }
 
@@ -431,11 +418,10 @@ namespace App.CliSiTef_DLL
                     ValorTotal = gValorTotalDaTransacao
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
             bool confirmarCnf = gValorTotalDaTransacao == gValorDasTransacoesEfetuadas;
-            int sts = mTefSoftwareExpress.Crt(identificadorTransacao, valorParaEstaTransacao, txtDocumentoVinculado.Text, "Adriano", _confirmarCnf: confirmarCnf);
+            int sts = mTefSoftwareExpress.Crt(valorParaEstaTransacao, txtDocumentoVinculado.Text, "NomeOperador", _confirmarCnf: confirmarCnf);
             if (sts == 0)
             {
                 if (confirmarCnf)
@@ -504,7 +490,6 @@ namespace App.CliSiTef_DLL
                     MessageBox.Show("Valor para finalizar as transações é maior que o valor total da transação", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-
                 gValorDasTransacoesEfetuadas += valorParaEstaTransacao;
             }
 
@@ -517,11 +502,10 @@ namespace App.CliSiTef_DLL
                     ValorTotal = gValorTotalDaTransacao
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
             bool confirmarCnf = gValorTotalDaTransacao == gValorDasTransacoesEfetuadas;
-            int sts = mTefSoftwareExpress.Crt(identificadorTransacao, valorParaEstaTransacao, txtDocumentoVinculado.Text, "Adriano", 2, confirmarCnf);
+            int sts = mTefSoftwareExpress.Crt(valorParaEstaTransacao, txtDocumentoVinculado.Text, "NomeOperador", 2, confirmarCnf);
             if (sts == 0)
             {
                 if (confirmarCnf)
@@ -590,7 +574,6 @@ namespace App.CliSiTef_DLL
                     MessageBox.Show("Valor para finalizar as transações é maior que o valor total da transação", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-
                 gValorDasTransacoesEfetuadas += valorParaEstaTransacao;
             }
 
@@ -603,11 +586,10 @@ namespace App.CliSiTef_DLL
                     ValorTotal = gValorTotalDaTransacao
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
             bool confirmarCnf = gValorTotalDaTransacao == gValorDasTransacoesEfetuadas;
-            int sts = mTefSoftwareExpress.Crt(identificadorTransacao, valorParaEstaTransacao, txtDocumentoVinculado.Text, "Adriano", 3, confirmarCnf);
+            int sts = mTefSoftwareExpress.Crt(valorParaEstaTransacao, txtDocumentoVinculado.Text, "NomeOperador", 3, confirmarCnf);
             if (sts == 0)
             {
                 if (confirmarCnf)
@@ -676,7 +658,6 @@ namespace App.CliSiTef_DLL
                     MessageBox.Show("Valor para finalizar as transações é maior que o valor total da transação", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-
                 gValorDasTransacoesEfetuadas += valorParaEstaTransacao;
             }
 
@@ -689,11 +670,10 @@ namespace App.CliSiTef_DLL
                     ValorTotal = gValorTotalDaTransacao
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
             bool confirmarCnf = gValorTotalDaTransacao == gValorDasTransacoesEfetuadas;
-            int sts = mTefSoftwareExpress.Crt(identificadorTransacao, valorParaEstaTransacao, txtDocumentoVinculado.Text, "Adriano", 122, confirmarCnf);
+            int sts = mTefSoftwareExpress.Crt(valorParaEstaTransacao, txtDocumentoVinculado.Text, "NomeOperador", 122, confirmarCnf);
             if (sts == 0)
             {
                 if (confirmarCnf)
@@ -750,24 +730,20 @@ namespace App.CliSiTef_DLL
                     ValorTotal = 0
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
-            int sts = mTefSoftwareExpress.Cnc(identificadorTransacao, txtDocumentoVinculado.Text, "Adriano");
+            int sts = mTefSoftwareExpress.Cnc(txtDocumentoVinculado.Text, "NomeOperador");
             if (sts == 0)
             {
                 ImprimirComprovantes(txtDocumentoVinculado.Text);
-                LimparRetornoTef();
                 lblMensagem.Text = "";
                 lblMensagem.Refresh();
                 txtValorVenda.Text = "0,00";
                 txtDocumentoVinculado.Text = "";
             }
             else
-            {
-                mCupomVenda = null;
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
-            }
+            LimparRetornoTef();
             txtDocumentoVinculado.Focus();
         }
         private void btnCncDebito_Click(object sender, EventArgs e)
@@ -788,24 +764,20 @@ namespace App.CliSiTef_DLL
                     ValorTotal = 0
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
-            int sts = mTefSoftwareExpress.Cnc(identificadorTransacao, txtDocumentoVinculado.Text, "Adriano", 211);
+            int sts = mTefSoftwareExpress.Cnc(txtDocumentoVinculado.Text, "NomeOperador", 211);
             if (sts == 0)
             {
                 ImprimirComprovantes(txtDocumentoVinculado.Text);
-                LimparRetornoTef();
                 lblMensagem.Text = "";
                 lblMensagem.Refresh();
                 txtValorVenda.Text = "0,00";
                 txtDocumentoVinculado.Text = "";
             }
             else
-            {
-                mCupomVenda = null;
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
-            }
+            LimparRetornoTef();
             txtDocumentoVinculado.Focus();
         }
         private void btnCncCredito_Click(object sender, EventArgs e)
@@ -826,24 +798,20 @@ namespace App.CliSiTef_DLL
                     ValorTotal = 0
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
-            int sts = mTefSoftwareExpress.Cnc(identificadorTransacao, txtDocumentoVinculado.Text, "Adriano", 210);
+            int sts = mTefSoftwareExpress.Cnc(txtDocumentoVinculado.Text, "NomeOperador", 210);
             if (sts == 0)
             {
                 ImprimirComprovantes(txtDocumentoVinculado.Text);
-                LimparRetornoTef();
                 lblMensagem.Text = "";
                 lblMensagem.Refresh();
                 txtValorVenda.Text = "0,00";
                 txtDocumentoVinculado.Text = "";
             }
             else
-            {
-                mCupomVenda = null;
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
-            }
+            LimparRetornoTef();
             txtDocumentoVinculado.Focus();
         }
         private void btnCncCd_Click(object sender, EventArgs e)
@@ -864,24 +832,20 @@ namespace App.CliSiTef_DLL
                     ValorTotal = 0
                 };
             }
-            Guid identificadorTransacao = Guid.NewGuid();
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
-            int sts = mTefSoftwareExpress.Cnc(identificadorTransacao, txtDocumentoVinculado.Text, "Adriano", 123);
+            int sts = mTefSoftwareExpress.Cnc(txtDocumentoVinculado.Text, "NomeOperador", 123);
             if (sts == 0)
             {
                 ImprimirComprovantes(txtDocumentoVinculado.Text);
-                LimparRetornoTef();
                 lblMensagem.Text = "";
                 lblMensagem.Refresh();
                 txtValorVenda.Text = "0,00";
                 txtDocumentoVinculado.Text = "";
             }
             else
-            {
-                mCupomVenda = null;
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
-            }
+            LimparRetornoTef();
             txtDocumentoVinculado.Focus();
         }
 

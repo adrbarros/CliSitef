@@ -221,7 +221,7 @@ namespace App.CliSiTef_DLL.Classes
         public int InicializarTef(TefConfig _tefConfig)
         {
             mTefConfig = _tefConfig;
-            int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "CX" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]");
+            int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]");
             if (sts == 0)
             {
                 if (_tefConfig.Tef_PinPadVerificar)
@@ -642,24 +642,19 @@ namespace App.CliSiTef_DLL.Classes
                 sts = ContinuarRequisicao();
             return sts;
         }
-        public int Adm(Guid _identificadorTransacao, string _documentoVinculado = "")
+        public int Adm(string _documentoVinculado = "")
         {
             int sts = FazerRequisicao(110, "ADM", _documento: _documentoVinculado);
             if (sts == 10000)
             {
                 #region Retornos TEF
 
-                mTefTransacao = gCupomVenda.Transacoes.Find(p => p.IdentificadorTransacao == _identificadorTransacao);
-                if (mTefTransacao == null)
+                mTefTransacao = new TefTransacao
                 {
-                    mTefTransacao = new TefTransacao
-                    {
-                        IdentificadorTransacao = _identificadorTransacao,
-                        DocumentoVinculado = _documentoVinculado,
-                        ValorTransacao = 0M
-                    };
-                    gCupomVenda.Transacoes.Add(mTefTransacao);
-                }
+                    DocumentoVinculado = _documentoVinculado,
+                    ValorTransacao = 0M
+                };
+                gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "ADM");
                 TefRetornoAdicionar(obj0, mTefTransacao);
@@ -667,13 +662,13 @@ namespace App.CliSiTef_DLL.Classes
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
                 TefRetornoAdicionar(obj2, mTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, _identificadorTransacao.ToString());
+                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
                 TefRetornoAdicionar(obj2_1, mTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
                 TefRetornoAdicionar(obj4, mTefTransacao);
 
-                TefRetorno obj718 = new TefRetorno(718, 0, "CX" + mTefConfig.Tef_Terminal);
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
                 TefRetornoAdicionar(obj718, mTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
@@ -687,7 +682,7 @@ namespace App.CliSiTef_DLL.Classes
                 Cnf(_documentoVinculado: _documentoVinculado);
             return sts;
         }
-        public int Crt(Guid _identificadorTransacao, decimal _valor, string _documentoVinculado = "", string _operador = "", int _funcao = 0, bool _confirmarCnf = true)
+        public int Crt(decimal _valor, string _documentoVinculado = "", string _operador = "", int _funcao = 0, bool _confirmarCnf = true)
         {
             string parametrosAdicionais = ""; // "[10]"; //Cheques
             int sts = FazerRequisicao(_funcao, "CRT", _valor, _documentoVinculado, parametrosAdicionais, _operador);
@@ -695,17 +690,12 @@ namespace App.CliSiTef_DLL.Classes
             {
                 #region Retornos TEF
 
-                mTefTransacao = gCupomVenda.Transacoes.Find(p => p.IdentificadorTransacao == _identificadorTransacao);
-                if (mTefTransacao == null)
+                mTefTransacao = new TefTransacao
                 {
-                    mTefTransacao = new TefTransacao
-                    {
-                        IdentificadorTransacao = _identificadorTransacao,
-                        DocumentoVinculado = _documentoVinculado,
-                        ValorTransacao = _valor
-                    };
-                    gCupomVenda.Transacoes.Add(mTefTransacao);
-                }
+                    DocumentoVinculado = _documentoVinculado,
+                    ValorTransacao = _valor
+                };
+                gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CRT");
                 TefRetornoAdicionar(obj0, mTefTransacao);
@@ -713,7 +703,7 @@ namespace App.CliSiTef_DLL.Classes
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
                 TefRetornoAdicionar(obj2, mTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, _identificadorTransacao.ToString());
+                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
                 TefRetornoAdicionar(obj2_1, mTefTransacao);
 
                 TefRetorno obj3 = new TefRetorno(3, 0, _valor.ToString("N2"));
@@ -722,7 +712,7 @@ namespace App.CliSiTef_DLL.Classes
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
                 TefRetornoAdicionar(obj4, mTefTransacao);
 
-                TefRetorno obj718 = new TefRetorno(718, 0, "CX" + mTefConfig.Tef_Terminal);
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
                 TefRetornoAdicionar(obj718, mTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
@@ -746,7 +736,7 @@ namespace App.CliSiTef_DLL.Classes
             }
             return sts;
         }
-        public int Cnc(Guid _identificadorTransacao, string _documentoVinculado, string _operador = "", int _funcao = 200)
+        public int Cnc(string _documentoVinculado, string _operador = "", int _funcao = 200)
         {
             string parametrosAdicionais = ""; // "[10]"; //Cheques
             int sts = FazerRequisicao(_funcao, "CNC", 0M, _documentoVinculado, parametrosAdicionais, _operador);
@@ -754,17 +744,12 @@ namespace App.CliSiTef_DLL.Classes
             {
                 #region Retornos TEF
 
-                mTefTransacao = gCupomVenda.Transacoes.Find(p => p.IdentificadorTransacao == _identificadorTransacao);
-                if (mTefTransacao == null)
+                mTefTransacao = new TefTransacao
                 {
-                    mTefTransacao = new TefTransacao
-                    {
-                        IdentificadorTransacao = _identificadorTransacao,
-                        DocumentoVinculado = _documentoVinculado,
-                        ValorTransacao = 0M
-                    };
-                    gCupomVenda.Transacoes.Add(mTefTransacao);
-                }
+                    DocumentoVinculado = _documentoVinculado,
+                    ValorTransacao = 0M
+                };
+                gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CNC");
                 TefRetornoAdicionar(obj0, mTefTransacao);
@@ -772,13 +757,13 @@ namespace App.CliSiTef_DLL.Classes
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
                 TefRetornoAdicionar(obj2, mTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, _identificadorTransacao.ToString());
+                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
                 TefRetornoAdicionar(obj2_1, mTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
                 TefRetornoAdicionar(obj4, mTefTransacao);
 
-                TefRetorno obj718 = new TefRetorno(718, 0, "CX" + mTefConfig.Tef_Terminal);
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
                 TefRetornoAdicionar(obj718, mTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
@@ -792,24 +777,19 @@ namespace App.CliSiTef_DLL.Classes
                 Cnf(_documentoVinculado: _documentoVinculado);
             return sts;
         }
-        public int RecargaCelular(Guid _identificadorTransacao, string _documentoVinculado = "")
+        public int RecargaCelular(string _documentoVinculado = "")
         {
             int sts = FazerRequisicao(300, "CEL", _documento: _documentoVinculado);
             if (sts == 10000)
             {
                 #region Retornos TEF
 
-                mTefTransacao = gCupomVenda.Transacoes.Find(p => p.IdentificadorTransacao == _identificadorTransacao);
-                if (mTefTransacao == null)
+                mTefTransacao = new TefTransacao
                 {
-                    mTefTransacao = new TefTransacao
-                    {
-                        IdentificadorTransacao = _identificadorTransacao,
-                        DocumentoVinculado = _documentoVinculado,
-                        ValorTransacao = 0M
-                    };
-                    gCupomVenda.Transacoes.Add(mTefTransacao);
-                }
+                    DocumentoVinculado = _documentoVinculado,
+                    ValorTransacao = 0M
+                };
+                gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CEL");
                 TefRetornoAdicionar(obj0, mTefTransacao);
@@ -817,13 +797,13 @@ namespace App.CliSiTef_DLL.Classes
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
                 TefRetornoAdicionar(obj2, mTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, _identificadorTransacao.ToString());
+                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
                 TefRetornoAdicionar(obj2_1, mTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
                 TefRetornoAdicionar(obj4, mTefTransacao);
 
-                TefRetorno obj718 = new TefRetorno(718, 0, "CX" + mTefConfig.Tef_Terminal);
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
                 TefRetornoAdicionar(obj718, mTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
