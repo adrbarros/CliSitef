@@ -311,7 +311,7 @@ namespace App.CliSiTef_DLL
         }
         private void btnAtv_Click(object sender, EventArgs e)
         {
-            ExibirMensagem(mTefSoftwareExpress.MensagemTef(mTefSoftwareExpress.Atv()));
+            ExibirMensagem(mTefSoftwareExpress.MensagemTef(mTefSoftwareExpress.Atv()), 100);
         }
         private void btnAdm_Click(object sender, EventArgs e)
         {
@@ -858,7 +858,7 @@ namespace App.CliSiTef_DLL
             if (mStatusTefInicio > 0)
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(mStatusTefInicio), 3000);
             else
-                ExibirMensagem("TEF-SiTef inicializado com sucesso", 1000);
+                ExibirMensagem("TEF-SiTef inicializado com sucesso", 500);
             pnlBody.Enabled = mStatusTefInicio == 0;
             mStatusTefInicio = 0;
         }

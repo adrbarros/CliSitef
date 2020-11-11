@@ -327,7 +327,7 @@ namespace App.CliSiTef_DLL.Classes
                             }
                             else if (tipoCampo == 111)
                             {
-                                OnMessageClient?.Invoke(mensagem, 500);
+                                OnMessageClient?.Invoke(mensagem, 100);
                             }
                             else if (tipoCampo == 121)
                             {
@@ -451,13 +451,13 @@ namespace App.CliSiTef_DLL.Classes
                             #endregion
                             break;
                         case 1: //Mensagem para o visor do operador
-                            OnMessageClient?.Invoke(mensagem, 250);
+                            OnMessageClient?.Invoke(mensagem, 100);
                             break;
                         case 2: //Mensagem para o visor do cliente
-                            OnMessageClient?.Invoke(mensagem, 250);
+                            OnMessageClient?.Invoke(mensagem, 100);
                             break;
                         case 3: //Mensagem para os dois visores
-                            OnMessageClient?.Invoke(mensagem, 250);
+                            OnMessageClient?.Invoke(mensagem, 100);
                             break;
                         case 4: //Texto que deverá ser utilizado como cabeçalho na apresentação do menu (Comando 21)
                             captionMenu = mensagem;
@@ -588,10 +588,10 @@ namespace App.CliSiTef_DLL.Classes
                             captionCarteiraDigital = "";
                             break;
                         case 51:
-                            OnMessageClient?.Invoke(mensagem, 250);
+                            OnMessageClient?.Invoke(mensagem, 100);
                             break;
                         case 52:
-                            OnMessageClient?.Invoke(mensagem, 250);
+                            OnMessageClient?.Invoke(mensagem, 100);
                             break;
                         case 99:
                             break;
