@@ -1,4 +1,4 @@
-﻿namespace App.CliSiTef_DLL
+﻿namespace Lib.FormsAuxiliares
 {
     partial class FrmTefMenu
     {

@@ -1,4 +1,4 @@
-﻿namespace App.CliSiTef_DLL
+﻿namespace Lib.FormsAuxiliares
 {
     partial class FrmConfirmarValor
     {
@@ -38,7 +38,7 @@
             this.txtValorVenda.DecimalPlaces = 2;
             this.txtValorVenda.Font = new System.Drawing.Font("Lucida Console", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtValorVenda.ForeColorDefined = System.Drawing.Color.Empty;
-            this.txtValorVenda.Location = new System.Drawing.Point(12, 12);
+            this.txtValorVenda.Location = new System.Drawing.Point(30, 14);
             this.txtValorVenda.Name = "txtValorVenda";
             this.txtValorVenda.Size = new System.Drawing.Size(115, 26);
             this.txtValorVenda.TabIndex = 0;
@@ -48,7 +48,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(143, 52);
+            this.ClientSize = new System.Drawing.Size(177, 52);
             this.ControlBox = false;
             this.Controls.Add(this.txtValorVenda);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace App.CliSiTef_DLL.Classes
+namespace Lib.CliSitef.Classes
 {
     public class TefTransacao
     {

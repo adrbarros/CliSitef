@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{583AB15D-B13D-4CF3-91C0-0223A7AAF9A9}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>App.CliSiTef_DLL</RootNamespace>
-    <AssemblyName>App.CliSiTef_DLL</AssemblyName>
+    <ProjectGuid>{5F271317-C015-47A3-AECB-0F8A455C42DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lib.FormsAuxiliares</RootNamespace>
+    <AssemblyName>Lib.FormsAuxiliares</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,63 +32,67 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="TextBoxCurrency">
       <HintPath>..\ExternalLibraries\TextBoxCurrency.dll</HintPath>
     </Reference>
-    <Reference Include="Vip.Printer">
-      <HintPath>..\ExternalLibraries\Vip.Printer.dll</HintPath>
-    </Reference>
     <Reference Include="zxing">
       <HintPath>..\ExternalLibraries\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmTelaTesteVenda.cs">
+    <Compile Include="FrmConfirmarValor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmTelaTesteVenda.Designer.cs">
-      <DependentUpon>FrmTelaTesteVenda.cs</DependentUpon>
+    <Compile Include="FrmConfirmarValor.Designer.cs">
+      <DependentUpon>FrmConfirmarValor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="FrmTefAguarde.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTefAguarde.Designer.cs">
+      <DependentUpon>FrmTefAguarde.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTefColetaDados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTefColetaDados.Designer.cs">
+      <DependentUpon>FrmTefColetaDados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTefMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTefMenu.Designer.cs">
+      <DependentUpon>FrmTefMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTefQrCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTefQrCode.Designer.cs">
+      <DependentUpon>FrmTefQrCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmTelaTesteVenda.resx">
-      <DependentUpon>FrmTelaTesteVenda.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <EmbeddedResource Include="FrmConfirmarValor.resx">
+      <DependentUpon>FrmConfirmarValor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTefAguarde.resx">
+      <DependentUpon>FrmTefAguarde.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTefColetaDados.resx">
+      <DependentUpon>FrmTefColetaDados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTefMenu.resx">
+      <DependentUpon>FrmTefMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTefQrCode.resx">
+      <DependentUpon>FrmTefQrCode.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib.CliSitef\Lib.CliSitef.csproj">
-      <Project>{7f9df506-cc12-4fc6-b976-e4538451ff9d}</Project>
-      <Name>Lib.CliSitef</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib.FormsAuxiliares\Lib.FormsAuxiliares.csproj">
-      <Project>{5f271317-c015-47a3-aecb-0f8a455c42dd}</Project>
-      <Name>Lib.FormsAuxiliares</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lib.Utils\Lib.Utils.csproj">
       <Project>{541cd1dc-63e2-4a64-8b0c-3edf253ababf}</Project>
       <Name>Lib.Utils</Name>

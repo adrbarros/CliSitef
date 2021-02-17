@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace App.CliSiTef_DLL.ConstantValues
+namespace Lib.CliSitef.ConstantValues
 {
     public class BandeiraPadraoConst
     {

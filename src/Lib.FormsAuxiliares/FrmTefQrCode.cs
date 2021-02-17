@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace App.CliSiTef_DLL
+namespace Lib.FormsAuxiliares
 {
     public partial class FrmTefQrCode : Form
     {

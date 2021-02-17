@@ -1,4 +1,6 @@
-﻿using App.CliSiTef_DLL.Classes;
+﻿using Lib.CliSitef.Classes;
+using Lib.FormsAuxiliares;
+using Lib.Utils.Enuns;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

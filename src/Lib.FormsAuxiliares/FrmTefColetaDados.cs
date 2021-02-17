@@ -1,8 +1,8 @@
-﻿using App.CliSiTef_DLL.Classes;
+﻿using Lib.Utils.Enuns;
 using System;
 using System.Windows.Forms;
 
-namespace App.CliSiTef_DLL
+namespace Lib.FormsAuxiliares
 {
     public partial class FrmTefColetaDados : Form
     {

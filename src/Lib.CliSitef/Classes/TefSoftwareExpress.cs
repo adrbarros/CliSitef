@@ -1,4 +1,5 @@
-﻿using App.CliSiTef_DLL.ConstantValues;
+﻿using Lib.CliSitef.ConstantValues;
+using Lib.Utils.Enuns;
 using System;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace App.CliSiTef_DLL.Classes
+namespace Lib.CliSitef.Classes
 {
     public class TefSoftwareExpress
     {

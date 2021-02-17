@@ -1,6 +1,7 @@
-﻿namespace App.CliSiTef_DLL.Classes
+﻿using Lib.Utils.Enuns;
+
+namespace Lib.CliSitef.Classes
 {
-    public enum DataTypeEnum { Alphanumeric, Numeric, Currency, Information, Confirmation, Await, Menu, QrCode }
     public class TefFuncaoInterativa
     {
         public TefFuncaoInterativa()

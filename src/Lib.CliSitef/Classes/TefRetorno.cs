@@ -1,4 +1,4 @@
-﻿namespace App.CliSiTef_DLL.Classes
+﻿namespace Lib.CliSitef.Classes
 {
     public class TefRetorno
     {
