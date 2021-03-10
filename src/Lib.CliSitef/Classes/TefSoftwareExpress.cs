@@ -82,6 +82,39 @@ namespace Lib.CliSitef.Classes
         TefTransacao mTefTransacao { get; set; }
         public Cupom gCupomVenda { get; set; }
 
+        void GerarArquivoRetornoDaTransacao()
+        {
+            if (gCupomVenda != null)
+            {
+                if (gCupomVenda.Transacoes.Count > 0)
+                {
+                    int transacaoId = 1;
+                    foreach (TefTransacao itemTefTransacao in gCupomVenda.Transacoes)
+                    {
+                        if (itemTefTransacao.Retornos.Count > 0)
+                        {
+                            string path = mTefConfig.Tef_PathArquivos + "\\TefRetorno";
+                            if (!Directory.Exists(path))
+                                Directory.CreateDirectory(path);
+
+                            if (Directory.Exists(path))
+                            {
+                                var lst = itemTefTransacao.Retornos.OrderBy(p => p.Codigo).ThenBy(p => p.Indice).ToList();
+                                using (StreamWriter sr = File.AppendText(path + "\\" + "Tef" + gCupomVenda.TipoOperacao + "_" + gCupomVenda.DocumentoVinculado + "_T" + transacaoId.ToString("000") + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".tef"))
+                                {
+                                    foreach (var item in lst)
+                                    {
+                                        sr.WriteLine(item.Codigo.ToString("000") + "-" + item.Indice.ToString("000") + "=" + item.Valor);
+                                        sr.Flush();
+                                    }
+                                }
+                                transacaoId++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public string MensagemTef(int _retornoTef)
         {
             string msg = "Erro não definido";
@@ -161,6 +194,28 @@ namespace Lib.CliSitef.Classes
             }
             return msg;
         }
+        string RemoverQuebraDeLinhas(string _texto)
+        {
+            if (string.IsNullOrWhiteSpace(_texto))
+                return "";
+            _texto = Regex.Replace(_texto, @"\r\n?|\n|\t", " "); //Remover Quebra de Linha (ENTER)
+            _texto = Regex.Replace(_texto, @"\s{2,}", " "); //Remover espaços a mais no meio da palavra
+
+            return _texto;
+        }
+        int VerificarEscreverMsgPinPad(TefConfig _tefConfig)
+        {
+            int sts = 0;
+            if (_tefConfig.Tef_PinPadVerificar)
+            {
+                int stsPinPad = VerificaPresencaPinPad();
+                if (stsPinPad > 0)
+                    EscreveMensagemPermanentePinPad(_tefConfig.Tef_PinPadMensagem);
+                else
+                    sts = 50001;
+            }
+            return sts;
+        }
         void TefRetornoAdicionar(TefRetorno _obj, TefTransacao _tefTransacao, bool _substituirValor = true)
         {
             TefRetorno obj = _tefTransacao.Retornos.Find(p => p.Codigo == _obj.Codigo && p.Indice == _obj.Indice);
@@ -176,66 +231,7 @@ namespace Lib.CliSitef.Classes
             else
                 _tefTransacao.Retornos.Add(_obj);
         }
-        void GerarArquivoRetornoDaTransacao()
-        {
-            if (gCupomVenda != null)
-            {
-                if (gCupomVenda.Transacoes.Count > 0)
-                {
-                    int transacaoId = 1;
-                    foreach (TefTransacao itemTefTransacao in gCupomVenda.Transacoes)
-                    {
-                        if (itemTefTransacao.Retornos.Count > 0)
-                        {
-                            string path = mTefConfig.Tef_PathArquivos + "\\TefRetorno";
-                            if (!Directory.Exists(path))
-                                Directory.CreateDirectory(path);
 
-                            if (Directory.Exists(path))
-                            {
-                                var lst = itemTefTransacao.Retornos.OrderBy(p => p.Codigo).ThenBy(p => p.Indice).ToList();
-                                using (StreamWriter sr = File.AppendText(path + "\\" + "Tef" + gCupomVenda.TipoOperacao + "_" + gCupomVenda.DocumentoVinculado + "_T" + transacaoId.ToString("000") + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".tef"))
-                                {
-                                    foreach (var item in lst)
-                                    {
-                                        sr.WriteLine(item.Codigo.ToString("000") + "-" + item.Indice.ToString("000") + "=" + item.Valor);
-                                        sr.Flush();
-                                    }
-                                }
-                                transacaoId++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        string RemoverQuebraDeLinhas(string _texto)
-        {
-            if (string.IsNullOrWhiteSpace(_texto))
-                return "";
-            _texto = Regex.Replace(_texto, @"\r\n?|\n|\t", " "); //Remover Quebra de Linha (ENTER)
-            _texto = Regex.Replace(_texto, @"\s{2,}", " "); //Remover espaços a mais no meio da palavra
-
-            return _texto;
-        }
-
-        public int InicializarTef(TefConfig _tefConfig)
-        {
-            mTefConfig = _tefConfig;
-            int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]");
-            if (sts == 0)
-            {
-                if (_tefConfig.Tef_PinPadVerificar)
-                {
-                    int stsPinPad = VerificaPresencaPinPad();
-                    if (stsPinPad > 0)
-                        EscreveMensagemPermanentePinPad(_tefConfig.Tef_PinPadMensagem);
-                    else
-                        sts = 50001;
-                }
-            }
-            return sts;
-        }
         int ContinuarRequisicao()
         {
             byte[] valorBuffer = new byte[20000];
@@ -636,11 +632,21 @@ namespace Lib.CliSitef.Classes
             FinalizaFuncaoSiTefInterativo(_confirma, _documentoVinculado, dataStr, horaStr, null);
         }
 
+        public int InicializarTef(TefConfig _tefConfig)
+        {
+            mTefConfig = _tefConfig;
+            int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]");
+            if (sts == 0)
+                sts = VerificarEscreverMsgPinPad(_tefConfig);
+            return sts;
+        }
         public int Atv()
         {
             int sts = FazerRequisicao(111, "ATV");
             if (sts == 10000)
                 sts = ContinuarRequisicao();
+            if (mTefConfig.Tef_PinPadVerificar)
+                EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
             return sts;
         }
         public int Adm(string _documentoVinculado = "")
@@ -832,6 +838,9 @@ namespace Lib.CliSitef.Classes
 
             if (_gerarArquivo)
                 GerarArquivoRetornoDaTransacao();
+
+            if (mTefConfig.Tef_PinPadVerificar)
+                EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
 
             #endregion
         }
