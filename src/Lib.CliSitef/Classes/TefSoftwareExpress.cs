@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Lib.CliSitef.Classes
 {
@@ -78,6 +79,13 @@ namespace Lib.CliSitef.Classes
         public delegate void OnCallFormtHandle(TefFuncaoInterativa _tefFuncaoInterativa);
         public event OnCallFormtHandle OnCallForm;
 
+        public delegate void OnCallPanelQrCodeHandle(TefFuncaoInterativa _tefFuncaoInterativa);
+        public event OnCallPanelQrCodeHandle OnCallPanelQrCode;
+
+        public delegate void OnClosePanelQrCodeHandle(TefFuncaoInterativa _tefFuncaoInterativa);
+        public event OnClosePanelQrCodeHandle OnClosePanelQrCode;
+
+        TefFuncaoInterativa mObjForm50 { get; set; }
         TefConfig mTefConfig { get; set; }
         TefTransacao mTefTransacao { get; set; }
         public Cupom gCupomVenda { get; set; }
@@ -572,23 +580,29 @@ namespace Lib.CliSitef.Classes
                         case 42: //Deve apresentar um menu de opções e permitir que o usuário selecione uma delas.
                             break;
                         case 50:
-                            TefFuncaoInterativa objForm50 = new TefFuncaoInterativa
+                            mObjForm50 = new TefFuncaoInterativa
                             {
                                 DataType = DataTypeEnum.QrCode,
                                 TipoCampo = tipoCampo,
                                 Titulo = captionCarteiraDigital,
                                 Mensagem = mensagem
                             };
-                            OnCallForm?.Invoke(objForm50);
-                            respostaSitef = objForm50.RespostaSitef;
-                            interromper = objForm50.Interromper;
-                            captionCarteiraDigital = "";
+                            OnCallPanelQrCode?.Invoke(mObjForm50);
                             break;
                         case 51:
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            OnMessageClient?.Invoke(mensagem, 1000);
+                            if (mObjForm50 != null && mObjForm50.FormAberto)
+                            {
+                                mObjForm50.FormFechar = true;
+                                OnClosePanelQrCode?.Invoke(mObjForm50);
+                                respostaSitef = mObjForm50.RespostaSitef;
+                                interromper = mObjForm50.Interromper;
+                            }
+                            mObjForm50 = null;
+                            captionCarteiraDigital = "";
                             break;
                         case 52:
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            OnMessageClient?.Invoke(mensagem, 200);
                             break;
                         case 99:
                             break;

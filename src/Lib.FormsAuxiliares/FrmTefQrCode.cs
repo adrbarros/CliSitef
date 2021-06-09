@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lib.Utils.Classes;
+using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,22 +13,6 @@ namespace Lib.FormsAuxiliares
 
         bool EnterOuEscPrecionado { get; set; }
 
-        Bitmap Gerar_QRCode(int width, int height, string text)
-        {
-            try
-            {
-                var bw = new ZXing.BarcodeWriter();
-                var encOptions = new ZXing.Common.EncodingOptions() { Width = width, Height = height, Margin = 0 };
-                bw.Options = encOptions;
-                bw.Format = ZXing.BarcodeFormat.QR_CODE;
-                var resultado = new Bitmap(bw.Write(text));
-                return resultado;
-            }
-            catch
-            {
-                throw;
-            }
-        }
         async void ControlarTempoParaFechamento()
         {
             if (!EnterOuEscPrecionado)
@@ -61,7 +46,7 @@ namespace Lib.FormsAuxiliares
         {
             lblMenuTitulo.Text = gTitulo;
             lblQrCode.ImageAlign = ContentAlignment.MiddleCenter;
-            Image qrCode = Gerar_QRCode(lblQrCode.Size.Width - 2, lblQrCode.Size.Height - 2, gStrQrCode);
+            Image qrCode = Functions.Gerar_QRCode(lblQrCode.Size.Width - 2, lblQrCode.Size.Height - 2, gStrQrCode);
             lblQrCode.Image = qrCode;
             lblQrCode.Text = "";
             ControlarTempoParaFechamento();

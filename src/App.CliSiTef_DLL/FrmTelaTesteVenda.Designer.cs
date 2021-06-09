@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTelaTesteVenda));
             this.txtValorVenda = new TextBoxCurrency.TextBoxCurrency();
             this.pnlBody = new System.Windows.Forms.Panel();
+            this.btnRecarga = new System.Windows.Forms.Button();
             this.btnCrtCd = new System.Windows.Forms.Button();
             this.btnCncCredito = new System.Windows.Forms.Button();
             this.btnCncDebito = new System.Windows.Forms.Button();
@@ -57,10 +58,14 @@
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnRecarga = new System.Windows.Forms.Button();
+            this.pnlQrCode = new System.Windows.Forms.Panel();
+            this.lblQrCode = new System.Windows.Forms.Label();
+            this.lblMenuTituloQrCode = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.pnlBody.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.pnlBottom.SuspendLayout();
+            this.pnlQrCode.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtValorVenda
@@ -70,7 +75,7 @@
             this.txtValorVenda.DecimalPlaces = 2;
             this.txtValorVenda.Font = new System.Drawing.Font("Lucida Console", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtValorVenda.ForeColorDefined = System.Drawing.Color.Empty;
-            this.txtValorVenda.Location = new System.Drawing.Point(6, 225);
+            this.txtValorVenda.Location = new System.Drawing.Point(168, 304);
             this.txtValorVenda.Name = "txtValorVenda";
             this.txtValorVenda.Size = new System.Drawing.Size(115, 26);
             this.txtValorVenda.TabIndex = 14;
@@ -99,11 +104,24 @@
             this.pnlBody.Controls.Add(this.btnAdm);
             this.pnlBody.Controls.Add(this.btnAtv);
             this.pnlBody.Controls.Add(this.txtValorVenda);
+            this.pnlBody.Controls.Add(this.pnlQrCode);
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBody.Location = new System.Drawing.Point(0, 60);
             this.pnlBody.Name = "pnlBody";
-            this.pnlBody.Size = new System.Drawing.Size(567, 258);
+            this.pnlBody.Size = new System.Drawing.Size(567, 336);
             this.pnlBody.TabIndex = 1;
+            // 
+            // btnRecarga
+            // 
+            this.btnRecarga.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRecarga.Location = new System.Drawing.Point(87, 130);
+            this.btnRecarga.Name = "btnRecarga";
+            this.btnRecarga.Size = new System.Drawing.Size(75, 23);
+            this.btnRecarga.TabIndex = 20;
+            this.btnRecarga.Text = "REC. CEL";
+            this.toolTip1.SetToolTip(this.btnRecarga, "Recarga de Celular");
+            this.btnRecarga.UseVisualStyleBackColor = true;
+            this.btnRecarga.Click += new System.EventHandler(this.btnRecarga_Click);
             // 
             // btnCrtCd
             // 
@@ -157,9 +175,9 @@
             // 
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(330, 85);
+            this.label5.Location = new System.Drawing.Point(329, 85);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(231, 167);
+            this.label5.Size = new System.Drawing.Size(231, 246);
             this.label5.TabIndex = 15;
             this.label5.Text = resources.GetString("label5.Text");
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -167,7 +185,7 @@
             // btnDocumentoVinculadoGerar
             // 
             this.btnDocumentoVinculadoGerar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDocumentoVinculadoGerar.Location = new System.Drawing.Point(123, 179);
+            this.btnDocumentoVinculadoGerar.Location = new System.Drawing.Point(122, 303);
             this.btnDocumentoVinculadoGerar.Name = "btnDocumentoVinculadoGerar";
             this.btnDocumentoVinculadoGerar.Size = new System.Drawing.Size(26, 28);
             this.btnDocumentoVinculadoGerar.TabIndex = 12;
@@ -181,7 +199,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 164);
+            this.label4.Location = new System.Drawing.Point(3, 288);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(94, 13);
             this.label4.TabIndex = 10;
@@ -190,7 +208,7 @@
             // txtDocumentoVinculado
             // 
             this.txtDocumentoVinculado.Font = new System.Drawing.Font("Lucida Console", 14.25F);
-            this.txtDocumentoVinculado.Location = new System.Drawing.Point(6, 180);
+            this.txtDocumentoVinculado.Location = new System.Drawing.Point(6, 304);
             this.txtDocumentoVinculado.MaxLength = 6;
             this.txtDocumentoVinculado.Name = "txtDocumentoVinculado";
             this.txtDocumentoVinculado.Size = new System.Drawing.Size(115, 26);
@@ -245,7 +263,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 209);
+            this.label1.Location = new System.Drawing.Point(165, 288);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 13;
@@ -349,7 +367,7 @@
             // 
             this.pnlBottom.Controls.Add(this.lblMensagem);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 318);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 396);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(567, 60);
             this.pnlBottom.TabIndex = 2;
@@ -376,23 +394,55 @@
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
             // 
-            // btnRecarga
+            // pnlQrCode
             // 
-            this.btnRecarga.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRecarga.Location = new System.Drawing.Point(87, 130);
-            this.btnRecarga.Name = "btnRecarga";
-            this.btnRecarga.Size = new System.Drawing.Size(75, 23);
-            this.btnRecarga.TabIndex = 20;
-            this.btnRecarga.Text = "REC. CEL";
-            this.toolTip1.SetToolTip(this.btnRecarga, "Recarga de Celular");
-            this.btnRecarga.UseVisualStyleBackColor = true;
-            this.btnRecarga.Click += new System.EventHandler(this.btnRecarga_Click);
+            this.pnlQrCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlQrCode.Controls.Add(this.label7);
+            this.pnlQrCode.Controls.Add(this.lblQrCode);
+            this.pnlQrCode.Controls.Add(this.lblMenuTituloQrCode);
+            this.pnlQrCode.Location = new System.Drawing.Point(329, 86);
+            this.pnlQrCode.Name = "pnlQrCode";
+            this.pnlQrCode.Size = new System.Drawing.Size(231, 245);
+            this.pnlQrCode.TabIndex = 21;
+            this.pnlQrCode.Visible = false;
+            // 
+            // lblQrCode
+            // 
+            this.lblQrCode.BackColor = System.Drawing.SystemColors.Window;
+            this.lblQrCode.Location = new System.Drawing.Point(25, 58);
+            this.lblQrCode.Name = "lblQrCode";
+            this.lblQrCode.Size = new System.Drawing.Size(180, 180);
+            this.lblQrCode.TabIndex = 4;
+            this.lblQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblMenuTituloQrCode
+            // 
+            this.lblMenuTituloQrCode.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.lblMenuTituloQrCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuTituloQrCode.Location = new System.Drawing.Point(4, 25);
+            this.lblMenuTituloQrCode.Name = "lblMenuTituloQrCode";
+            this.lblMenuTituloQrCode.Size = new System.Drawing.Size(221, 27);
+            this.lblMenuTituloQrCode.TabIndex = 2;
+            this.lblMenuTituloQrCode.Text = "[lblMenuTituloQrCode]";
+            this.lblMenuTituloQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Yellow;
+            this.label7.Location = new System.Drawing.Point(4, 4);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(221, 20);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Carteira Digital";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FrmTelaTesteVenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 378);
+            this.ClientSize = new System.Drawing.Size(567, 456);
             this.Controls.Add(this.pnlBody);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnlTop);
@@ -410,6 +460,7 @@
             this.pnlTop.ResumeLayout(false);
             this.pnlBottom.ResumeLayout(false);
             this.pnlBottom.PerformLayout();
+            this.pnlQrCode.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -444,6 +495,10 @@
         private System.Windows.Forms.Button btnCncDebito;
         private System.Windows.Forms.Button btnCrtCd;
         private System.Windows.Forms.Button btnRecarga;
+        private System.Windows.Forms.Panel pnlQrCode;
+        public System.Windows.Forms.Label lblQrCode;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblMenuTituloQrCode;
     }
 }
 

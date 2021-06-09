@@ -32,8 +32,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="zxing">
+      <HintPath>..\ExternalLibraries\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Functions.cs" />
+    <Compile Include="Classes\TefFuncaoInterativa.cs" />
     <Compile Include="Enuns\Enumeradores.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

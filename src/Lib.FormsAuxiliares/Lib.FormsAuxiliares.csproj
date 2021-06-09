@@ -38,9 +38,6 @@
     <Reference Include="TextBoxCurrency">
       <HintPath>..\ExternalLibraries\TextBoxCurrency.dll</HintPath>
     </Reference>
-    <Reference Include="zxing">
-      <HintPath>..\ExternalLibraries\zxing.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FrmConfirmarValor.cs">

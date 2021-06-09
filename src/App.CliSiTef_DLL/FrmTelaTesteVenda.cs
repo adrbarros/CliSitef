@@ -1,9 +1,11 @@
 ﻿using Lib.CliSitef.Classes;
 using Lib.FormsAuxiliares;
+using Lib.Utils.Classes;
 using Lib.Utils.Enuns;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
@@ -183,6 +185,8 @@ namespace App.CliSiTef_DLL
             pnlBody.Enabled = false;
             mTefSoftwareExpress.OnMessageClient += new TefSoftwareExpress.OnMessageClientHandle(MTefSoftwareExpress_OnMessageClient);
             mTefSoftwareExpress.OnCallForm += new TefSoftwareExpress.OnCallFormtHandle(MTefSoftwareExpress_OnCallForm);
+            mTefSoftwareExpress.OnCallPanelQrCode += new TefSoftwareExpress.OnCallPanelQrCodeHandle(MTefSoftwareExpress_OnCallPanelQrCode);
+            mTefSoftwareExpress.OnClosePanelQrCode += new TefSoftwareExpress.OnClosePanelQrCodeHandle(MTefSoftwareExpress_OnClosePanelQrCode);
         }
 
         private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos)
@@ -286,6 +290,42 @@ namespace App.CliSiTef_DLL
                         }
                     }
                 }
+            }
+        }
+        private void MTefSoftwareExpress_OnCallPanelQrCode(TefFuncaoInterativa _tefFuncaoInterativa)
+        {
+            if (!_tefFuncaoInterativa.FormAberto && _tefFuncaoInterativa.DataType == DataTypeEnum.QrCode && _tefFuncaoInterativa.TipoCampo == 584)
+            {
+                lblMenuTituloQrCode.Invoke((MethodInvoker)delegate
+                {
+                    lblMenuTituloQrCode.Text = _tefFuncaoInterativa.Titulo;
+                    lblMenuTituloQrCode.Refresh();
+                });
+                lblQrCode.Invoke((MethodInvoker)delegate
+                {
+                    lblQrCode.ImageAlign = ContentAlignment.MiddleCenter;
+                    Image qrCode = Functions.Gerar_QRCode(lblQrCode.Size.Width, lblQrCode.Size.Height, _tefFuncaoInterativa.Mensagem);
+                    lblQrCode.Image = qrCode;
+                    lblQrCode.Text = "";
+                    lblQrCode.Refresh();
+                });
+                pnlQrCode.BringToFront();
+                pnlQrCode.Visible = true;
+                pnlQrCode.Refresh();
+                _tefFuncaoInterativa.FormAberto = true;
+            }
+        }
+        private void MTefSoftwareExpress_OnClosePanelQrCode(TefFuncaoInterativa _tefFuncaoInterativa)
+        {
+            if (_tefFuncaoInterativa.FormFechar)
+            {
+                pnlQrCode.SendToBack();
+                pnlQrCode.Visible = false;
+                lblMenuTituloQrCode.Text = "";
+                lblQrCode.Image = null;
+                lblQrCode.Text = "";
+                _tefFuncaoInterativa.FormAberto = false;
+                _tefFuncaoInterativa.FormFechar = false;
             }
         }
 

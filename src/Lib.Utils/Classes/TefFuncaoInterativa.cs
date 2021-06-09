@@ -1,6 +1,6 @@
 ﻿using Lib.Utils.Enuns;
 
-namespace Lib.CliSitef.Classes
+namespace Lib.Utils.Enuns
 {
     public class TefFuncaoInterativa
     {
@@ -19,5 +19,7 @@ namespace Lib.CliSitef.Classes
         public bool Interromper { get; set; }
         public string Titulo { get; set; }
         public string Mensagem { get; set; }
+        public bool FormAberto { get; set; }
+        public bool FormFechar { get; set; }
     }
 }

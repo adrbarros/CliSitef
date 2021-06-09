@@ -37,7 +37,6 @@
   <ItemGroup>
     <Compile Include="Classes\Cupom.cs" />
     <Compile Include="Classes\TefConfig.cs" />
-    <Compile Include="Classes\TefFuncaoInterativa.cs" />
     <Compile Include="Classes\TefRetorno.cs" />
     <Compile Include="Classes\TefSoftwareExpress.cs" />
     <Compile Include="Classes\TefTransacao.cs" />
