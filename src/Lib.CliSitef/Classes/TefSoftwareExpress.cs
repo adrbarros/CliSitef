@@ -211,14 +211,14 @@ namespace Lib.CliSitef.Classes
 
             return _texto;
         }
-        int VerificarEscreverMsgPinPad(TefConfig _tefConfig)
+        int VerificarEscreverMsgPinPad()
         {
             int sts = 0;
-            if (_tefConfig.Tef_PinPadVerificar)
+            if (mTefConfig.Tef_PinPadVerificar)
             {
                 int stsPinPad = VerificaPresencaPinPad();
                 if (stsPinPad > 0)
-                    EscreveMensagemPermanentePinPad(_tefConfig.Tef_PinPadMensagem);
+                    EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
                 else
                     sts = 50001;
             }
@@ -330,6 +330,11 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj748, mTefTransacao);
                                 }
                             }
+                            else if (tipoCampo == 108) //Verificar Carteira Digital
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                    _ = mensagem;
+                            }
                             else if (tipoCampo == 111)
                             {
                                 OnMessageClient?.Invoke(mensagem, 100);
@@ -417,6 +422,36 @@ namespace Lib.CliSitef.Classes
                                 TefRetorno obj739 = new TefRetorno(739, 0, mensagem);
                                 TefRetornoAdicionar(obj739, mTefTransacao);
                             }
+                            else if (tipoCampo == 545)
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                {
+                                    TefRetorno obj749 = new TefRetorno(749, 0, mensagem);
+                                    TefRetornoAdicionar(obj749, mTefTransacao);
+
+                                    CarteiraDigitalTipoPagamentoConst obj = CarteiraDigitalTipoPagamento.RetornarTipoPagamento(Convert.ToInt32(mensagem));
+                                    if (obj != null)
+                                    {
+                                        TefRetorno obj749_1 = new TefRetorno(749, 1, obj.CodigoNome);
+                                        TefRetornoAdicionar(obj749_1, mTefTransacao);
+                                    }
+                                }
+                            }
+                            else if (tipoCampo == 546)
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                {
+                                    TefRetorno obj750 = new TefRetorno(750, 0, mensagem);
+                                    TefRetornoAdicionar(obj750, mTefTransacao);
+
+                                    CarteiraDigitalTipoVoucherConst obj = CarteiraDigitalTipoVoucher.RetornarTipoVoucher(Convert.ToInt32(mensagem));
+                                    if (obj != null)
+                                    {
+                                        TefRetorno obj750_1 = new TefRetorno(750, 1, obj.CodigoNome);
+                                        TefRetornoAdicionar(obj750_1, mTefTransacao);
+                                    }
+                                }
+                            }
                             else if (tipoCampo == 590)
                             {
                                 TefRetorno obj742 = new TefRetorno(742, 0, mensagem);
@@ -435,6 +470,52 @@ namespace Lib.CliSitef.Classes
                             {
                                 TefRetorno obj27 = new TefRetorno(27, 0, mensagem);
                                 TefRetornoAdicionar(obj27, mTefTransacao);
+                            }
+                            else if (tipoCampo == 950) //Para Modulo SAT_NFCe INSTALADO - CNPJ da fonte pagadora (autorizador do cartão)
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                {
+                                    TefRetorno obj600 = new TefRetorno(600, 0, mensagem);
+                                    TefRetornoAdicionar(obj600, mTefTransacao);
+                                }
+                            }
+                            else if (tipoCampo == 951) //Para Modulo SAT_NFCe INSTALADO - Bandeira NFCE
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                {
+                                    TefRetorno obj601 = new TefRetorno(601, 0, mensagem);
+                                    TefRetornoAdicionar(obj601, mTefTransacao);
+
+                                    SatNfceBandeiraConst obj = SatNfceBandeira.RetornarSatNfceBandeira(Convert.ToInt32(mensagem));
+                                    if (obj != null)
+                                    {
+                                        TefRetorno obj601_1 = new TefRetorno(601, 1, obj.CodigoNome);
+                                        TefRetornoAdicionar(obj601_1, mTefTransacao);
+                                    }
+                                }
+                            }
+                            else if (tipoCampo == 952) //Para Modulo SAT_NFCe INSTALADO - Número de autorização NFCE
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                {
+                                    TefRetorno obj602 = new TefRetorno(602, 0, mensagem);
+                                    TefRetornoAdicionar(obj602, mTefTransacao);
+                                }
+                            }
+                            else if (tipoCampo == 953) //Para Modulo SAT_NFCe INSTALADO - Código da credenciadora
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem))
+                                {
+                                    TefRetorno obj603 = new TefRetorno(603, 0, mensagem);
+                                    TefRetornoAdicionar(obj603, mTefTransacao);
+
+                                    SatNfceCredenciadoraConst obj = SatNfceCredenciadora.RetornarSatNfceCredenciadora(Convert.ToInt32(mensagem));
+                                    if (obj != null)
+                                    {
+                                        TefRetorno obj603_1 = new TefRetorno(603, 1, obj.CodigoNomeCnpj);
+                                        TefRetornoAdicionar(obj603_1, mTefTransacao);
+                                    }
+                                }
                             }
                             else if (tipoCampo == 2021)
                             {
@@ -579,7 +660,7 @@ namespace Lib.CliSitef.Classes
                             break;
                         case 42: //Deve apresentar um menu de opções e permitir que o usuário selecione uma delas.
                             break;
-                        case 50:
+                        case 50: //A automação comercial deve exibir o QRCode na tela. Para tanto, neste mesmo comando, será devolvida a string do QRCode com a identificação de campo 584.
                             mObjForm50 = new TefFuncaoInterativa
                             {
                                 DataType = DataTypeEnum.QrCode,
@@ -589,7 +670,7 @@ namespace Lib.CliSitef.Classes
                             };
                             OnCallPanelQrCode?.Invoke(mObjForm50);
                             break;
-                        case 51:
+                        case 51: //A automação comercial deve remover da tela o QRCode exibido anteriormente, pois o SiTef já devolveu uma resposta à CliSiTef.
                             OnMessageClient?.Invoke(mensagem, 1000);
                             if (mObjForm50 != null && mObjForm50.FormAberto)
                             {
@@ -601,7 +682,7 @@ namespace Lib.CliSitef.Classes
                             mObjForm50 = null;
                             captionCarteiraDigital = "";
                             break;
-                        case 52:
+                        case 52: //Mensagem de rodapé, opcional para o caso haja um espaço para ela ser exibida, no caso em que o QRCode foi exibido e está aguardando que o cliente faça a sua leitura.
                             OnMessageClient?.Invoke(mensagem, 200);
                             break;
                         case 99:
@@ -626,7 +707,7 @@ namespace Lib.CliSitef.Classes
 
             if (_parametrosAdicionais.IndexOf(@"{TipoTratamento=4}", StringComparison.Ordinal) == -1 && (_header.Contains("ADM") || _header.Contains("CRT") || _header.Contains("CHQ")))
                 _parametrosAdicionais += "{TipoTratamento=4}";
-            if (_header.Contains("CRT"))
+            if (_header.Contains("CRT") && !mTefConfig.Tef_PinPadQrCode)
                 _parametrosAdicionais += "{DevolveStringQRCode=1}";
 
             var dataHora = DateTime.Now;
@@ -651,7 +732,7 @@ namespace Lib.CliSitef.Classes
             mTefConfig = _tefConfig;
             int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]");
             if (sts == 0)
-                sts = VerificarEscreverMsgPinPad(_tefConfig);
+                sts = VerificarEscreverMsgPinPad();
             return sts;
         }
         public int Atv()

@@ -2,7 +2,7 @@ O Aquivo de retorno gerado referente as informações retornadas pela DLL do Cli
 utilizado pelo PayGo, Linx, Captta e outros. Assim quem está familiarizado com este layout, não vai ter problemas no entendimento
 das informações uteis para controle na sua aplicação.
 
-De(SiTef - Interface Simplificada com a aplicação(VRS-236).pdf  [TipoCampo - inicio pag 33])
+De(SiTef - Interface Simplificada com a aplicação(VRS-242).pdf  [TipoCampo - inicio pag 33])
 Para(NTK-PGCliWin - Interface com a Automação Comercial - v2.19.pdf [Detalhamento dos campos - inicio pag 31])
 
 TipoCampo Sitef     Padrão Layout Pay&GO
@@ -11,18 +11,24 @@ De               -> Para
 *Operacao        000-000=CRT
 0                001-000=5691
 *DocViculado     002-000=827715
-*Id Transacao    002-001=8daa2aa3-41d6-4c26-bf13-f636a4d2d333     //Identificador de Transação para controle interno (Retaguarda que dever gerar esse Guid)
-*Valor Transacao 003-000=10,00           //Valores adicionais virá na sequencia 003-001 - 003-002 etc
+*Id Transacao    002-001=8daa2aa3-41d6-4c26-bf13-f636a4d2d333 //Identificador de Transação para controle interno (Retaguarda que deve gerar esse Guid)
+*Valor Transacao 003-000=10,00                                //Valores adicionais virá na sequencia 003-001 - 003-002 etc
 *Moeda           004-000=0
 *Status          009-000=0
-131              010-000=00271           //** Recupera o Nome da Adquirente baseado na lista estatica da classe RedeAutorizadoraConst
-** ou 107        010-001=CARDSE          // Alguns casos vem o complemento (Nome) no TipoCampo 107                                         
+131              010-000=00271                                //** Recupera o Nome da Adquirente baseado na lista estatica da classe RedeAutorizadoraConst
+** ou 107        010-001=CARDSE                               // Alguns casos vem o complemento (Nome) no TipoCampo 107                                         
 100              011-000=0100
 134              012-000=00000000000008100015
 133              013-000=100015
 105              022-000=10082020
 105              023-000=204742
 800              027-000=0523F8ED17432BC56EDDE4618E1B3DAAE2806D21
+950              600-000=01425787000104                       //Quando Modulo SAT_NFCe esta instalado no SiteTEF
+951              601-000=02                                   //Quando Modulo SAT_NFCe esta instalado no SiteTEF
+                 601-001=02|MASTERCARD                        //** Recupera o Informção baseado na lista estatica da classe SatNfceBandeiraConst
+952              602-000=100015                               //Quando Modulo SAT_NFCe esta instalado no SiteTEF
+953              603-000=025                                  //Quando Modulo SAT_NFCe esta instalado no SiteTEF   
+                 603-001=025|REDECARD S/A|01.425.787/0001-04  //** Recupera o Informção baseado na lista estatica da classe SatNfceCredenciadoraConst
 132              702-000=20032
 121              712-000=8
 123              712-001=
@@ -48,9 +54,9 @@ De               -> Para
 *Tef_Empresa     719-000=00000000
 *Fixo            729-000=1
 100              731-000=01
-Grupo Pagto      731-001=CARTAO DEBITO   //** Recupera o Descrição da Modalidade Grupo de Pagamento baseado na lista estatica da classe ModalidadePagamentoGrupoConst
+Grupo Pagto      731-001=CARTAO DEBITO                        //** Recupera o Descrição da Modalidade Grupo de Pagamento baseado na lista estatica da classe ModalidadePagamentoGrupoConst
 100              732-000=00
-SubGrupo Pagto   732-001=A VISTA         //** Recupera o Descrição da Modalidade SubGrupo de Pagamento baseado na lista estatica da classe ModalidadePagamentoSubGrupoConst
+SubGrupo Pagto   732-001=A VISTA                              //** Recupera o Descrição da Modalidade SubGrupo de Pagamento baseado na lista estatica da classe ModalidadePagamentoSubGrupoConst
 158              739-000=ER
 2021             740-000=506722******8888
 590              742-000=Operadora da Recarga de Celular
@@ -58,5 +64,9 @@ SubGrupo Pagto   732-001=A VISTA         //** Recupera o Descrição da Modalida
 2022             747-000=1221
 156              748-000=CARDSE
 132              748-001=20032
-Bandeira Padrao  748-002=ELO|DEBITO|20032 //** Recupera o Dados da Bandeira parao Sitef baseado na lista estatica da classe BandeiraPadraoConst
+Bandeira Padrao  748-002=ELO|DEBITO|20032                     //** Recupera o Dados da Bandeira parao Sitef baseado na lista estatica da classe BandeiraPadraoConst
+545              749-000=01               
+                 749-001=01|CREDITO|CARTEIRA DIGITAL          //** Recupera o Informção baseado na lista estatica da classe CarteiraDigitalTipoPagamentoConst
+546              750-000=00               
+                 750-001=00|NAO E VOUCHER|CARTEIRA DIGITAL    //** Recupera o Informção baseado na lista estatica da classe CarteiraDigitalTipoVoucherConst
 *Fixo            999-000=0

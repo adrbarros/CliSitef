@@ -10,6 +10,7 @@
         public string Tef_PinPadPorta { get; set; }
         public string Tef_PinPadMensagem { get; set; }
         public bool Tef_PinPadVerificar { get; set; }
+        public bool Tef_PinPadQrCode { get; set; }
         public string Tef_PathArquivos { get; set; }
     }
 }

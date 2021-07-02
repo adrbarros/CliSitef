@@ -38,7 +38,8 @@ namespace App.CliSiTef_DLL
                 Tef_SoftwareHouseCnpj = ConfigurationManager.AppSettings["Tef_SoftwareHouseCnpj"],
                 Tef_PinPadPorta = ConfigurationManager.AppSettings["Tef_PinPadPorta"],
                 Tef_PinPadMensagem = ConfigurationManager.AppSettings["Tef_PinPadMensagem"],
-                Tef_PinPadVerificar = ConfigurationManager.AppSettings["Tef_PinPadVerificar"] == "1"
+                Tef_PinPadVerificar = ConfigurationManager.AppSettings["Tef_PinPadVerificar"] == "1",
+                Tef_PinPadQrCode = ConfigurationManager.AppSettings["Tef_PinPadQrCode"] == "1"
             };
 
             string path = Application.StartupPath + "\\CliSiTef.ini";

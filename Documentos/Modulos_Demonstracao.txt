@@ -1,11 +1,11 @@
 SITEF-DEMO
 ==========
-https://www.softwareexpress.com.br/distri/aplicativos/simulado/sitdemo.zip
+portaldocliente.softwareexpress.com.br/distri/aplicativos/simulado/sitdemo.zip
 
 
 DLL-SitefDemo
 =============
-Link abaixo do PIX encontrará as DLLs
+portaldocliente.softwareexpress.com.br/distri/aplicativos/simulado/clisitefwin32_simulado.zip
 
 
 CARTEIRAS DIGITAIS
@@ -16,8 +16,8 @@ Módulo CardSE (Versão 7.0.15.1_S)
 Simcomu-s.exe (Versão 7.0.2.25)
 Interface CliSiTef (Versão de Desenvolvimento 7.0.116.16 b1)  
 CardSE_PIX_Guia de Instalação.pdf
-CliSiTef - Interface com a aplicação - Carteiras Digitais - 1.28.pdf
-https://www.softwareexpress.com.br/distri/aplicativos/simulado/clisitefdesenvwin32_pix.zip
+CliSiTef - Interface com a aplicação - Carteiras Digitais - 1.39.pdf
+
 
 
 Observação:
@@ -27,18 +27,18 @@ Instalar o Modulo CardSE que esta no Link do PIX é o mais atualizado para o mom
 6-CoronaVoucher (Auxílio Emergencial) - CardSE.pdf (Verificar Downloads neste PDF)
 
 ** Iti - Itaú ** 
-https://www.softwareexpress.com.br/distri/especificacao/cardse_itiitau.zip
+portaldocliente.softwareexpress.com.br/distri/especificacao/cardse_itiitau.zip
 
 ** Mercado Pago ** 
-https://www.softwareexpress.com.br/distri/especificacao/cardse_mercadopago.zip
+portaldocliente.softwareexpress.com.br/distri/especificacao/cardse_mercadopago.zip
 
 ** Vee **
-https://www.softwareexpress.com.br/distri/especificacao/cardse_vee.zip
+portaldocliente.softwareexpress.com.br/distri/especificacao/cardse_vee.zip
 
 ** PicPay **
-https://www.softwareexpress.com.br/distri/especificacao/cardse_picpay.zip
+portaldocliente.softwareexpress.com.br/distri/especificacao/cardse_picpay.zip
 
 
 RECARGA DE CELULAR
 ==================
-https://www.softwareexpress.com.br/distri/aplicativos/simulado/sitgwcel_simulado.zip
+portaldocliente.softwareexpress.com.br/distri/aplicativos/simulado/sitgwcel_simulado.zip

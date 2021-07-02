@@ -41,10 +41,14 @@
     <Compile Include="Classes\TefSoftwareExpress.cs" />
     <Compile Include="Classes\TefTransacao.cs" />
     <Compile Include="ConstantValues\BandeiraPadraoConst.cs" />
+    <Compile Include="ConstantValues\CarteiraDigitalTipoPagamentoConst.cs" />
+    <Compile Include="ConstantValues\CarteiraDigitalTipoVoucherConst.cs" />
     <Compile Include="ConstantValues\ComprovanteTipoConst.cs" />
     <Compile Include="ConstantValues\ModalidadePagamentoGrupoConst.cs" />
     <Compile Include="ConstantValues\ModalidadePagamentoSubGrupoConst.cs" />
     <Compile Include="ConstantValues\RedeAutorizadoraConst.cs" />
+    <Compile Include="ConstantValues\SatNfceBandeiraConst.cs" />
+    <Compile Include="ConstantValues\SatNfceCredenciadoraConst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
