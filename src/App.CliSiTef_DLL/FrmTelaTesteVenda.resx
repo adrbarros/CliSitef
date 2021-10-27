@@ -123,9 +123,6 @@
   <data name="label5.Text" xml:space="preserve">
     <value>Para as Ações Básicas e Multiplos Cartões, os dados ficam apenas em tempo de execução nesta Aplicação de Exemplo para Transações TEF (CliSiTef-SoftwareExpress). Para utilizar os modelos neste apresentado em sua Aplicação Real para Homologação, você deve planejar e projetar as ações para Queda de Energia e Retorno (Para Confirmar e/ou Desfazer as Operações Pendentes), Falhas de Impressão etc.</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>135, 14</value>
-  </metadata>
   <metadata name="bkgInicioTef.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 14</value>
   </metadata>

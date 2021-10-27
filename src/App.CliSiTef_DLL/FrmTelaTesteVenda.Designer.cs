@@ -52,20 +52,21 @@
             this.btnCrt = new System.Windows.Forms.Button();
             this.btnAdm = new System.Windows.Forms.Button();
             this.btnAtv = new System.Windows.Forms.Button();
+            this.pnlQrCode = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblQrCode = new System.Windows.Forms.Label();
+            this.lblMenuTituloQrCode = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.pnlQrCode = new System.Windows.Forms.Panel();
-            this.lblQrCode = new System.Windows.Forms.Label();
-            this.lblMenuTituloQrCode = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.btnCorrespondenteBancario = new System.Windows.Forms.Button();
             this.pnlBody.SuspendLayout();
+            this.pnlQrCode.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.pnlBottom.SuspendLayout();
-            this.pnlQrCode.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtValorVenda
@@ -83,6 +84,7 @@
             // 
             // pnlBody
             // 
+            this.pnlBody.Controls.Add(this.btnCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnRecarga);
             this.pnlBody.Controls.Add(this.btnCrtCd);
             this.pnlBody.Controls.Add(this.btnCncCredito);
@@ -341,6 +343,50 @@
             this.btnAtv.UseVisualStyleBackColor = true;
             this.btnAtv.Click += new System.EventHandler(this.btnAtv_Click);
             // 
+            // pnlQrCode
+            // 
+            this.pnlQrCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlQrCode.Controls.Add(this.label7);
+            this.pnlQrCode.Controls.Add(this.lblQrCode);
+            this.pnlQrCode.Controls.Add(this.lblMenuTituloQrCode);
+            this.pnlQrCode.Location = new System.Drawing.Point(329, 86);
+            this.pnlQrCode.Name = "pnlQrCode";
+            this.pnlQrCode.Size = new System.Drawing.Size(231, 245);
+            this.pnlQrCode.TabIndex = 21;
+            this.pnlQrCode.Visible = false;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Yellow;
+            this.label7.Location = new System.Drawing.Point(4, 4);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(221, 20);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Carteira Digital";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblQrCode
+            // 
+            this.lblQrCode.BackColor = System.Drawing.SystemColors.Window;
+            this.lblQrCode.Location = new System.Drawing.Point(25, 58);
+            this.lblQrCode.Name = "lblQrCode";
+            this.lblQrCode.Size = new System.Drawing.Size(180, 180);
+            this.lblQrCode.TabIndex = 4;
+            this.lblQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblMenuTituloQrCode
+            // 
+            this.lblMenuTituloQrCode.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.lblMenuTituloQrCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuTituloQrCode.Location = new System.Drawing.Point(4, 25);
+            this.lblMenuTituloQrCode.Name = "lblMenuTituloQrCode";
+            this.lblMenuTituloQrCode.Size = new System.Drawing.Size(221, 27);
+            this.lblMenuTituloQrCode.TabIndex = 2;
+            this.lblMenuTituloQrCode.Text = "[lblMenuTituloQrCode]";
+            this.lblMenuTituloQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pnlTop
             // 
             this.pnlTop.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -394,49 +440,17 @@
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
             // 
-            // pnlQrCode
+            // btnCorrespondenteBancario
             // 
-            this.pnlQrCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlQrCode.Controls.Add(this.label7);
-            this.pnlQrCode.Controls.Add(this.lblQrCode);
-            this.pnlQrCode.Controls.Add(this.lblMenuTituloQrCode);
-            this.pnlQrCode.Location = new System.Drawing.Point(329, 86);
-            this.pnlQrCode.Name = "pnlQrCode";
-            this.pnlQrCode.Size = new System.Drawing.Size(231, 245);
-            this.pnlQrCode.TabIndex = 21;
-            this.pnlQrCode.Visible = false;
-            // 
-            // lblQrCode
-            // 
-            this.lblQrCode.BackColor = System.Drawing.SystemColors.Window;
-            this.lblQrCode.Location = new System.Drawing.Point(25, 58);
-            this.lblQrCode.Name = "lblQrCode";
-            this.lblQrCode.Size = new System.Drawing.Size(180, 180);
-            this.lblQrCode.TabIndex = 4;
-            this.lblQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblMenuTituloQrCode
-            // 
-            this.lblMenuTituloQrCode.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.lblMenuTituloQrCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMenuTituloQrCode.Location = new System.Drawing.Point(4, 25);
-            this.lblMenuTituloQrCode.Name = "lblMenuTituloQrCode";
-            this.lblMenuTituloQrCode.Size = new System.Drawing.Size(221, 27);
-            this.lblMenuTituloQrCode.TabIndex = 2;
-            this.lblMenuTituloQrCode.Text = "[lblMenuTituloQrCode]";
-            this.lblMenuTituloQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.Yellow;
-            this.label7.Location = new System.Drawing.Point(4, 4);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(221, 20);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "Carteira Digital";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnCorrespondenteBancario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCorrespondenteBancario.Location = new System.Drawing.Point(87, 159);
+            this.btnCorrespondenteBancario.Name = "btnCorrespondenteBancario";
+            this.btnCorrespondenteBancario.Size = new System.Drawing.Size(75, 23);
+            this.btnCorrespondenteBancario.TabIndex = 22;
+            this.btnCorrespondenteBancario.Text = "C. BANC";
+            this.toolTip1.SetToolTip(this.btnCorrespondenteBancario, "Correspondente Bancario TRICARD");
+            this.btnCorrespondenteBancario.UseVisualStyleBackColor = true;
+            this.btnCorrespondenteBancario.Click += new System.EventHandler(this.btnCorrespondenteBancario_Click);
             // 
             // FrmTelaTesteVenda
             // 
@@ -457,10 +471,10 @@
             this.Shown += new System.EventHandler(this.FrmTelaTesteVenda_Shown);
             this.pnlBody.ResumeLayout(false);
             this.pnlBody.PerformLayout();
+            this.pnlQrCode.ResumeLayout(false);
             this.pnlTop.ResumeLayout(false);
             this.pnlBottom.ResumeLayout(false);
             this.pnlBottom.PerformLayout();
-            this.pnlQrCode.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -499,6 +513,7 @@
         public System.Windows.Forms.Label lblQrCode;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblMenuTituloQrCode;
+        private System.Windows.Forms.Button btnCorrespondenteBancario;
     }
 }
 

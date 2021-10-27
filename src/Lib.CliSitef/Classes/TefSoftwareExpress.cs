@@ -919,6 +919,46 @@ namespace Lib.CliSitef.Classes
                 Cnf(_documentoVinculado: _documentoVinculado);
             return sts;
         }
+        public int CorrespondenteBancario(string _documentoVinculado = "")
+        {
+            int sts = FazerRequisicao(310, "CBC",  _documento: _documentoVinculado);
+            if (sts == 10000)
+            {
+                #region Retornos TEF
+
+                mTefTransacao = new TefTransacao
+                {
+                    DocumentoVinculado = _documentoVinculado,
+                    ValorTransacao = 0M
+                };
+                gCupomVenda.Transacoes.Add(mTefTransacao);
+
+                TefRetorno obj0 = new TefRetorno(0, 0, "CBC");
+                TefRetornoAdicionar(obj0, mTefTransacao);
+
+                TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
+                TefRetornoAdicionar(obj2, mTefTransacao);
+
+                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, mTefTransacao);
+
+                TefRetorno obj4 = new TefRetorno(4, 0, "0");
+                TefRetornoAdicionar(obj4, mTefTransacao);
+
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
+                TefRetornoAdicionar(obj718, mTefTransacao);
+
+                TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
+                TefRetornoAdicionar(obj719, mTefTransacao);
+
+                #endregion
+
+                sts = ContinuarRequisicao();
+            }
+            if (sts == 0)
+                Cnf(_documentoVinculado: _documentoVinculado);
+            return sts;
+        }
         public void Cnf(bool _gerarArquivo = true, string _documentoVinculado = "")
         {
             FinalizarOperacao(1, _documentoVinculado);
