@@ -41,6 +41,7 @@
     <Compile Include="Classes\Functions.cs" />
     <Compile Include="Classes\TefFuncaoInterativa.cs" />
     <Compile Include="Enuns\Enumeradores.cs" />
+    <Compile Include="Logs\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

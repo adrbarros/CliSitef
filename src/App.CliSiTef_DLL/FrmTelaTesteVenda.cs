@@ -2,6 +2,7 @@
 using Lib.FormsAuxiliares;
 using Lib.Utils.Classes;
 using Lib.Utils.Enuns;
+using Lib.Utils.Logs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -160,6 +161,7 @@ namespace App.CliSiTef_DLL
         }
         void ExibirMensagem(string _msg, int _tempoMilisegundos = 2000)
         {
+            Log.GerarLogProcessoExecucao(Application.StartupPath, _msg);
             lblMensagem.Invoke((MethodInvoker)delegate
             {
                 lblMensagem.Text = _msg;
@@ -192,6 +194,7 @@ namespace App.CliSiTef_DLL
 
         private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos)
         {
+            Log.GerarLogProcessoExecucao(Application.StartupPath, _mensagem);
             lblMensagem.Invoke((MethodInvoker)delegate
             {
                 lblMensagem.Text = _mensagem;
@@ -938,7 +941,5 @@ namespace App.CliSiTef_DLL
             pnlBody.Enabled = mStatusTefInicio == 0;
             mStatusTefInicio = 0;
         }
-
-
     }
 }
