@@ -1,4 +1,5 @@
 ﻿using Lib.CliSitef.ConstantValues;
+using Lib.Utils.Classes;
 using Lib.Utils.Enuns;
 using System;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace Lib.CliSitef.Classes
 {
@@ -73,7 +73,7 @@ namespace Lib.CliSitef.Classes
 
         #endregion
 
-        public delegate void OnMessageClientHandle(string _mensagem, int _tempoMiliSegundos);
+        public delegate void OnMessageClientHandle(string _mensagem, int _tempoMiliSegundos, TefFuncaoInterativa _tefFuncaoInterativa = null);
         public event OnMessageClientHandle OnMessageClient;
 
         public delegate void OnCallFormtHandle(TefFuncaoInterativa _tefFuncaoInterativa);
@@ -683,7 +683,14 @@ namespace Lib.CliSitef.Classes
                             captionCarteiraDigital = "";
                             break;
                         case 52: //Mensagem de rodapé, opcional para o caso haja um espaço para ela ser exibida, no caso em que o QRCode foi exibido e está aguardando que o cliente faça a sua leitura.
-                            OnMessageClient?.Invoke(mensagem, 200);
+                            OnMessageClient?.Invoke(mensagem, 200, mObjForm50);
+                            if (mObjForm50 != null && mObjForm50.FormAberto && mObjForm50.Interromper)
+                            {
+                                mObjForm50.FormFechar = true;
+                                OnClosePanelQrCode?.Invoke(mObjForm50);
+                                interromper = mObjForm50.Interromper;
+                                respostaSitef = mObjForm50.RespostaSitef;
+                            }
                             break;
                         case 99:
                             break;
@@ -921,7 +928,7 @@ namespace Lib.CliSitef.Classes
         }
         public int CorrespondenteBancario(string _documentoVinculado = "")
         {
-            int sts = FazerRequisicao(310, "CBC",  _documento: _documentoVinculado);
+            int sts = FazerRequisicao(310, "CBC", _documento: _documentoVinculado);
             if (sts == 10000)
             {
                 #region Retornos TEF

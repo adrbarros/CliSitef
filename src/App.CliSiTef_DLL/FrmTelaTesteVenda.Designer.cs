@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTelaTesteVenda));
             this.txtValorVenda = new TextBoxCurrency.TextBoxCurrency();
             this.pnlBody = new System.Windows.Forms.Panel();
+            this.btnCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnRecarga = new System.Windows.Forms.Button();
             this.btnCrtCd = new System.Windows.Forms.Button();
             this.btnCncCredito = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnCorrespondenteBancario = new System.Windows.Forms.Button();
             this.pnlBody.SuspendLayout();
             this.pnlQrCode.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -112,6 +112,18 @@
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Size = new System.Drawing.Size(567, 336);
             this.pnlBody.TabIndex = 1;
+            // 
+            // btnCorrespondenteBancario
+            // 
+            this.btnCorrespondenteBancario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCorrespondenteBancario.Location = new System.Drawing.Point(87, 159);
+            this.btnCorrespondenteBancario.Name = "btnCorrespondenteBancario";
+            this.btnCorrespondenteBancario.Size = new System.Drawing.Size(75, 23);
+            this.btnCorrespondenteBancario.TabIndex = 22;
+            this.btnCorrespondenteBancario.Text = "C. BANC";
+            this.toolTip1.SetToolTip(this.btnCorrespondenteBancario, "Correspondente Bancario TRICARD");
+            this.btnCorrespondenteBancario.UseVisualStyleBackColor = true;
+            this.btnCorrespondenteBancario.Click += new System.EventHandler(this.btnCorrespondenteBancario_Click);
             // 
             // btnRecarga
             // 
@@ -216,7 +228,6 @@
             this.txtDocumentoVinculado.Size = new System.Drawing.Size(115, 26);
             this.txtDocumentoVinculado.TabIndex = 11;
             this.txtDocumentoVinculado.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtDocumentoVinculado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDocumentoVinculado_KeyPress);
             // 
             // label3
             // 
@@ -439,18 +450,6 @@
             this.bkgInicioTef.WorkerSupportsCancellation = true;
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
-            // 
-            // btnCorrespondenteBancario
-            // 
-            this.btnCorrespondenteBancario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCorrespondenteBancario.Location = new System.Drawing.Point(87, 159);
-            this.btnCorrespondenteBancario.Name = "btnCorrespondenteBancario";
-            this.btnCorrespondenteBancario.Size = new System.Drawing.Size(75, 23);
-            this.btnCorrespondenteBancario.TabIndex = 22;
-            this.btnCorrespondenteBancario.Text = "C. BANC";
-            this.toolTip1.SetToolTip(this.btnCorrespondenteBancario, "Correspondente Bancario TRICARD");
-            this.btnCorrespondenteBancario.UseVisualStyleBackColor = true;
-            this.btnCorrespondenteBancario.Click += new System.EventHandler(this.btnCorrespondenteBancario_Click);
             // 
             // FrmTelaTesteVenda
             // 

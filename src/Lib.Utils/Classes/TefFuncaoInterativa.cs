@@ -1,6 +1,6 @@
 ﻿using Lib.Utils.Enuns;
 
-namespace Lib.Utils.Enuns
+namespace Lib.Utils.Classes
 {
     public class TefFuncaoInterativa
     {

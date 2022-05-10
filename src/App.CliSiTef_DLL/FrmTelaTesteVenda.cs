@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vip.Printer;
@@ -18,9 +19,14 @@ namespace App.CliSiTef_DLL
 {
     public partial class FrmTelaTesteVenda : Form
     {
+        [DllImport("User32.dll")]
+        public static extern short GetAsyncKeyState(int vKey);
+
         int mStatusTefInicio { get; set; }
         decimal gValorTotalDaTransacao { get; set; }
         decimal gValorDasTransacoesEfetuadas { get; set; }
+
+        bool mInterromper { get; set; }
 
         TefSoftwareExpress mTefSoftwareExpress = new TefSoftwareExpress();
 
@@ -181,6 +187,10 @@ namespace App.CliSiTef_DLL
             mTefSoftwareExpress.gCupomVenda = null;
             mCupomVenda = null;
         }
+        bool VerificarTeclaPressionada(Keys _tecla)
+        {
+            return (GetAsyncKeyState((int)_tecla) & 0x8000) != 0;
+        }
 
         public FrmTelaTesteVenda()
         {
@@ -192,9 +202,14 @@ namespace App.CliSiTef_DLL
             mTefSoftwareExpress.OnClosePanelQrCode += new TefSoftwareExpress.OnClosePanelQrCodeHandle(MTefSoftwareExpress_OnClosePanelQrCode);
         }
 
-        private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos)
+        private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos, TefFuncaoInterativa _tefFuncaoInterativa = null)
         {
             Log.GerarLogProcessoExecucao(Application.StartupPath, _mensagem);
+
+            if (_tefFuncaoInterativa != null)
+                _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape);
+
+            mInterromper = false;
             lblMensagem.Invoke((MethodInvoker)delegate
             {
                 lblMensagem.Text = _mensagem;
@@ -330,6 +345,7 @@ namespace App.CliSiTef_DLL
                 lblQrCode.Text = "";
                 _tefFuncaoInterativa.FormAberto = false;
                 _tefFuncaoInterativa.FormFechar = false;
+                mInterromper = false;
             }
         }
 
@@ -343,12 +359,6 @@ namespace App.CliSiTef_DLL
         {
             ExibirMensagem("Aguarde inicializando TEF-SiTef", 0);
             bkgInicioTef.RunWorkerAsync();
-        }
-
-        private void txtDocumentoVinculado_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsNumber(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
-                e.Handled = true;
         }
 
         private void btnDocumentoVinculadoGerar_Click(object sender, EventArgs e)
