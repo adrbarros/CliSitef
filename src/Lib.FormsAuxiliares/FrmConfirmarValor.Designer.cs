@@ -54,7 +54,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Name = "FrmConfirmarValor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Valor para esta transação";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmConfirmarValor_KeyDown);
             this.ResumeLayout(false);

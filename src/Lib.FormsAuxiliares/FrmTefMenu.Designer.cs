@@ -68,7 +68,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Name = "FrmTefMenu";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Menu TEF";
             this.Load += new System.EventHandler(this.FrmTefMenu_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmTefMenu_KeyDown);

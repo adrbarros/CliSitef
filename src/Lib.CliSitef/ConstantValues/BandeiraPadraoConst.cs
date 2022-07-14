@@ -16,6 +16,15 @@ namespace Lib.CliSitef.ConstantValues
                 return string.IsNullOrWhiteSpace(Codigo) ? 0 : Convert.ToInt32(Codigo);
             }
         }
+
+        public string NomeTipo
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(Nome) ? "" : Nome + " - " + Tipo;
+            }
+        }
+
         public string NomeTipoCodigo
         {
             get
@@ -887,7 +896,16 @@ namespace Lib.CliSitef.ConstantValues
                 new BandeiraPadraoConst() { Nome = "4ALL", Tipo = "CARTEIRA DIGITAL", Codigo = "80031003"},
                 new BandeiraPadraoConst() { Nome = "MIDWAY", Tipo = "CARTEIRA DIGITAL", Codigo = "80051004"},
                 new BandeiraPadraoConst() { Nome = "PAYFACE", Tipo = "CARTEIRA DIGITAL", Codigo = "00920030"},
-                new BandeiraPadraoConst() { Nome = "RAPPI", Tipo = "CARTEIRA DIGITAL", Codigo = "00970034"}
+                new BandeiraPadraoConst() { Nome = "RAPPI", Tipo = "CARTEIRA DIGITAL", Codigo = "00970034"},
+                new BandeiraPadraoConst() { Nome = "MEU VALE", Tipo = "CARTEIRA DIGITAL", Codigo = "00660014"},
+                new BandeiraPadraoConst() { Nome = "VERDE CARD", Tipo = "CARTEIRA DIGITAL", Codigo = "00120015"},
+                new BandeiraPadraoConst() { Nome = "TROCO SIMPLES DOACAO", Tipo = "CARTEIRA DIGITAL", Codigo = "00340017"},
+                new BandeiraPadraoConst() { Nome = "TICKETLOG", Tipo = "CARTEIRA DIGITAL", Codigo = "00040018"},
+                new BandeiraPadraoConst() { Nome = "GOODCARD", Tipo = "CARTEIRA DIGITAL", Codigo = "00130019"},
+                new BandeiraPadraoConst() { Nome = "ABM_CASH", Tipo = "CARTEIRA DIGITAL", Codigo = "00640020"},
+                new BandeiraPadraoConst() { Nome = "SEM PARAR", Tipo = "CARTEIRA DIGITAL", Codigo = "00840026"},
+                new BandeiraPadraoConst() { Nome = "QR PAGO", Tipo = "CARTEIRA DIGITAL", Codigo = "60120033"},
+                new BandeiraPadraoConst() { Nome = "BANCO24HORAS", Tipo = "CARTEIRA DIGITAL", Codigo = "00980035"}
             };
         }
         public static BandeiraPadraoConst RetornarBandeiraPadrao(int _codigo)

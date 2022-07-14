@@ -33,6 +33,16 @@ namespace App.CliSiTef_DLL
         TefConfig mTefConfig { get; set; }
         Cupom mCupomVenda { get; set; }
 
+        void ForceFocus(Control _control, bool _selectAll = false)
+        {
+            if (!DesignMode)
+            {
+                ActiveControl = _control;
+                if (_selectAll && _control is TextBoxBase)
+                    (_control as TextBoxBase).SelectAll();
+                _control.Focus();
+            }
+        }
         void CarregarConfiguracao()
         {
             mTefConfig = new TefConfig
@@ -76,7 +86,7 @@ namespace App.CliSiTef_DLL
                     sw.WriteLine("TempoEsperaConexao=10");
                     sw.WriteLine("");
                     sw.WriteLine("[Geral]");
-                    sw.WriteLine("TransacoesAdicionaisHabilitadas=7;8;16;20;26;27;29;30;40;42;43;3014;3985");
+                    sw.WriteLine("TransacoesAdicionaisHabilitadas=7;8;16;26;29;30;40;42;43;3014;3044;");
                     sw.WriteLine("");
                     sw.WriteLine("[SrvCliSiTef]");
                     sw.WriteLine("IpSiTef=" + mTefConfig.Tef_Ip);
@@ -226,6 +236,7 @@ namespace App.CliSiTef_DLL
                     using (FrmTefAguarde frm = new FrmTefAguarde())
                     {
                         frm.gMensagem = _tefFuncaoInterativa.Mensagem;
+                        frm.Focus();
                         frm.ShowDialog();
                     }
                 }
@@ -242,6 +253,7 @@ namespace App.CliSiTef_DLL
                     {
                         frm.gTitulo = _tefFuncaoInterativa.Titulo;
                         frm.gItens = _tefFuncaoInterativa.ItensMenu;
+                        frm.Focus();
                         frm.ShowDialog();
                         if (frm.DialogResult == DialogResult.OK)
                             _tefFuncaoInterativa.RespostaSitef = (frm.gSelecionado + 1).ToString();
@@ -259,6 +271,7 @@ namespace App.CliSiTef_DLL
                             frm.gTamanhoMinimo = _tefFuncaoInterativa.TamanhoMinimo;
                             frm.gTamanhoMaximo = _tefFuncaoInterativa.TamanhoMaximo;
                             frm.gTipoDeDados = DataTypeEnum.Numeric;
+                            frm.Focus();
                             frm.ShowDialog();
                             if (frm.DialogResult == DialogResult.OK)
                                 _tefFuncaoInterativa.RespostaSitef = frm.txtDados.Text;
@@ -277,6 +290,7 @@ namespace App.CliSiTef_DLL
                             frm.gTamanhoMinimo = _tefFuncaoInterativa.TamanhoMinimo;
                             frm.gTamanhoMaximo = _tefFuncaoInterativa.TamanhoMaximo;
                             frm.gTipoDeDados = DataTypeEnum.Currency;
+                            frm.Focus();
                             frm.ShowDialog();
                             if (frm.DialogResult == DialogResult.OK)
                             {
@@ -300,6 +314,7 @@ namespace App.CliSiTef_DLL
                             {
                                 frm.gTitulo = _tefFuncaoInterativa.Titulo;
                                 frm.gStrQrCode = _tefFuncaoInterativa.Mensagem;
+                                frm.Focus();
                                 frm.ShowDialog();
                                 if (frm.DialogResult == DialogResult.OK)
                                     _tefFuncaoInterativa.RespostaSitef = frm.lblQrCode.Text;
@@ -651,8 +666,10 @@ namespace App.CliSiTef_DLL
             gValorTotalDaTransacao = Convert.ToDecimal(txtValorVenda.Text);
 
             decimal valorParaEstaTransacao = (gValorTotalDaTransacao - gValorDasTransacoesEfetuadas);
+
             using (FrmConfirmarValor frm = new FrmConfirmarValor(valorParaEstaTransacao))
             {
+                frm.Focus();
                 frm.ShowDialog();
                 if (frm.DialogResult == DialogResult.Cancel)
                     return;

@@ -51,7 +51,7 @@
             this.Controls.Add(this.lblMensagem);
             this.KeyPreview = true;
             this.Name = "FrmTefAguarde";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mensagem TEF (Aguarde ENTER)";
             this.Load += new System.EventHandler(this.FrmTefAguarde_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmTefAguarde_KeyDown);

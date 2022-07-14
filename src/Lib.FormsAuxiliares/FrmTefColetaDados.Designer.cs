@@ -64,7 +64,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Name = "FrmTefColetaDados";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Coleta de Dados";
             this.Load += new System.EventHandler(this.FrmTefColetaDados_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmTefColetaDados_KeyDown);

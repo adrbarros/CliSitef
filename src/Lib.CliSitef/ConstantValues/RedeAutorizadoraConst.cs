@@ -144,7 +144,7 @@ namespace Lib.CliSitef.ConstantValues
                 new RedeAutorizadoraConst() { Codigo = "00122", Nome = "BANCO PANAMERICANO" },
                 new RedeAutorizadoraConst() { Codigo = "00123", Nome = "BANCO MERCANTIL" },
                 new RedeAutorizadoraConst() { Codigo = "00124", Nome = "SIGACRED" },
-                new RedeAutorizadoraConst() { Codigo = "00125", Nome = "VISANET – ESPECIFICAÇÃO 4.1" },
+                new RedeAutorizadoraConst() { Codigo = "00125", Nome = "VISANET - ESPECIFICAÇÃO 4.1" },
                 new RedeAutorizadoraConst() { Codigo = "00126", Nome = "SPTRANS" },
                 new RedeAutorizadoraConst() { Codigo = "00127", Nome = "PRESENTE MARISA" },
                 new RedeAutorizadoraConst() { Codigo = "00128", Nome = "COOPLIFE" },
@@ -298,7 +298,8 @@ namespace Lib.CliSitef.ConstantValues
                 new RedeAutorizadoraConst() { Codigo = "00277", Nome = "WAYUP" },
                 new RedeAutorizadoraConst() { Codigo = "00296", Nome = "SAFRA" },
                 new RedeAutorizadoraConst() { Codigo = "00301", Nome = "CTF FROTA" },
-                new RedeAutorizadoraConst() { Codigo = "00303", Nome = "SIPAG" }
+                new RedeAutorizadoraConst() { Codigo = "00303", Nome = "SIPAG" },
+                new RedeAutorizadoraConst() { Codigo = "99999", Nome = "POS" }
             };
         }
         public static RedeAutorizadoraConst RetornarAutorizadora(string _codigo)

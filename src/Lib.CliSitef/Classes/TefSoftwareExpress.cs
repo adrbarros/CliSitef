@@ -267,11 +267,13 @@ namespace Lib.CliSitef.Classes
                         case 0: //Está devolvendo um valor para, se desejado, ser armazenado pela automação
                             #region Trata Tipo de Campo
 
+                            //0-A rotina está sendo chamada para indicar que acabou de coletar os dados da transação e irá iniciar a interação com o SiTef para obter a autorização
                             if (tipoCampo == 0)
                             {
                                 TefRetorno obj1 = new TefRetorno(1, 0, mensagem);
                                 TefRetornoAdicionar(obj1, mTefTransacao);
                             }
+                            //100-Modalidade de pagamento no formato xxnn. xx corresponde ao grupo da modalidade e nn ao subgrupo.
                             else if (tipoCampo == 100)
                             {
                                 TefRetorno obj11 = new TefRetorno(11, 0, mensagem);
@@ -296,6 +298,7 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj732_1, mTefTransacao);
                                 }
                             }
+                            //105-Contém a data e hora da transação no formato AAAAMMDDHHMMSS
                             else if (tipoCampo == 105)
                             {
                                 string msgData = mensagem.Substring(6, 2) + mensagem.Substring(4, 2) + mensagem.Substring(0, 4);
@@ -306,6 +309,7 @@ namespace Lib.CliSitef.Classes
                                 TefRetorno obj23 = new TefRetorno(23, 0, msgHora);
                                 TefRetornoAdicionar(obj23, mTefTransacao);
                             }
+                            //106-Contém um índice que indica qual o tipo do cartão quando esse tipo for identificável, segundo uma tabela a ser fornecida(5 posições)
                             else if (tipoCampo == 106)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -321,6 +325,7 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //107-Nome da instituição padronizado para Carteira Digital
                             else if (tipoCampo == 107)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -330,15 +335,18 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj748, mTefTransacao);
                                 }
                             }
-                            else if (tipoCampo == 108) //Verificar Carteira Digital
+                            //108-Verificar Carteira Digital
+                            else if (tipoCampo == 108)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                     _ = mensagem;
                             }
+                            //111-Contém o texto real da modalidade de cancelamento que pode ser memorizado pela aplicação caso exista essa necessidade. Descreve por extenso o par xxnn fornecido em 110
                             else if (tipoCampo == 111)
                             {
                                 OnMessageClient?.Invoke(mensagem, 100);
                             }
+                            //121-Buffer contém a primeira via do comprovante de pagamento (via do cliente) 
                             else if (tipoCampo == 121)
                             {
                                 string[] viaCliente = mensagem.Split('\n', '\r');
@@ -351,6 +359,7 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj713, mTefTransacao);
                                 }
                             }
+                            //122-Buffer contém a segunda via do comprovante de pagamento (via do caixa)
                             else if (tipoCampo == 122)
                             {
                                 string[] viaEstab = mensagem.Split('\n', '\r');
@@ -363,6 +372,7 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj715, mTefTransacao);
                                 }
                             }
+                            //123-Indica que os comprovantes que serão entregues na sequência são de determinado tipo
                             else if (tipoCampo == 123)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -378,6 +388,7 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //131-Contém um índice que indica qual a instituição que irá processar a transação segundo a tabela presente no final do documento(até 5 dígitos significativos)
                             else if (tipoCampo == 131)
                             {
                                 TefRetorno obj10 = new TefRetorno(10, 0, mensagem);
@@ -390,6 +401,7 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj10_1, mTefTransacao);
                                 }
                             }
+                            //132-Contém um índice que indica qual o tipo do cartão quando esse tipo for identificável, segundo uma tabela a ser fornecida(5 posições)
                             else if (tipoCampo == 132)
                             {
                                 TefRetorno obj748_1 = new TefRetorno(748, 1, mensagem);
@@ -402,26 +414,31 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj748_2, mTefTransacao);
                                 }
                             }
+                            //133-Contém o NSU do SiTef (6 posições)
                             else if (tipoCampo == 133)
                             {
                                 TefRetorno obj13 = new TefRetorno(13, 0, mensagem);
                                 TefRetornoAdicionar(obj13, mTefTransacao);
                             }
+                            //134-Contém o NSU do Host autorizador (20 posições no máximo)
                             else if (tipoCampo == 134)
                             {
                                 TefRetorno obj12 = new TefRetorno(12, 0, mensagem);
                                 TefRetornoAdicionar(obj12, mTefTransacao);
                             }
+                            //156-Nome da instituição
                             else if (tipoCampo == 156)
                             {
                                 TefRetorno obj748 = new TefRetorno(748, 0, mensagem);
                                 TefRetornoAdicionar(obj748, mTefTransacao);
                             }
+                            //158-Código da Rede Autorizadora
                             else if (tipoCampo == 158)
                             {
                                 TefRetorno obj739 = new TefRetorno(739, 0, mensagem);
                                 TefRetornoAdicionar(obj739, mTefTransacao);
                             }
+                            //545-Tipo de Pagamento para Carteiras Digitais
                             else if (tipoCampo == 545)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -437,6 +454,7 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //546-Tipo de Voucher para Carteiras Digitais
                             else if (tipoCampo == 546)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -452,11 +470,13 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //590-Operadora da Recarga de Celular
                             else if (tipoCampo == 590)
                             {
                                 TefRetorno obj742 = new TefRetorno(742, 0, mensagem);
                                 TefRetornoAdicionar(obj742, mTefTransacao);
                             }
+                            //591-Valor da Regarga de Celular
                             else if (tipoCampo == 591)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -466,11 +486,13 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj742_1, mTefTransacao);
                                 }
                             }
+                            //800 a 849 está reservada para retorno dos GerPdv - 800 Codigo de Controle
                             else if (tipoCampo == 800)
                             {
                                 TefRetorno obj27 = new TefRetorno(27, 0, mensagem);
                                 TefRetornoAdicionar(obj27, mTefTransacao);
                             }
+                            //950-CNPJ Credenciadora NFCE
                             else if (tipoCampo == 950) //Para Modulo SAT_NFCe INSTALADO - CNPJ da fonte pagadora (autorizador do cartão)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -479,6 +501,7 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj600, mTefTransacao);
                                 }
                             }
+                            //951-Bandeira NFCE
                             else if (tipoCampo == 951) //Para Modulo SAT_NFCe INSTALADO - Bandeira NFCE
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -494,6 +517,7 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //952-Número de autorização NFCE
                             else if (tipoCampo == 952) //Para Modulo SAT_NFCe INSTALADO - Número de autorização NFCE
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -502,6 +526,7 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj602, mTefTransacao);
                                 }
                             }
+                            //953-Código Credenciadora SAT
                             else if (tipoCampo == 953) //Para Modulo SAT_NFCe INSTALADO - Código da credenciadora
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))
@@ -517,17 +542,20 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //2021-Número do cartão
                             else if (tipoCampo == 2021)
                             {
                                 TefRetorno obj740 = new TefRetorno(740, 0, mensagem);
                                 TefRetornoAdicionar(obj740, mTefTransacao);
                             }
+                            //2022-Data de vencimento do cartão
                             else if (tipoCampo == 2022)
                             {
                                 string msgAut = mensagem.PadRight(4, '0');
                                 TefRetorno obj747 = new TefRetorno(747, 0, msgAut.Substring(2, 2) + msgAut.Substring(0, 2));
                                 TefRetornoAdicionar(obj747, mTefTransacao);
                             }
+                            //2023-Nome do Titular do cartão
                             else if (tipoCampo == 2023)
                             {
                                 TefRetorno obj741 = new TefRetorno(741, 0, mensagem);
@@ -643,6 +671,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm34);
                             respostaSitef = objForm34.RespostaSitef;
                             interromper = objForm34.Interromper;
+                            //504-Taxa de Serviço      130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente.Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             if (tipoCampo == 504 || tipoCampo == 130)
                             {
                                 if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)

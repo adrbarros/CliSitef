@@ -79,7 +79,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Name = "FrmTefQrCode";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Carteiras Digitais (QrCode)";
             this.Load += new System.EventHandler(this.FrmTefQrCode_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmTefQrCode_KeyDown);
