@@ -310,6 +310,7 @@ namespace Lib.CliSitef.Classes
                                 TefRetornoAdicionar(obj23, mTefTransacao);
                             }
                             //106-Contém um índice que indica qual o tipo do cartão quando esse tipo for identificável, segundo uma tabela a ser fornecida(5 posições)
+                            //106-ID da carteira digital selecionada
                             else if (tipoCampo == 106)
                             {
                                 if (!string.IsNullOrWhiteSpace(mensagem))

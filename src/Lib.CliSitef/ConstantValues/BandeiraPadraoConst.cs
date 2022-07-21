@@ -891,6 +891,8 @@ namespace Lib.CliSitef.ConstantValues
                 new BandeiraPadraoConst() { Nome = "COMPROPAY", Tipo = "CARTEIRA DIGITAL", Codigo = "00870028"},
                 new BandeiraPadraoConst() { Nome = "CONDUCTOR", Tipo = "CARTEIRA DIGITAL", Codigo = "01030037"},
                 new BandeiraPadraoConst() { Nome = "PIX", Tipo = "CARTEIRA DIGITAL", Codigo = "60110024"},
+                new BandeiraPadraoConst() { Nome = "PIX SAQUE", Tipo = "CARTEIRA DIGITAL", Codigo = "60110042"},
+                new BandeiraPadraoConst() { Nome = "PIX TROCO", Tipo = "CARTEIRA DIGITAL", Codigo = "60110043"},
                 new BandeiraPadraoConst() { Nome = "CIELO", Tipo = "CARTEIRA DIGITAL", Codigo = "80001000"},
                 new BandeiraPadraoConst() { Nome = "TÁ PAGO", Tipo = "CARTEIRA DIGITAL", Codigo = "80021002"},
                 new BandeiraPadraoConst() { Nome = "4ALL", Tipo = "CARTEIRA DIGITAL", Codigo = "80031003"},
