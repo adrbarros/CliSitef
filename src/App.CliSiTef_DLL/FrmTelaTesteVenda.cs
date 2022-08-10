@@ -26,8 +26,6 @@ namespace App.CliSiTef_DLL
         decimal gValorTotalDaTransacao { get; set; }
         decimal gValorDasTransacoesEfetuadas { get; set; }
 
-        bool mInterromper { get; set; }
-
         TefSoftwareExpress mTefSoftwareExpress = new TefSoftwareExpress();
 
         TefConfig mTefConfig { get; set; }
@@ -177,7 +175,6 @@ namespace App.CliSiTef_DLL
         }
         void ExibirMensagem(string _msg, int _tempoMilisegundos = 2000)
         {
-            Log.GerarLogProcessoExecucao(Application.StartupPath, _msg);
             lblMensagem.Invoke((MethodInvoker)delegate
             {
                 lblMensagem.Text = _msg;
@@ -199,7 +196,10 @@ namespace App.CliSiTef_DLL
         }
         bool VerificarTeclaPressionada(Keys _tecla)
         {
-            return (GetAsyncKeyState((int)_tecla) & 0x8000) != 0;
+            bool escapePressed = (GetAsyncKeyState((int)_tecla) & 0x8000) != 0;
+            if (escapePressed)
+                Log.GerarLogProcessoExecucao("ESC Precionado - Operação abortada.");
+            return escapePressed;
         }
 
         public FrmTelaTesteVenda()
@@ -214,12 +214,9 @@ namespace App.CliSiTef_DLL
 
         private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos, TefFuncaoInterativa _tefFuncaoInterativa = null)
         {
-            Log.GerarLogProcessoExecucao(Application.StartupPath, _mensagem);
-
             if (_tefFuncaoInterativa != null)
                 _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape);
 
-            mInterromper = false;
             lblMensagem.Invoke((MethodInvoker)delegate
             {
                 lblMensagem.Text = _mensagem;
@@ -360,7 +357,6 @@ namespace App.CliSiTef_DLL
                 lblQrCode.Text = "";
                 _tefFuncaoInterativa.FormAberto = false;
                 _tefFuncaoInterativa.FormFechar = false;
-                mInterromper = false;
             }
         }
 

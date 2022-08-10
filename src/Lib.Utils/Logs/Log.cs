@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Lib.Utils.Logs
 {
     public class Log
     {
-        public static void GerarLogProcessoExecucao(string _path, string _msg)
+        public static void GerarLogProcessoExecucao(string _msg, string _path = "")
         {
-            string pathFinal = _path + "\\Logs";
+            string pathFinal = !string.IsNullOrWhiteSpace(_path) ? _path : Application.StartupPath + "\\Logs";
             if (!Directory.Exists(pathFinal))
                 Directory.CreateDirectory(pathFinal);
 
