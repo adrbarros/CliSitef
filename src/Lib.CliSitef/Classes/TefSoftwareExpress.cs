@@ -742,7 +742,6 @@ namespace Lib.CliSitef.Classes
                             break;
                         case 52: //Mensagem de rodapé, opcional para o caso haja um espaço para ela ser exibida, no caso em que o QRCode foi exibido e está aguardando que o cliente faça a sua leitura.
                             OnMessageClient?.Invoke(mensagem, 500, mObjForm50);
-                            Application.DoEvents();
                             if (mObjForm50 != null && mObjForm50.FormAberto && mObjForm50.Interromper)
                             {
                                 mObjForm50.FormFechar = true;
@@ -750,6 +749,7 @@ namespace Lib.CliSitef.Classes
                                 interromper = mObjForm50.Interromper;
                                 respostaSitef = mObjForm50.RespostaSitef;
                             }
+                            Application.DoEvents();
                             break;
                         case 99:
                             Application.DoEvents();
@@ -996,6 +996,46 @@ namespace Lib.CliSitef.Classes
         public int CorrespondenteBancario(string _documentoVinculado = "")
         {
             int sts = FazerRequisicao(310, "CBC", _documento: _documentoVinculado);
+            if (sts == 10000)
+            {
+                #region Retornos TEF
+
+                mTefTransacao = new TefTransacao
+                {
+                    DocumentoVinculado = _documentoVinculado,
+                    ValorTransacao = 0M
+                };
+                gCupomVenda.Transacoes.Add(mTefTransacao);
+
+                TefRetorno obj0 = new TefRetorno(0, 0, "CBC");
+                TefRetornoAdicionar(obj0, mTefTransacao);
+
+                TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
+                TefRetornoAdicionar(obj2, mTefTransacao);
+
+                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, mTefTransacao);
+
+                TefRetorno obj4 = new TefRetorno(4, 0, "0");
+                TefRetornoAdicionar(obj4, mTefTransacao);
+
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
+                TefRetornoAdicionar(obj718, mTefTransacao);
+
+                TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
+                TefRetornoAdicionar(obj719, mTefTransacao);
+
+                #endregion
+
+                sts = ContinuarRequisicao();
+            }
+            if (sts == 0)
+                Cnf(_documentoVinculado: _documentoVinculado);
+            return sts;
+        }
+        public int CorrespondenteBancarioRecarga(string _documentoVinculado = "")
+        {
+            int sts = FazerRequisicao(669, "RCB", _documento: _documentoVinculado);
             if (sts == 10000)
             {
                 #region Retornos TEF

@@ -477,6 +477,39 @@ namespace App.CliSiTef_DLL
             LimparRetornoTef();
             txtDocumentoVinculado.Focus();
         }
+        private void btnRecargaCorrespondenteBancario_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
+            {
+                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtDocumentoVinculado.Focus();
+                return;
+            }
+            if (mCupomVenda == null)
+            {
+                mCupomVenda = new Cupom
+                {
+                    TipoOperacao = "Cbc",
+                    DocumentoVinculado = txtDocumentoVinculado.Text,
+                    ValorTotal = 0
+                };
+            }
+            mTefSoftwareExpress.gCupomVenda = mCupomVenda;
+
+            int sts = mTefSoftwareExpress.CorrespondenteBancarioRecarga(txtDocumentoVinculado.Text);
+            if (sts == 0)
+            {
+                ImprimirComprovantes(txtDocumentoVinculado.Text);
+                lblMensagem.Text = "";
+                lblMensagem.Refresh();
+                txtValorVenda.Text = "0,00";
+                txtDocumentoVinculado.Text = "";
+            }
+            else
+                ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
+            LimparRetornoTef();
+            txtDocumentoVinculado.Focus();
+        }
         private void btnCrt_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)

@@ -38,7 +38,6 @@
             this.btnCncCredito = new System.Windows.Forms.Button();
             this.btnCncDebito = new System.Windows.Forms.Button();
             this.btnCncCd = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             this.btnDocumentoVinculadoGerar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtDocumentoVinculado = new System.Windows.Forms.TextBox();
@@ -57,12 +56,14 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblQrCode = new System.Windows.Forms.Label();
             this.lblMenuTituloQrCode = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnRecargaCorrespondenteBancario = new System.Windows.Forms.Button();
             this.pnlBody.SuspendLayout();
             this.pnlQrCode.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -84,13 +85,13 @@
             // 
             // pnlBody
             // 
+            this.pnlBody.Controls.Add(this.btnRecargaCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnRecarga);
             this.pnlBody.Controls.Add(this.btnCrtCd);
             this.pnlBody.Controls.Add(this.btnCncCredito);
             this.pnlBody.Controls.Add(this.btnCncDebito);
             this.pnlBody.Controls.Add(this.btnCncCd);
-            this.pnlBody.Controls.Add(this.label5);
             this.pnlBody.Controls.Add(this.btnDocumentoVinculadoGerar);
             this.pnlBody.Controls.Add(this.label4);
             this.pnlBody.Controls.Add(this.txtDocumentoVinculado);
@@ -107,6 +108,7 @@
             this.pnlBody.Controls.Add(this.btnAtv);
             this.pnlBody.Controls.Add(this.txtValorVenda);
             this.pnlBody.Controls.Add(this.pnlQrCode);
+            this.pnlBody.Controls.Add(this.label5);
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBody.Location = new System.Drawing.Point(0, 60);
             this.pnlBody.Name = "pnlBody";
@@ -184,17 +186,6 @@
             this.toolTip1.SetToolTip(this.btnCncCd, "Ação para Cancelamento de Transação em Carteira Digital");
             this.btnCncCd.UseVisualStyleBackColor = true;
             this.btnCncCd.Click += new System.EventHandler(this.btnCncCd_Click);
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(329, 85);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(231, 246);
-            this.label5.TabIndex = 15;
-            this.label5.Text = resources.GetString("label5.Text");
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnDocumentoVinculadoGerar
             // 
@@ -398,6 +389,17 @@
             this.lblMenuTituloQrCode.Text = "[lblMenuTituloQrCode]";
             this.lblMenuTituloQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(329, 85);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(231, 246);
+            this.label5.TabIndex = 15;
+            this.label5.Text = resources.GetString("label5.Text");
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pnlTop
             // 
             this.pnlTop.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -450,6 +452,18 @@
             this.bkgInicioTef.WorkerSupportsCancellation = true;
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
+            // 
+            // btnRecargaCorrespondenteBancario
+            // 
+            this.btnRecargaCorrespondenteBancario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRecargaCorrespondenteBancario.Location = new System.Drawing.Point(87, 188);
+            this.btnRecargaCorrespondenteBancario.Name = "btnRecargaCorrespondenteBancario";
+            this.btnRecargaCorrespondenteBancario.Size = new System.Drawing.Size(75, 23);
+            this.btnRecargaCorrespondenteBancario.TabIndex = 23;
+            this.btnRecargaCorrespondenteBancario.Text = "REC. CBC";
+            this.toolTip1.SetToolTip(this.btnRecargaCorrespondenteBancario, "Correspondente Bancario Recarga Pré-Pago TRICARD");
+            this.btnRecargaCorrespondenteBancario.UseVisualStyleBackColor = true;
+            this.btnRecargaCorrespondenteBancario.Click += new System.EventHandler(this.btnRecargaCorrespondenteBancario_Click);
             // 
             // FrmTelaTesteVenda
             // 
@@ -514,6 +528,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblMenuTituloQrCode;
         private System.Windows.Forms.Button btnCorrespondenteBancario;
+        private System.Windows.Forms.Button btnRecargaCorrespondenteBancario;
     }
 }
 
