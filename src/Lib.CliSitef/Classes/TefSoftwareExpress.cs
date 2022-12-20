@@ -637,6 +637,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm21);
                             respostaSitef = objForm21.RespostaSitef;
                             interromper = objForm21.Interromper;
+                            voltar = objForm21.Voltar;
                             Application.DoEvents();
                             break;
                         case 22: //Deve aguardar uma tecla do operador. É utilizada quando se deseja que o operador seja avisado de alguma mensagem apresentada na tela

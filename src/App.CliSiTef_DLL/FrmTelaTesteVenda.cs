@@ -253,7 +253,10 @@ namespace App.CliSiTef_DLL
                         frm.Focus();
                         frm.ShowDialog();
                         if (frm.DialogResult == DialogResult.OK)
+                        {
                             _tefFuncaoInterativa.RespostaSitef = (frm.gSelecionado + 1).ToString();
+                            _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
+                        }
                         else
                             _tefFuncaoInterativa.Interromper = true;
                     }
