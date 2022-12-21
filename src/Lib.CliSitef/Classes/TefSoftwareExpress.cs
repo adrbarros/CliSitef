@@ -256,10 +256,10 @@ namespace Lib.CliSitef.Classes
             {
                 result = ContinuaFuncaoSiTefInterativo(out int proximoComando, out long tipoCampo, out short tamanhoMinimo, out short tamanhoMaximo, valorBuffer, valorBuffer.Length, continua);
 
-                continua = 0;
+
                 string mensagem = Encoding.UTF8.GetString(valorBuffer).Replace("\0", "").Trim();
                 string respostaSitef = "";
-                bool voltar = false;
+                bool voltarAoMenuAnterior = false;
 
                 if (!string.IsNullOrWhiteSpace(mensagem))
                     Log.GerarLogProcessoExecucao("Cmd: " + proximoComando + " -> Tc: " + tipoCampo + " -> Buffer: " + RemoverQuebraDeLinhas(mensagem));
@@ -632,11 +632,17 @@ namespace Lib.CliSitef.Classes
                             {
                                 DataType = DataTypeEnum.Menu,
                                 Titulo = captionMenu,
-                                ItensMenu = mensagem.Split(';')
+                                ItensMenu = mensagem.Split(';')                                
                             };
                             OnCallForm?.Invoke(objForm21);
-                            respostaSitef = objForm21.RespostaSitef;
-                            interromper = objForm21.Interromper;
+                            voltarAoMenuAnterior = objForm21.Voltar;
+                            continua = voltarAoMenuAnterior ? 1 : 0; ;
+                            if (!voltarAoMenuAnterior)
+                            {
+                                respostaSitef = objForm21.RespostaSitef;
+                                interromper = objForm21.Interromper;
+                            }                           
+                            
                             Application.DoEvents();
                             break;
                         case 22: //Deve aguardar uma tecla do operador. É utilizada quando se deseja que o operador seja avisado de alguma mensagem apresentada na tela
@@ -759,9 +765,7 @@ namespace Lib.CliSitef.Classes
                             break;
                     }
                 }
-                if (voltar)
-                    continua = 1;
-                else if (interromper)
+                if (interromper)
                 {
                     interromper = false;
                     continua = -1;

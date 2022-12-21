@@ -30,6 +30,9 @@
         {
             this.lblMenuTitulo = new System.Windows.Forms.Label();
             this.ltbMenuItens = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnVoltar = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblMenuTitulo
@@ -57,12 +60,32 @@
             this.ltbMenuItens.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ltbMenuItens_KeyDown);
             this.ltbMenuItens.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ltbMenuItens_MouseDoubleClick);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnVoltar);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 391);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(483, 48);
+            this.panel1.TabIndex = 3;
+            // 
+            // btnVoltar
+            // 
+            this.btnVoltar.Location = new System.Drawing.Point(12, 12);
+            this.btnVoltar.Name = "btnVoltar";
+            this.btnVoltar.Size = new System.Drawing.Size(74, 24);
+            this.btnVoltar.TabIndex = 0;
+            this.btnVoltar.Text = "Voltar";
+            this.btnVoltar.UseVisualStyleBackColor = true;
+            this.btnVoltar.Click += new System.EventHandler(this.btnVoltar_Click);
+            // 
             // FrmTefMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(483, 439);
             this.ControlBox = false;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.ltbMenuItens);
             this.Controls.Add(this.lblMenuTitulo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -72,6 +95,7 @@
             this.Text = "Menu TEF";
             this.Load += new System.EventHandler(this.FrmTefMenu_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmTefMenu_KeyDown);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -80,5 +104,7 @@
 
         private System.Windows.Forms.Label lblMenuTitulo;
         private System.Windows.Forms.ListBox ltbMenuItens;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnVoltar;
     }
 }

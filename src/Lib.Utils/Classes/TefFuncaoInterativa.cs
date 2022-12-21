@@ -21,5 +21,7 @@ namespace Lib.Utils.Classes
         public string Mensagem { get; set; }
         public bool FormAberto { get; set; }
         public bool FormFechar { get; set; }
+
+        public bool Voltar { get; set; }
     }
 }
