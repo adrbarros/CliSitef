@@ -670,6 +670,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm30);
                             respostaSitef = objForm30.RespostaSitef;
                             interromper = objForm30.Interromper;
+                            voltar = objForm30.Voltar;
                             if (!interromper)
                             {
                                 if (tipoCampo == 505)
@@ -695,6 +696,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm34);
                             respostaSitef = objForm34.RespostaSitef;
                             interromper = objForm34.Interromper;
+                            voltar = objForm34.Voltar;
                             //504-Taxa de Serviço      130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente.Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             if (tipoCampo == 504 || tipoCampo == 130)
                             {
