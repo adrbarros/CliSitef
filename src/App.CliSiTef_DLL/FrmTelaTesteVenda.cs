@@ -255,10 +255,10 @@ namespace App.CliSiTef_DLL
                         if (frm.DialogResult == DialogResult.OK)
                         {
                             _tefFuncaoInterativa.RespostaSitef = (frm.gSelecionado + 1).ToString();
-                            _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
                         }
                         else
-                            _tefFuncaoInterativa.Interromper = true;
+                            _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
+                        _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
                     }
                 }
                 else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Numeric)
@@ -276,7 +276,8 @@ namespace App.CliSiTef_DLL
                             if (frm.DialogResult == DialogResult.OK)
                                 _tefFuncaoInterativa.RespostaSitef = frm.txtDados.Text;
                             else
-                                _tefFuncaoInterativa.Interromper = true;
+                                _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
+                            _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
                         }
                     }
                 }
@@ -300,7 +301,8 @@ namespace App.CliSiTef_DLL
                                 _tefFuncaoInterativa.RespostaSitef = valorReposta;
                             }
                             else
-                                _tefFuncaoInterativa.Interromper = true;
+                                _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
+                            _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
                         }
                     }
                 }
