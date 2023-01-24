@@ -575,11 +575,20 @@ namespace Lib.CliSitef.Classes
                             Application.DoEvents();
                             break;
                         case 2: //Mensagem para o visor do cliente
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            TefFuncaoInterativa objeto = new TefFuncaoInterativa()
+                            {
+                                Mensagem = mensagem
+                            };
+                            OnMessageClient?.Invoke(mensagem, 100, objeto);
                             Application.DoEvents();
                             break;
                         case 3: //Mensagem para os dois visores
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            TefFuncaoInterativa objeto1 = new TefFuncaoInterativa()
+                            {
+                                Mensagem = mensagem
+                            };
+                            OnMessageClient?.Invoke(mensagem, 100, objeto1);
+                            interromper = objeto1.Interromper;
                             Application.DoEvents();
                             break;
                         case 4: //Texto que deverá ser utilizado como cabeçalho na apresentação do menu (Comando 21)
