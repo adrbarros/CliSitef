@@ -380,6 +380,49 @@ namespace App.CliSiTef_DLL
         {
             ExibirMensagem(mTefSoftwareExpress.MensagemTef(mTefSoftwareExpress.Atv()), 100);
         }
+        private void btnCpfCnpj_Click(object sender, EventArgs e)
+        {
+            int sts = mTefSoftwareExpress.VerificarPinpad();
+            if (sts != 1)
+            {
+                MessageBox.Show("PinPad não responde.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            bool pessoaFisica = true;
+            bool continua = true;
+            MessageBoxManager.Yes = "&1-Cpf";
+            MessageBoxManager.No = "&2-Cnpj";
+            MessageBoxManager.Cancel = "&Cancelar";
+            MessageBoxManager.Register();
+            switch (MessageBox.Show("Selecione o Tipo", "Tipo de Captura", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+            {
+                case DialogResult.Cancel:
+                    continua = false;
+                    break;
+                case DialogResult.No:
+                    pessoaFisica = false;
+                    break;
+                case DialogResult.Yes:
+                    break;
+            }
+            MessageBoxManager.Unregister();
+
+            if (!continua)
+                return;
+
+            string msgTela = "Digitar o Cpf no PinPad e Depois Confirmar";
+            if (!pessoaFisica)
+                msgTela = "Digitar o Cnpj em 2 Partes no PinPad\r\nParte 1: 8 Primeiros Dígitos e Depois Confirmar\r\nParte 2: 6 Últimos Dígitos e Depois Confirmar";
+
+            ExibirMensagem(msgTela, 0);
+
+            string cpfCnpj = mTefSoftwareExpress.CpfCnpjCapturar(pessoaFisica);
+            
+            ExibirMensagem("", 0);
+            if (!string.IsNullOrWhiteSpace(cpfCnpj))
+                MessageBox.Show((pessoaFisica ? "Cpf" : "Cnpj") + " Capturado -> " + cpfCnpj, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private void btnAdm_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
