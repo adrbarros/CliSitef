@@ -1101,5 +1101,11 @@ namespace Lib.CliSitef.Classes
 
             #endregion
         }
+
+        public int ObtemTransacoesPendentes(string cupomFiscal)
+        {
+            string dataStr = DateTime.Now.ToString("yyyyMMdd");
+            return ObtemQuantidadeTransacoesPendentes(dataStr, cupomFiscal);
+        }
     }
 }
