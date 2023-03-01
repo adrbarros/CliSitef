@@ -434,6 +434,12 @@ namespace Lib.CliSitef.Classes
                                 TefRetorno obj12 = new TefRetorno(12, 0, mensagem);
                                 TefRetornoAdicionar(obj12, mTefTransacao);
                             }
+                            //135-Contém o Código de Autorização para as transações de crédito (15 posições no máximo)
+                            else if (tipoCampo == 135)
+                            {
+                                TefRetorno obj13_1 = new TefRetorno(13, 1, mensagem);
+                                TefRetornoAdicionar(obj13_1, mTefTransacao);
+                            }
                             //156-Nome da instituição
                             else if (tipoCampo == 156)
                             {
