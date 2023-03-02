@@ -92,7 +92,7 @@ namespace Lib.CliSitef.Classes
 
         TefFuncaoInterativa mObjForm50 { get; set; }
         TefConfig mTefConfig { get; set; }
-        TefTransacao mTefTransacao { get; set; }
+        public TefTransacao mTefTransacao { get; set; }
         public Cupom gCupomVenda { get; set; }
 
         void GerarArquivoRetornoDaTransacao()
