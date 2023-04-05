@@ -833,11 +833,7 @@ namespace Lib.CliSitef.Classes
             {
                 #region Retornos TEF
 
-                mTefTransacao = new TefTransacao
-                {
-                    DocumentoVinculado = _documentoVinculado,
-                    ValorTransacao = 0M
-                };
+                DefinirTefTransacao(_documentoVinculado, 0m);
                 gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "ADM");
@@ -873,12 +869,7 @@ namespace Lib.CliSitef.Classes
             if (sts == 10000)
             {
                 #region Retornos TEF
-
-                mTefTransacao = new TefTransacao
-                {
-                    DocumentoVinculado = _documentoVinculado,
-                    ValorTransacao = _valor
-                };
+                DefinirTefTransacao(_documentoVinculado, _valor);
                 gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CRT");
@@ -927,12 +918,7 @@ namespace Lib.CliSitef.Classes
             if (sts == 10000)
             {
                 #region Retornos TEF
-
-                mTefTransacao = new TefTransacao
-                {
-                    DocumentoVinculado = _documentoVinculado,
-                    ValorTransacao = 0M
-                };
+                DefinirTefTransacao(_documentoVinculado, 0m);
                 gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CNC");
@@ -968,11 +954,7 @@ namespace Lib.CliSitef.Classes
             {
                 #region Retornos TEF
 
-                mTefTransacao = new TefTransacao
-                {
-                    DocumentoVinculado = _documentoVinculado,
-                    ValorTransacao = 0M
-                };
+                DefinirTefTransacao(_documentoVinculado, 0m);
                 gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CEL");
@@ -1008,11 +990,7 @@ namespace Lib.CliSitef.Classes
             {
                 #region Retornos TEF
 
-                mTefTransacao = new TefTransacao
-                {
-                    DocumentoVinculado = _documentoVinculado,
-                    ValorTransacao = 0M
-                };
+                DefinirTefTransacao(_documentoVinculado, 0m);
                 gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CBC");
@@ -1048,11 +1026,7 @@ namespace Lib.CliSitef.Classes
             {
                 #region Retornos TEF
 
-                mTefTransacao = new TefTransacao
-                {
-                    DocumentoVinculado = _documentoVinculado,
-                    ValorTransacao = 0M
-                };
+                DefinirTefTransacao(_documentoVinculado, 0m);
                 gCupomVenda.Transacoes.Add(mTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CBC");
@@ -1085,6 +1059,8 @@ namespace Lib.CliSitef.Classes
         {
             FinalizarOperacao(1, _documentoVinculado);
 
+            InicializarTefTransacao(_documentoVinculado, 0m);
+
             #region Retornos TEF
 
             TefRetorno obj729 = new TefRetorno(729, 0, "1");
@@ -1106,6 +1082,23 @@ namespace Lib.CliSitef.Classes
         {
             string dataStr = DateTime.Now.ToString("yyyyMMdd");
             return ObtemQuantidadeTransacoesPendentes(dataStr, cupomFiscal);
+        }
+
+        private void InicializarTefTransacao(string documentoVinculado = "", decimal valor = 0m)
+        {
+            if (mTefTransacao == null)
+            {
+                DefinirTefTransacao(documentoVinculado, valor);
+            }
+        }
+
+        private void DefinirTefTransacao(string documentoVinculado = "", decimal valor = 0m)
+        {
+            mTefTransacao = new TefTransacao
+            {
+                DocumentoVinculado = documentoVinculado,
+                ValorTransacao = valor
+            };
         }
     }
 }
