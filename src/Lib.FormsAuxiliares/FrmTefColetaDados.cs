@@ -10,6 +10,7 @@ namespace Lib.FormsAuxiliares
         public int gTamanhoMinimo { get; set; }
         public int gTamanhoMaximo { get; set; }
         public DataTypeEnum gTipoDeDados { get; set; }
+        public bool VoltarSelecionado { get; set; }
 
         public FrmTefColetaDados()
         {
@@ -59,6 +60,13 @@ namespace Lib.FormsAuxiliares
                 if (!decimal.TryParse(txtDados.Text, out _))
                     return;
             }
+        }
+
+        private void btnVoltar_Click(object sender, EventArgs e)
+        {
+            VoltarSelecionado = true;
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
