@@ -266,7 +266,7 @@ namespace Lib.CliSitef.Classes
                 continua = 0;
                 string mensagem = Encoding.UTF8.GetString(valorBuffer).Replace("\0", "").Trim();
                 string respostaSitef = "";
-                bool voltar = false;
+                bool voltarAoMenuAnterior = false;
 
                 if (!string.IsNullOrWhiteSpace(mensagem))
                     Log.GerarLogProcessoExecucao("Cmd: " + proximoComando + " -> Tc: " + tipoCampo + " -> Buffer: " + RemoverQuebraDeLinhas(mensagem));
@@ -639,11 +639,13 @@ namespace Lib.CliSitef.Classes
                             {
                                 DataType = DataTypeEnum.Menu,
                                 Titulo = captionMenu,
-                                ItensMenu = mensagem.Split(';')
+                                ItensMenu = mensagem.Split(';')                                
                             };
                             OnCallForm?.Invoke(objForm21);
                             respostaSitef = objForm21.RespostaSitef;
                             interromper = objForm21.Interromper;
+                            voltarAoMenuAnterior = objForm21.Voltar;
+
                             Application.DoEvents();
                             break;
                         case 22: //Deve aguardar uma tecla do operador. É utilizada quando se deseja que o operador seja avisado de alguma mensagem apresentada na tela
@@ -676,6 +678,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm30);
                             respostaSitef = objForm30.RespostaSitef;
                             interromper = objForm30.Interromper;
+                            voltarAoMenuAnterior = objForm30.Voltar;
                             if (!interromper)
                             {
                                 if (tipoCampo == 505)
@@ -701,6 +704,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm34);
                             respostaSitef = objForm34.RespostaSitef;
                             interromper = objForm34.Interromper;
+                            voltarAoMenuAnterior = objForm34.Voltar;
                             //504-Taxa de Serviço      130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente.Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             if (tipoCampo == 504 || tipoCampo == 130)
                             {
@@ -766,7 +770,7 @@ namespace Lib.CliSitef.Classes
                             break;
                     }
                 }
-                if (voltar)
+                if (voltarAoMenuAnterior)
                     continua = 1;
                 else if (interromper)
                 {
