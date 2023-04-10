@@ -8,6 +8,7 @@ namespace Lib.FormsAuxiliares
         public string gTitulo { get; set; }
         public string[] gItens { get; set; }
         public int gSelecionado { get; set; }
+        public bool VoltarSelecionado { get; set; }
         public FrmTefMenu()
         {
             InitializeComponent();
@@ -50,6 +51,13 @@ namespace Lib.FormsAuxiliares
         private void ltbMenuItens_SelectedIndexChanged(object sender, EventArgs e)
         {
             gSelecionado = ltbMenuItens.SelectedIndex;
+        }
+
+        private void btnVoltar_Click(object sender, EventArgs e)
+        {
+            VoltarSelecionado = true;
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
