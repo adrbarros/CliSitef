@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTelaTesteVenda));
             this.txtValorVenda = new TextBoxCurrency.TextBoxCurrency();
             this.pnlBody = new System.Windows.Forms.Panel();
+            this.btnRecargaCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnRecarga = new System.Windows.Forms.Button();
             this.btnCrtCd = new System.Windows.Forms.Button();
@@ -63,7 +64,7 @@
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnRecargaCorrespondenteBancario = new System.Windows.Forms.Button();
+            this.btnCpfCnpj = new System.Windows.Forms.Button();
             this.pnlBody.SuspendLayout();
             this.pnlQrCode.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -85,6 +86,7 @@
             // 
             // pnlBody
             // 
+            this.pnlBody.Controls.Add(this.btnCpfCnpj);
             this.pnlBody.Controls.Add(this.btnRecargaCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnRecarga);
@@ -114,6 +116,18 @@
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Size = new System.Drawing.Size(567, 336);
             this.pnlBody.TabIndex = 1;
+            // 
+            // btnRecargaCorrespondenteBancario
+            // 
+            this.btnRecargaCorrespondenteBancario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRecargaCorrespondenteBancario.Location = new System.Drawing.Point(87, 188);
+            this.btnRecargaCorrespondenteBancario.Name = "btnRecargaCorrespondenteBancario";
+            this.btnRecargaCorrespondenteBancario.Size = new System.Drawing.Size(75, 23);
+            this.btnRecargaCorrespondenteBancario.TabIndex = 23;
+            this.btnRecargaCorrespondenteBancario.Text = "REC. CBC";
+            this.toolTip1.SetToolTip(this.btnRecargaCorrespondenteBancario, "Correspondente Bancario Recarga Pré-Pago TRICARD");
+            this.btnRecargaCorrespondenteBancario.UseVisualStyleBackColor = true;
+            this.btnRecargaCorrespondenteBancario.Click += new System.EventHandler(this.btnRecargaCorrespondenteBancario_Click);
             // 
             // btnCorrespondenteBancario
             // 
@@ -453,17 +467,17 @@
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
             // 
-            // btnRecargaCorrespondenteBancario
+            // btnCpfCnpj
             // 
-            this.btnRecargaCorrespondenteBancario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRecargaCorrespondenteBancario.Location = new System.Drawing.Point(87, 188);
-            this.btnRecargaCorrespondenteBancario.Name = "btnRecargaCorrespondenteBancario";
-            this.btnRecargaCorrespondenteBancario.Size = new System.Drawing.Size(75, 23);
-            this.btnRecargaCorrespondenteBancario.TabIndex = 23;
-            this.btnRecargaCorrespondenteBancario.Text = "REC. CBC";
-            this.toolTip1.SetToolTip(this.btnRecargaCorrespondenteBancario, "Correspondente Bancario Recarga Pré-Pago TRICARD");
-            this.btnRecargaCorrespondenteBancario.UseVisualStyleBackColor = true;
-            this.btnRecargaCorrespondenteBancario.Click += new System.EventHandler(this.btnRecargaCorrespondenteBancario_Click);
+            this.btnCpfCnpj.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCpfCnpj.Location = new System.Drawing.Point(6, 130);
+            this.btnCpfCnpj.Name = "btnCpfCnpj";
+            this.btnCpfCnpj.Size = new System.Drawing.Size(75, 23);
+            this.btnCpfCnpj.TabIndex = 24;
+            this.btnCpfCnpj.Text = "Cpf / Cnpj";
+            this.toolTip1.SetToolTip(this.btnCpfCnpj, "Capturar Cpf / Cnpj no PinPad");
+            this.btnCpfCnpj.UseVisualStyleBackColor = true;
+            this.btnCpfCnpj.Click += new System.EventHandler(this.btnCpfCnpj_Click);
             // 
             // FrmTelaTesteVenda
             // 
@@ -529,6 +543,7 @@
         private System.Windows.Forms.Label lblMenuTituloQrCode;
         private System.Windows.Forms.Button btnCorrespondenteBancario;
         private System.Windows.Forms.Button btnRecargaCorrespondenteBancario;
+        private System.Windows.Forms.Button btnCpfCnpj;
     }
 }
 
