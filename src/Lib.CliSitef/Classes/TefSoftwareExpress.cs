@@ -1107,7 +1107,7 @@ namespace Lib.CliSitef.Classes
             return _pessoaFisica ? retornoPinPad.Substring(4, 11).Replace("\0", "").Trim() : (retornoPinPad.Substring(4, 08) + retornoPinPad.Substring(14, 06)).Replace("\0", "").Trim();
         }
 
-        public int ObtemTransacoesPendentes(string cupomFiscal)
+        public int ObtemQuantidadeTransacoesPendentes(string cupomFiscal)
         {
             string dataStr = DateTime.Now.ToString("yyyyMMdd");
             return ObtemQuantidadeTransacoesPendentes(dataStr, cupomFiscal);
