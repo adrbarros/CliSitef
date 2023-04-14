@@ -72,6 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\MessageBoxManager.cs" />
     <Compile Include="FrmTelaTesteVenda.cs">
       <SubType>Form</SubType>
     </Compile>

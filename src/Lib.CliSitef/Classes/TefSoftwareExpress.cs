@@ -73,6 +73,13 @@ namespace Lib.CliSitef.Classes
         [DllImport("CliSiTef32I.dll")]
         static extern int ObtemInformacoesPinPad(string InfoPinPad);
 
+        [DllImport("CliSiTef32I.dll")]
+        private static extern int ObtemDadoPinPadDiretoEx(string ChaveAcesso, string Identificador, string Entrada, [MarshalAs(UnmanagedType.VBByRefStr)] ref string Saida);
+
+        [DllImport("CliSiTef32I.dll")]
+        private static extern int ObtemDadoPinPadDiretoExA(string Resultado, string ChaveAcesso, string Identificador, string Entrada, ref string Saida);
+
+
         #endregion
 
         public delegate void OnMessageClientHandle(string _mensagem, int _tempoMiliSegundos, TefFuncaoInterativa _tefFuncaoInterativa = null);
@@ -1082,6 +1089,22 @@ namespace Lib.CliSitef.Classes
                 EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
 
             #endregion
+        }
+
+        public int VerificarPinpad()
+        {
+            return VerificaPresencaPinPad();
+        }
+        public string CpfCnpjCapturar(bool _pessoaFisica = true)
+        {
+            string opcao = "020808DIGITAR CNPJ P1                 CONFIRME CNPJ P1|xx.xxx.xxx      " + "0606DIGITAR CNPJ P2                 CONFIRME CNPJ P2|xxxx-xx         ";
+            if (_pessoaFisica)
+                opcao = "011111DIGITAR CPF                     CONFIRME O CPF  |xxx.xxx.xxx-xx  ";
+
+            string retornoPinPad = new string(' ', 50);
+            ObtemDadoPinPadDiretoEx("", "", opcao, ref retornoPinPad);
+
+            return _pessoaFisica ? retornoPinPad.Substring(4, 11).Replace("\0", "").Trim() : (retornoPinPad.Substring(4, 08) + retornoPinPad.Substring(14, 06)).Replace("\0", "").Trim();
         }
 
         public int ObtemTransacoesPendentes(string cupomFiscal)
