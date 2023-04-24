@@ -292,4 +292,14 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
+# Arquivos que devem ser ignorados
+*.ini
+*.dll
+CliSiTef.ini
+CliSiTef32I.dll
+QREncode32.dll
+RechargeRPC.dll
+libcurl32.dll
+libemv.dll
+
 # End of https://www.gitignore.io/api/csharp
