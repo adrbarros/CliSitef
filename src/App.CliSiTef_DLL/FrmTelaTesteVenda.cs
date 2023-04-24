@@ -374,6 +374,33 @@ namespace App.CliSiTef_DLL
             ExibirMensagem("Aguarde inicializando TEF-SiTef", 0);
             bkgInicioTef.RunWorkerAsync();
         }
+        private void FrmTelaTesteVenda_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (gValorTotalDaTransacao != gValorDasTransacoesEfetuadas)
+                {
+                    if (MessageBox.Show("Deseja realmente cancelar toda a operação?", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    {
+                        lblMensagem.Text = "Cancelando Transações Pendentes";
+                        lblMensagem.Refresh();
+
+                        mTefSoftwareExpress.CancelarTransacaoPendente(txtDocumentoVinculado.Text);
+
+                        LimparRetornoTef();
+                        lblMensagem.Text = "";
+                        lblMensagem.Refresh();
+                        btnDocumentoVinculadoGerar.Enabled = true;
+                        txtDocumentoVinculado.ReadOnly = false;
+                        txtValorVenda.ReadOnly = false;
+                        txtValorVenda.Text = "0,00";
+                        txtDocumentoVinculado.Text = "";
+                        gValorTotalDaTransacao = 0M;
+                        gValorDasTransacoesEfetuadas = 0M;
+                    }
+                }
+            }
+        }
 
         private void btnDocumentoVinculadoGerar_Click(object sender, EventArgs e)
         {

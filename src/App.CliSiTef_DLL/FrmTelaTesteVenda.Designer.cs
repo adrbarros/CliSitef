@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTelaTesteVenda));
             this.txtValorVenda = new TextBoxCurrency.TextBoxCurrency();
             this.pnlBody = new System.Windows.Forms.Panel();
+            this.btnCpfCnpj = new System.Windows.Forms.Button();
             this.btnRecargaCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnRecarga = new System.Windows.Forms.Button();
@@ -64,7 +65,6 @@
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnCpfCnpj = new System.Windows.Forms.Button();
             this.pnlBody.SuspendLayout();
             this.pnlQrCode.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -116,6 +116,18 @@
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Size = new System.Drawing.Size(567, 336);
             this.pnlBody.TabIndex = 1;
+            // 
+            // btnCpfCnpj
+            // 
+            this.btnCpfCnpj.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCpfCnpj.Location = new System.Drawing.Point(6, 130);
+            this.btnCpfCnpj.Name = "btnCpfCnpj";
+            this.btnCpfCnpj.Size = new System.Drawing.Size(75, 23);
+            this.btnCpfCnpj.TabIndex = 24;
+            this.btnCpfCnpj.Text = "Cpf / Cnpj";
+            this.toolTip1.SetToolTip(this.btnCpfCnpj, "Capturar Cpf / Cnpj no PinPad");
+            this.btnCpfCnpj.UseVisualStyleBackColor = true;
+            this.btnCpfCnpj.Click += new System.EventHandler(this.btnCpfCnpj_Click);
             // 
             // btnRecargaCorrespondenteBancario
             // 
@@ -467,18 +479,6 @@
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
             // 
-            // btnCpfCnpj
-            // 
-            this.btnCpfCnpj.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCpfCnpj.Location = new System.Drawing.Point(6, 130);
-            this.btnCpfCnpj.Name = "btnCpfCnpj";
-            this.btnCpfCnpj.Size = new System.Drawing.Size(75, 23);
-            this.btnCpfCnpj.TabIndex = 24;
-            this.btnCpfCnpj.Text = "Cpf / Cnpj";
-            this.toolTip1.SetToolTip(this.btnCpfCnpj, "Capturar Cpf / Cnpj no PinPad");
-            this.btnCpfCnpj.UseVisualStyleBackColor = true;
-            this.btnCpfCnpj.Click += new System.EventHandler(this.btnCpfCnpj_Click);
-            // 
             // FrmTelaTesteVenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -497,6 +497,7 @@
             this.Text = "Teste Venda";
             this.Load += new System.EventHandler(this.FrmTelaTesteVenda_Load);
             this.Shown += new System.EventHandler(this.FrmTelaTesteVenda_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmTelaTesteVenda_KeyDown);
             this.pnlBody.ResumeLayout(false);
             this.pnlBody.PerformLayout();
             this.pnlQrCode.ResumeLayout(false);

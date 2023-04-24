@@ -1130,5 +1130,12 @@ namespace Lib.CliSitef.Classes
 
             return _pessoaFisica ? retornoPinPad.Substring(4, 11).Replace("\0", "").Trim() : (retornoPinPad.Substring(4, 08) + retornoPinPad.Substring(14, 06)).Replace("\0", "").Trim();
         }
+        public void CancelarTransacaoPendente(string _documentoVinculado = "")
+        {
+            FinalizarOperacao(0, _documentoVinculado);
+
+            if (mTefConfig.Tef_PinPadVerificar)
+                EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
+        }
     }
 }
