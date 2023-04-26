@@ -97,12 +97,15 @@ namespace Lib.CliSitef.Classes
         public delegate void OnVerifyDataCollectionInterruptionHandle(ref bool _interromper);
         public event OnVerifyDataCollectionInterruptionHandle OnVerifyDataCollectionInterruption;
 
-        TefFuncaoInterativa mObjForm50 { get; set; }
-        TefConfig mTefConfig { get; set; }
+        private TefFuncaoInterativa mObjForm50 { get; set; }
+        private TefFuncaoInterativa mObjForm3 { get; set; }
+
+        private TefConfig mTefConfig { get; set; }
+       
         public TefTransacao mTefTransacao { get; set; }
         public Cupom gCupomVenda { get; set; }
 
-        void GerarArquivoRetornoDaTransacao()
+        private void GerarArquivoRetornoDaTransacao()
         {
             if (gCupomVenda != null)
             {
@@ -135,86 +138,7 @@ namespace Lib.CliSitef.Classes
                 }
             }
         }
-        public string MensagemTef(int _retornoTef)
-        {
-            string msg = "Erro não definido";
-            switch (_retornoTef)
-            {
-                case -1:
-                    msg = "Módulo não inicializado";
-                    break;
-                case -2:
-                    msg = "Operação cancelada pelo operador";
-                    break;
-                case -3:
-                    msg = "Fornecido um código de função inválido";
-                    break;
-                case -4:
-                    msg = "Falta de memória para rodar a função";
-                    break;
-                case -5:
-                    msg = "Sem comunicação com o SiTef";
-                    break;
-                case -6:
-                    msg = "Operação cancelada pelo usuário";
-                    break;
-                case -40:
-                    msg = "Transação negada pelo SiTef";
-                    break;
-                case -43:
-                    msg = "Falha no pinpad";
-                    break;
-                case -50:
-                    msg = "Transação não segura";
-                    break;
-                case -100:
-                    msg = "Erro interno do módulo";
-                    break;
-                case 0:
-                    msg = "";
-                    break;
-                case 1:
-                    msg = "Endereço IP inválido ou não resolvido";
-                    break;
-                case 2:
-                    msg = "Código da loja inválido";
-                    break;
-                case 3:
-                    msg = "Código de terminal inválido";
-                    break;
-                case 6:
-                    msg = "Erro na inicialização do Tcp/Ip";
-                    break;
-                case 7:
-                    msg = "Falta de memória";
-                    break;
-                case 8:
-                    msg = "Não encontrou a CliSiTef ou ela está com problemas";
-                    break;
-                case 9:
-                    msg = "Configuração de servidores SiTef foi excedida";
-                    break;
-                case 10:
-                    msg = "Erro de acesso na pasta CliSiTef(possível falta de permissão para escrita)";
-                    break;
-                case 11:
-                    msg = "Dados inválidos passados pela automaçãoo";
-                    break;
-                case 12:
-                    msg = "Modo seguro não ativo(possível falta de configuração no servidor SiTef do arquivo.cha)";
-                    break;
-                case 13:
-                    msg = "Caminho DLL inválido(o caminho completo das bibliotecas está muito grande)";
-                    break;
-                case 50001:
-                    msg = "PinPad não encontrado";
-                    break;
-                default:
-                    break;
-            }
-            return msg;
-        }
-        string RemoverQuebraDeLinhas(string _texto)
+        private string RemoverQuebraDeLinhas(string _texto)
         {
             if (string.IsNullOrWhiteSpace(_texto))
                 return "";
@@ -223,7 +147,7 @@ namespace Lib.CliSitef.Classes
 
             return _texto;
         }
-        int VerificarEscreverMsgPinPad()
+        private int VerificarEscreverMsgPinPad()
         {
             int sts = 0;
             if (mTefConfig.Tef_PinPadVerificar)
@@ -236,7 +160,7 @@ namespace Lib.CliSitef.Classes
             }
             return sts;
         }
-        void TefRetornoAdicionar(TefRetorno _obj, TefTransacao _tefTransacao, bool _substituirValor = true)
+        private void TefRetornoAdicionar(TefRetorno _obj, TefTransacao _tefTransacao, bool _substituirValor = true)
         {
             TefRetorno obj = _tefTransacao.Retornos.Find(p => p.Codigo == _obj.Codigo && p.Indice == _obj.Indice);
             if (obj != null)
@@ -252,7 +176,7 @@ namespace Lib.CliSitef.Classes
                 _tefTransacao.Retornos.Add(_obj);
         }
 
-        int ContinuarRequisicao()
+        private int ContinuarRequisicao()
         {
             byte[] valorBuffer = new byte[20000];
             int result;
@@ -261,6 +185,7 @@ namespace Lib.CliSitef.Classes
             string captionMenu = "";
             string captionCarteiraDigital = "";
             bool interromper = false;
+            bool qrCodePinPad = false;
 
             do
             {
@@ -595,8 +520,25 @@ namespace Lib.CliSitef.Classes
                             Application.DoEvents();
                             break;
                         case 3: //Mensagem para os dois visores
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            if (!string.IsNullOrWhiteSpace(mensagem) && mensagem.ToLower().Contains("solicite a leitura do qr code no pinpad utilizando o smartphone"))
+                                qrCodePinPad = true;
+
+                            mObjForm3 = new TefFuncaoInterativa
+                            {
+                                DataType = DataTypeEnum.Message,
+                                TipoCampo = tipoCampo,
+                                Mensagem = mensagem
+                            };
+
+                            OnMessageClient?.Invoke(mensagem, 250, mObjForm3);
                             Application.DoEvents();
+
+                            if (qrCodePinPad && mObjForm3.Interromper)
+                            {
+                                interromper = mObjForm3.Interromper;
+                                qrCodePinPad = false;
+                            }
+                            mObjForm3 = null;
                             break;
                         case 4: //Texto que deverá ser utilizado como cabeçalho na apresentação do menu (Comando 21)
                             captionMenu = mensagem;
@@ -792,7 +734,7 @@ namespace Lib.CliSitef.Classes
             } while (result == 10000);
             return result;
         }
-        int FazerRequisicao(int _funcao, string _header, decimal _valor = 0M, string _documento = "", string _parametrosAdicionais = "", string _operador = "")
+        private int FazerRequisicao(int _funcao, string _header, decimal _valor = 0M, string _documento = "", string _parametrosAdicionais = "", string _operador = "")
         {
             if (string.IsNullOrWhiteSpace(_documento))
                 _documento = DateTime.Now.ToString("HHmmss");
@@ -812,7 +754,7 @@ namespace Lib.CliSitef.Classes
             Log.GerarLogProcessoExecucao("-------------------------------------------------------------------------------------");
             return IniciaFuncaoSiTefInterativo(_funcao, valorStr, _documento, dataStr, horaStr, _operador, _parametrosAdicionais);
         }
-        void FinalizarOperacao(short _confirma, string _documentoVinculado = "")
+        private void FinalizarOperacao(short _confirma, string _documentoVinculado = "")
         {
             string dataStr = DateTime.Now.ToString("yyyyMMdd");
             string horaStr = DateTime.Now.ToString("HHmmss");
@@ -820,6 +762,86 @@ namespace Lib.CliSitef.Classes
             if (string.IsNullOrWhiteSpace(_documentoVinculado))
                 _documentoVinculado = doc.ToString("000000");
             FinalizaFuncaoSiTefInterativo(_confirma, _documentoVinculado, dataStr, horaStr, null);
+        }
+
+        public string MensagemTef(int _retornoTef)
+        {
+            string msg = "Erro não definido";
+            switch (_retornoTef)
+            {
+                case -1:
+                    msg = "Módulo não inicializado";
+                    break;
+                case -2:
+                    msg = "Operação cancelada pelo operador";
+                    break;
+                case -3:
+                    msg = "Fornecido um código de função inválido";
+                    break;
+                case -4:
+                    msg = "Falta de memória para rodar a função";
+                    break;
+                case -5:
+                    msg = "Sem comunicação com o SiTef";
+                    break;
+                case -6:
+                    msg = "Operação cancelada pelo usuário";
+                    break;
+                case -40:
+                    msg = "Transação negada pelo SiTef";
+                    break;
+                case -43:
+                    msg = "Falha no pinpad";
+                    break;
+                case -50:
+                    msg = "Transação não segura";
+                    break;
+                case -100:
+                    msg = "Erro interno do módulo";
+                    break;
+                case 0:
+                    msg = "";
+                    break;
+                case 1:
+                    msg = "Endereço IP inválido ou não resolvido";
+                    break;
+                case 2:
+                    msg = "Código da loja inválido";
+                    break;
+                case 3:
+                    msg = "Código de terminal inválido";
+                    break;
+                case 6:
+                    msg = "Erro na inicialização do Tcp/Ip";
+                    break;
+                case 7:
+                    msg = "Falta de memória";
+                    break;
+                case 8:
+                    msg = "Não encontrou a CliSiTef ou ela está com problemas";
+                    break;
+                case 9:
+                    msg = "Configuração de servidores SiTef foi excedida";
+                    break;
+                case 10:
+                    msg = "Erro de acesso na pasta CliSiTef(possível falta de permissão para escrita)";
+                    break;
+                case 11:
+                    msg = "Dados inválidos passados pela automaçãoo";
+                    break;
+                case 12:
+                    msg = "Modo seguro não ativo(possível falta de configuração no servidor SiTef do arquivo.cha)";
+                    break;
+                case 13:
+                    msg = "Caminho DLL inválido(o caminho completo das bibliotecas está muito grande)";
+                    break;
+                case 50001:
+                    msg = "PinPad não encontrado";
+                    break;
+                default:
+                    break;
+            }
+            return msg;
         }
 
         public int InicializarTef(TefConfig _tefConfig)

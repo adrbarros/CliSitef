@@ -22,16 +22,16 @@ namespace App.CliSiTef_DLL
         [DllImport("User32.dll")]
         public static extern short GetAsyncKeyState(int vKey);
 
-        int mStatusTefInicio { get; set; }
-        decimal gValorTotalDaTransacao { get; set; }
-        decimal gValorDasTransacoesEfetuadas { get; set; }
+        private int mStatusTefInicio { get; set; }
+        private decimal gValorTotalDaTransacao { get; set; }
+        private decimal gValorDasTransacoesEfetuadas { get; set; }
 
-        TefSoftwareExpress mTefSoftwareExpress = new TefSoftwareExpress();
+        private TefSoftwareExpress mTefSoftwareExpress = new TefSoftwareExpress();
 
-        TefConfig mTefConfig { get; set; }
-        Cupom mCupomVenda { get; set; }
+        private TefConfig mTefConfig { get; set; }
+        private Cupom mCupomVenda { get; set; }
 
-        void ForceFocus(Control _control, bool _selectAll = false)
+        private void ForceFocus(Control _control, bool _selectAll = false)
         {
             if (!DesignMode)
             {
@@ -41,7 +41,7 @@ namespace App.CliSiTef_DLL
                 _control.Focus();
             }
         }
-        void CarregarConfiguracao()
+        private void CarregarConfiguracao()
         {
             mTefConfig = new TefConfig
             {
@@ -97,7 +97,7 @@ namespace App.CliSiTef_DLL
                 }
             }
         }
-        void CarregarImpresorasInstaladas()
+        private void CarregarImpresorasInstaladas()
         {
             cmbImpressoraNome.Items.Add("");
             foreach (string impressora in PrinterSettings.InstalledPrinters)
@@ -107,7 +107,7 @@ namespace App.CliSiTef_DLL
 
             cmbImpressoraNome.SelectedIndex = 0;
         }
-        void Comprovante(string _documentoVinculado, List<TefRetorno> _lstComprovante, Printer _printer)
+        private void Comprovante(string _documentoVinculado, List<TefRetorno> _lstComprovante, Printer _printer)
         {
             if (_lstComprovante != null && _lstComprovante.Count > 0)
             {
@@ -144,7 +144,7 @@ namespace App.CliSiTef_DLL
                 _printer.Clear();
             }
         }
-        void ImprimirComprovantes(string _documentoVinculado)
+        private void ImprimirComprovantes(string _documentoVinculado)
         {
             if (cmbImpressoraTipo.SelectedIndex <= 0)
                 return;
@@ -173,7 +173,7 @@ namespace App.CliSiTef_DLL
                 }
             }
         }
-        void ExibirMensagem(string _msg, int _tempoMilisegundos = 2000)
+        private void ExibirMensagem(string _msg, int _tempoMilisegundos = 2000)
         {
             lblMensagem.Invoke((MethodInvoker)delegate
             {
@@ -187,14 +187,14 @@ namespace App.CliSiTef_DLL
                 }
             });
         }
-        void LimparRetornoTef()
+        private void LimparRetornoTef()
         {
             if (mTefSoftwareExpress.gCupomVenda != null)
                 mTefSoftwareExpress.gCupomVenda.Transacoes.Clear();
             mTefSoftwareExpress.gCupomVenda = null;
             mCupomVenda = null;
         }
-        bool VerificarTeclaPressionada(Keys _tecla)
+        private bool VerificarTeclaPressionada(Keys _tecla)
         {
             bool escapePressed = (GetAsyncKeyState((int)_tecla) & 0x8000) != 0;
             if (escapePressed)
