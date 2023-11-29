@@ -36,6 +36,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CampoAberto.cs" />
     <Compile Include="Classes\Cupom.cs" />
     <Compile Include="Classes\TefConfig.cs" />
     <Compile Include="Classes\TefRetorno.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="ConstantValues\CarteiraDigitalTipoPagamentoConst.cs" />
     <Compile Include="ConstantValues\CarteiraDigitalTipoVoucherConst.cs" />
     <Compile Include="ConstantValues\ComprovanteTipoConst.cs" />
+    <Compile Include="ConstantValues\Enumeradores.cs" />
     <Compile Include="ConstantValues\ModalidadePagamentoGrupoConst.cs" />
     <Compile Include="ConstantValues\ModalidadePagamentoSubGrupoConst.cs" />
     <Compile Include="ConstantValues\RedeAutorizadoraConst.cs" />

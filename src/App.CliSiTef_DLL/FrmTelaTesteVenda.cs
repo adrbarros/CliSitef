@@ -410,7 +410,7 @@ namespace App.CliSiTef_DLL
         {
             ExibirMensagem(mTefSoftwareExpress.MensagemTef(mTefSoftwareExpress.Atv()), 100);
         }
-        private void btnCpfCnpj_Click(object sender, EventArgs e)
+        private void btnCpfCnpj1_Click(object sender, EventArgs e)
         {
             int sts = mTefSoftwareExpress.VerificarPinpad();
             if (sts != 1)
@@ -448,10 +448,102 @@ namespace App.CliSiTef_DLL
             ExibirMensagem(msgTela, 0);
 
             string cpfCnpj = mTefSoftwareExpress.CpfCnpjCapturar(pessoaFisica);
-            
+
             ExibirMensagem("", 0);
             if (!string.IsNullOrWhiteSpace(cpfCnpj))
                 MessageBox.Show((pessoaFisica ? "Cpf" : "Cnpj") + " Capturado -> " + cpfCnpj, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void btnCpfCnpj2_Click(object sender, EventArgs e)
+        {
+            int sts = mTefSoftwareExpress.VerificarPinpad();
+            if (sts != 1)
+            {
+                MessageBox.Show("PinPad não responde.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            CampoAberto obj = new CampoAberto();
+            bool pessoaFisica = true;
+            bool continua = true;
+
+            MessageBoxManager.Yes = "&1-Cpf";
+            MessageBoxManager.No = "&2-Cnpj";
+            MessageBoxManager.Cancel = "&Cancelar";
+            MessageBoxManager.Register();
+            switch (MessageBox.Show("Selecione o Tipo", "Tipo de Captura", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+            {
+                case DialogResult.Cancel:
+                    continua = false;
+                    break;
+                case DialogResult.No:
+                    pessoaFisica = false;
+                    obj.MensagemExibidaPinPad = Lib.CliSitef.ConstantValues.MensagemExibidaEnum.DigiteCnpj;
+                    obj.TamanhoMinimo = 14;
+                    obj.TamanhoMaximo = 14;
+                    break;
+                case DialogResult.Yes:
+                    obj.MensagemExibidaPinPad = Lib.CliSitef.ConstantValues.MensagemExibidaEnum.DigiteCpf;
+                    obj.TamanhoMinimo = 11;
+                    obj.TamanhoMaximo = 11;
+                    break;
+            }
+            MessageBoxManager.Unregister();
+
+            if (!continua)
+                return;
+
+            if (mCupomVenda == null)
+            {
+                mCupomVenda = new Cupom
+                {
+                    TipoOperacao = "Lca",
+                    DocumentoVinculado = new Random().Next(999999).ToString("000000"),
+                    ValorTotal = 0
+                };
+            }
+            mTefSoftwareExpress.gCupomVenda = mCupomVenda;
+
+            string cpfCnpj = mTefSoftwareExpress.LeituraCampoAberto(obj);
+            LimparRetornoTef();
+            ExibirMensagem("", 0);
+            if (!string.IsNullOrWhiteSpace(cpfCnpj))
+                MessageBox.Show((pessoaFisica ? "Cpf" : "Cnpj") + " Capturado -> " + cpfCnpj, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void btnSenha4Dig_Click(object sender, EventArgs e)
+        {
+            int sts = mTefSoftwareExpress.VerificarPinpad();
+            if (sts != 1)
+            {
+                MessageBox.Show("PinPad não responde.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string msgTela = "Senha 4 Digitos";
+            ExibirMensagem(msgTela, 0);
+
+            if (mCupomVenda == null)
+            {
+                mCupomVenda = new Cupom
+                {
+                    TipoOperacao = "Lca",
+                    DocumentoVinculado = new Random().Next(999999).ToString("000000"),
+                    ValorTotal = 0
+                };
+            }
+            mTefSoftwareExpress.gCupomVenda = mCupomVenda;
+
+            CampoAberto obj = new CampoAberto
+            {
+                MensagemExibidaPinPad = Lib.CliSitef.ConstantValues.MensagemExibidaEnum.DigiteCodigoSeguranca,
+                TamanhoMinimo = 4,
+                TamanhoMaximo = 4,
+                TempoEsperaInatividade = 0
+            };
+            string senha = mTefSoftwareExpress.LeituraCampoAberto(obj);
+            LimparRetornoTef();
+            ExibirMensagem("", 0);
+            if (!string.IsNullOrWhiteSpace(senha))
+                MessageBox.Show(" Capturado -> " + senha, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void btnAdm_Click(object sender, EventArgs e)
         {

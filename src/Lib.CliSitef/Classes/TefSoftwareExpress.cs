@@ -74,10 +74,10 @@ namespace Lib.CliSitef.Classes
         static extern int ObtemInformacoesPinPad(string InfoPinPad);
 
         [DllImport("CliSiTef32I.dll")]
-        private static extern int ObtemDadoPinPadDiretoEx(string ChaveAcesso, string Identificador, string Entrada, [MarshalAs(UnmanagedType.VBByRefStr)] ref string Saida);
+        static extern int ObtemDadoPinPadDiretoEx(string ChaveAcesso, string Identificador, string Entrada, [MarshalAs(UnmanagedType.VBByRefStr)] ref string Saida);
 
         [DllImport("CliSiTef32I.dll")]
-        private static extern int ObtemDadoPinPadDiretoExA(string Resultado, string ChaveAcesso, string Identificador, string Entrada, ref string Saida);
+        static extern int ObtemDadoPinPadDiretoExA(string Resultado, string ChaveAcesso, string Identificador, string Entrada, ref string Saida);
 
 
         #endregion
@@ -101,8 +101,9 @@ namespace Lib.CliSitef.Classes
         private TefFuncaoInterativa mObjForm3 { get; set; }
 
         private TefConfig mTefConfig { get; set; }
-       
-        public TefTransacao mTefTransacao { get; set; }
+        private CampoAberto mCampoAberto { get; set; }
+
+        public TefTransacao gTefTransacao { get; set; }
         public Cupom gCupomVenda { get; set; }
 
         private void GerarArquivoRetornoDaTransacao()
@@ -210,31 +211,31 @@ namespace Lib.CliSitef.Classes
                             if (tipoCampo == 0)
                             {
                                 TefRetorno obj1 = new TefRetorno(1, 0, mensagem);
-                                TefRetornoAdicionar(obj1, mTefTransacao);
+                                TefRetornoAdicionar(obj1, gTefTransacao);
                             }
                             //100-Modalidade de pagamento no formato xxnn. xx corresponde ao grupo da modalidade e nn ao subgrupo.
                             else if (tipoCampo == 100)
                             {
                                 TefRetorno obj11 = new TefRetorno(11, 0, mensagem);
-                                TefRetornoAdicionar(obj11, mTefTransacao);
+                                TefRetornoAdicionar(obj11, gTefTransacao);
 
                                 string msgAut = mensagem.PadRight(4, '0');
                                 TefRetorno obj731 = new TefRetorno(731, 0, msgAut.Substring(0, 2));
-                                TefRetornoAdicionar(obj731, mTefTransacao);
+                                TefRetornoAdicionar(obj731, gTefTransacao);
                                 ModalidadePagamentoGrupoConst grupo = ModalidadePagamentoGrupo.RetornarModalidadePagamentoGrupo(msgAut.Substring(0, 2));
                                 if (grupo != null)
                                 {
                                     TefRetorno obj731_1 = new TefRetorno(731, 1, grupo.Nome);
-                                    TefRetornoAdicionar(obj731_1, mTefTransacao);
+                                    TefRetornoAdicionar(obj731_1, gTefTransacao);
                                 }
 
                                 TefRetorno obj732 = new TefRetorno(732, 0, msgAut.Substring(2, 2));
-                                TefRetornoAdicionar(obj732, mTefTransacao);
+                                TefRetornoAdicionar(obj732, gTefTransacao);
                                 ModalidadePagamentoSubGrupoConst subgrupo = ModalidadePagamentoSubGrupo.RetornarModalidadePagamentoSubGrupo(msgAut.Substring(2, 2));
                                 if (subgrupo != null)
                                 {
                                     TefRetorno obj732_1 = new TefRetorno(732, 1, subgrupo.Nome);
-                                    TefRetornoAdicionar(obj732_1, mTefTransacao);
+                                    TefRetornoAdicionar(obj732_1, gTefTransacao);
                                 }
                             }
                             //105-Contém a data e hora da transação no formato AAAAMMDDHHMMSS
@@ -242,11 +243,11 @@ namespace Lib.CliSitef.Classes
                             {
                                 string msgData = mensagem.Substring(6, 2) + mensagem.Substring(4, 2) + mensagem.Substring(0, 4);
                                 TefRetorno obj22 = new TefRetorno(22, 0, msgData);
-                                TefRetornoAdicionar(obj22, mTefTransacao);
+                                TefRetornoAdicionar(obj22, gTefTransacao);
 
                                 string msgHora = mensagem.Substring(8);
                                 TefRetorno obj23 = new TefRetorno(23, 0, msgHora);
-                                TefRetornoAdicionar(obj23, mTefTransacao);
+                                TefRetornoAdicionar(obj23, gTefTransacao);
                             }
                             //106-Contém um índice que indica qual o tipo do cartão quando esse tipo for identificável, segundo uma tabela a ser fornecida(5 posições)
                             //106-ID da carteira digital selecionada
@@ -255,13 +256,13 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj748_1 = new TefRetorno(748, 1, mensagem);
-                                    TefRetornoAdicionar(obj748_1, mTefTransacao);
+                                    TefRetornoAdicionar(obj748_1, gTefTransacao);
 
                                     BandeiraPadraoConst obj = BandeiraPadrao.RetornarBandeiraPadrao(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
                                         TefRetorno obj748_2 = new TefRetorno(748, 2, obj.NomeTipoCodigo);
-                                        TefRetornoAdicionar(obj748_2, mTefTransacao);
+                                        TefRetornoAdicionar(obj748_2, gTefTransacao);
                                     }
                                 }
                             }
@@ -272,7 +273,7 @@ namespace Lib.CliSitef.Classes
                                 {
                                     captionCarteiraDigital = mensagem;
                                     TefRetorno obj748 = new TefRetorno(748, 0, mensagem);
-                                    TefRetornoAdicionar(obj748, mTefTransacao);
+                                    TefRetornoAdicionar(obj748, gTefTransacao);
                                 }
                             }
                             //108-Verificar Carteira Digital
@@ -291,12 +292,12 @@ namespace Lib.CliSitef.Classes
                             {
                                 string[] viaCliente = mensagem.Split('\n', '\r');
                                 TefRetorno obj712 = new TefRetorno(712, 0, viaCliente.Length.ToString());
-                                TefRetornoAdicionar(obj712, mTefTransacao);
+                                TefRetornoAdicionar(obj712, gTefTransacao);
 
                                 for (int i = 0; i < viaCliente.Length; i++)
                                 {
                                     TefRetorno obj713 = new TefRetorno(713, i, "\"" + viaCliente[i] + "\"");
-                                    TefRetornoAdicionar(obj713, mTefTransacao);
+                                    TefRetornoAdicionar(obj713, gTefTransacao);
                                 }
                             }
                             //122-Buffer contém a segunda via do comprovante de pagamento (via do caixa)
@@ -304,12 +305,12 @@ namespace Lib.CliSitef.Classes
                             {
                                 string[] viaEstab = mensagem.Split('\n', '\r');
                                 TefRetorno obj714 = new TefRetorno(714, 0, viaEstab.Length.ToString());
-                                TefRetornoAdicionar(obj714, mTefTransacao);
+                                TefRetornoAdicionar(obj714, gTefTransacao);
 
                                 for (int i = 0; i < viaEstab.Length; i++)
                                 {
                                     TefRetorno obj715 = new TefRetorno(715, i, "\"" + viaEstab[i] + "\"");
-                                    TefRetornoAdicionar(obj715, mTefTransacao);
+                                    TefRetornoAdicionar(obj715, gTefTransacao);
                                 }
                             }
                             //123-Indica que os comprovantes que serão entregues na sequência são de determinado tipo
@@ -321,10 +322,10 @@ namespace Lib.CliSitef.Classes
                                     if (obj != null)
                                     {
                                         TefRetorno obj712_1 = new TefRetorno(712, 1, obj.CodigoNome);
-                                        TefRetornoAdicionar(obj712_1, mTefTransacao);
+                                        TefRetornoAdicionar(obj712_1, gTefTransacao);
 
                                         TefRetorno obj714_1 = new TefRetorno(714, 1, obj.CodigoNome);
-                                        TefRetornoAdicionar(obj714_1, mTefTransacao);
+                                        TefRetornoAdicionar(obj714_1, gTefTransacao);
                                     }
                                 }
                             }
@@ -332,57 +333,57 @@ namespace Lib.CliSitef.Classes
                             else if (tipoCampo == 131)
                             {
                                 TefRetorno obj10 = new TefRetorno(10, 0, mensagem);
-                                TefRetornoAdicionar(obj10, mTefTransacao);
+                                TefRetornoAdicionar(obj10, gTefTransacao);
 
                                 var obj = RedeAutorizadora.RetornarAutorizadora(obj10.Valor);
                                 if (obj != null)
                                 {
                                     TefRetorno obj10_1 = new TefRetorno(10, 1, obj.Nome);
-                                    TefRetornoAdicionar(obj10_1, mTefTransacao);
+                                    TefRetornoAdicionar(obj10_1, gTefTransacao);
                                 }
                             }
                             //132-Contém um índice que indica qual o tipo do cartão quando esse tipo for identificável, segundo uma tabela a ser fornecida(5 posições)
                             else if (tipoCampo == 132)
                             {
                                 TefRetorno obj748_1 = new TefRetorno(748, 1, mensagem);
-                                TefRetornoAdicionar(obj748_1, mTefTransacao);
+                                TefRetornoAdicionar(obj748_1, gTefTransacao);
 
                                 BandeiraPadraoConst obj = BandeiraPadrao.RetornarBandeiraPadrao(Convert.ToInt32(mensagem));
                                 if (obj != null)
                                 {
                                     TefRetorno obj748_2 = new TefRetorno(748, 2, obj.NomeTipoCodigo);
-                                    TefRetornoAdicionar(obj748_2, mTefTransacao);
+                                    TefRetornoAdicionar(obj748_2, gTefTransacao);
                                 }
                             }
                             //133-Contém o NSU do SiTef (6 posições)
                             else if (tipoCampo == 133)
                             {
                                 TefRetorno obj13 = new TefRetorno(13, 0, mensagem);
-                                TefRetornoAdicionar(obj13, mTefTransacao);
+                                TefRetornoAdicionar(obj13, gTefTransacao);
                             }
                             //134-Contém o NSU do Host autorizador (20 posições no máximo)
                             else if (tipoCampo == 134)
                             {
                                 TefRetorno obj12 = new TefRetorno(12, 0, mensagem);
-                                TefRetornoAdicionar(obj12, mTefTransacao);
+                                TefRetornoAdicionar(obj12, gTefTransacao);
                             }
                             //135-Contém o Código de Autorização para as transações de crédito (15 posições no máximo)
                             else if (tipoCampo == 135)
                             {
                                 TefRetorno obj13_1 = new TefRetorno(13, 1, mensagem);
-                                TefRetornoAdicionar(obj13_1, mTefTransacao);
+                                TefRetornoAdicionar(obj13_1, gTefTransacao);
                             }
                             //156-Nome da instituição
                             else if (tipoCampo == 156)
                             {
                                 TefRetorno obj748 = new TefRetorno(748, 0, mensagem);
-                                TefRetornoAdicionar(obj748, mTefTransacao);
+                                TefRetornoAdicionar(obj748, gTefTransacao);
                             }
                             //158-Código da Rede Autorizadora
                             else if (tipoCampo == 158)
                             {
                                 TefRetorno obj739 = new TefRetorno(739, 0, mensagem);
-                                TefRetornoAdicionar(obj739, mTefTransacao);
+                                TefRetornoAdicionar(obj739, gTefTransacao);
                             }
                             //545-Tipo de Pagamento para Carteiras Digitais
                             else if (tipoCampo == 545)
@@ -390,13 +391,13 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj749 = new TefRetorno(749, 0, mensagem);
-                                    TefRetornoAdicionar(obj749, mTefTransacao);
+                                    TefRetornoAdicionar(obj749, gTefTransacao);
 
                                     CarteiraDigitalTipoPagamentoConst obj = CarteiraDigitalTipoPagamento.RetornarTipoPagamento(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
                                         TefRetorno obj749_1 = new TefRetorno(749, 1, obj.CodigoNome);
-                                        TefRetornoAdicionar(obj749_1, mTefTransacao);
+                                        TefRetornoAdicionar(obj749_1, gTefTransacao);
                                     }
                                 }
                             }
@@ -406,13 +407,13 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj750 = new TefRetorno(750, 0, mensagem);
-                                    TefRetornoAdicionar(obj750, mTefTransacao);
+                                    TefRetornoAdicionar(obj750, gTefTransacao);
 
                                     CarteiraDigitalTipoVoucherConst obj = CarteiraDigitalTipoVoucher.RetornarTipoVoucher(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
                                         TefRetorno obj750_1 = new TefRetorno(750, 1, obj.CodigoNome);
-                                        TefRetornoAdicionar(obj750_1, mTefTransacao);
+                                        TefRetornoAdicionar(obj750_1, gTefTransacao);
                                     }
                                 }
                             }
@@ -420,7 +421,7 @@ namespace Lib.CliSitef.Classes
                             else if (tipoCampo == 590)
                             {
                                 TefRetorno obj742 = new TefRetorno(742, 0, mensagem);
-                                TefRetornoAdicionar(obj742, mTefTransacao);
+                                TefRetornoAdicionar(obj742, gTefTransacao);
                             }
                             //591-Valor da Regarga de Celular
                             else if (tipoCampo == 591)
@@ -429,14 +430,14 @@ namespace Lib.CliSitef.Classes
                                 {
                                     decimal valorRecarga = Convert.ToDecimal(mensagem) / 100M;
                                     TefRetorno obj742_1 = new TefRetorno(742, 1, valorRecarga.ToString("N2"));
-                                    TefRetornoAdicionar(obj742_1, mTefTransacao);
+                                    TefRetornoAdicionar(obj742_1, gTefTransacao);
                                 }
                             }
                             //800 a 849 está reservada para retorno dos GerPdv - 800 Codigo de Controle
                             else if (tipoCampo == 800)
                             {
                                 TefRetorno obj27 = new TefRetorno(27, 0, mensagem);
-                                TefRetornoAdicionar(obj27, mTefTransacao);
+                                TefRetornoAdicionar(obj27, gTefTransacao);
                             }
                             //950-CNPJ Credenciadora NFCE
                             else if (tipoCampo == 950) //Para Modulo SAT_NFCe INSTALADO - CNPJ da fonte pagadora (autorizador do cartão)
@@ -444,7 +445,7 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj600 = new TefRetorno(600, 0, mensagem);
-                                    TefRetornoAdicionar(obj600, mTefTransacao);
+                                    TefRetornoAdicionar(obj600, gTefTransacao);
                                 }
                             }
                             //951-Bandeira NFCE
@@ -453,13 +454,13 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj601 = new TefRetorno(601, 0, mensagem);
-                                    TefRetornoAdicionar(obj601, mTefTransacao);
+                                    TefRetornoAdicionar(obj601, gTefTransacao);
 
                                     SatNfceBandeiraConst obj = SatNfceBandeira.RetornarSatNfceBandeira(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
                                         TefRetorno obj601_1 = new TefRetorno(601, 1, obj.CodigoNome);
-                                        TefRetornoAdicionar(obj601_1, mTefTransacao);
+                                        TefRetornoAdicionar(obj601_1, gTefTransacao);
                                     }
                                 }
                             }
@@ -469,7 +470,7 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj602 = new TefRetorno(602, 0, mensagem);
-                                    TefRetornoAdicionar(obj602, mTefTransacao);
+                                    TefRetornoAdicionar(obj602, gTefTransacao);
                                 }
                             }
                             //953-Código Credenciadora SAT
@@ -478,13 +479,13 @@ namespace Lib.CliSitef.Classes
                                 if (!string.IsNullOrWhiteSpace(mensagem))
                                 {
                                     TefRetorno obj603 = new TefRetorno(603, 0, mensagem);
-                                    TefRetornoAdicionar(obj603, mTefTransacao);
+                                    TefRetornoAdicionar(obj603, gTefTransacao);
 
                                     SatNfceCredenciadoraConst obj = SatNfceCredenciadora.RetornarSatNfceCredenciadora(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
                                         TefRetorno obj603_1 = new TefRetorno(603, 1, obj.CodigoNomeCnpj);
-                                        TefRetornoAdicionar(obj603_1, mTefTransacao);
+                                        TefRetornoAdicionar(obj603_1, gTefTransacao);
                                     }
                                 }
                             }
@@ -492,22 +493,27 @@ namespace Lib.CliSitef.Classes
                             else if (tipoCampo == 2021)
                             {
                                 TefRetorno obj740 = new TefRetorno(740, 0, mensagem);
-                                TefRetornoAdicionar(obj740, mTefTransacao);
+                                TefRetornoAdicionar(obj740, gTefTransacao);
                             }
                             //2022-Data de vencimento do cartão
                             else if (tipoCampo == 2022)
                             {
                                 string msgAut = mensagem.PadRight(4, '0');
                                 TefRetorno obj747 = new TefRetorno(747, 0, msgAut.Substring(2, 2) + msgAut.Substring(0, 2));
-                                TefRetornoAdicionar(obj747, mTefTransacao);
+                                TefRetornoAdicionar(obj747, gTefTransacao);
                             }
                             //2023-Nome do Titular do cartão
                             else if (tipoCampo == 2023)
                             {
                                 TefRetorno obj741 = new TefRetorno(741, 0, mensagem);
-                                TefRetornoAdicionar(obj741, mTefTransacao);
+                                TefRetornoAdicionar(obj741, gTefTransacao);
                             }
-
+                            //2971-Retorno do conteúdo digitado o PIN PAD, na Leitura de Campos Abertos
+                            else if (tipoCampo == 2971)
+                            {
+                                TefRetorno obj07 = new TefRetorno(7, 38, mensagem);
+                                TefRetornoAdicionar(obj07, gTefTransacao);
+                            }
                             #endregion
                             Application.DoEvents();
                             break;
@@ -590,7 +596,7 @@ namespace Lib.CliSitef.Classes
                             {
                                 DataType = DataTypeEnum.Menu,
                                 Titulo = captionMenu,
-                                ItensMenu = mensagem.Split(';')                                
+                                ItensMenu = mensagem.Split(';')
                             };
                             OnCallForm?.Invoke(objForm21);
                             respostaSitef = objForm21.RespostaSitef;
@@ -616,6 +622,34 @@ namespace Lib.CliSitef.Classes
                             Application.DoEvents();
                             break;
                         case 29: //Deve ser fornecido um campo, sem captura, cujo tamanho está entre TamMinimo e TamMaximo. O campo deve ser devolvido em Buffer
+                            #region Trata Tipo de Campo
+                            //2967-Código hexadecimal da mensagem que será exibida no PIN pad durante a coleta do dado.
+                            if (tipoCampo == 2967)
+                            {
+                                respostaSitef = CampoAbertoMsg.RetornarMensagemPinPad(mCampoAberto.MensagemExibidaPinPad);
+                                TefRetorno obj12 = new TefRetorno(1, 2, "01");
+                                TefRetornoAdicionar(obj12, gTefTransacao);
+                                TefRetorno obj13 = new TefRetorno(1, 3, respostaSitef);
+                                TefRetornoAdicionar(obj13, gTefTransacao);
+                            }
+                            //2968-Tamanho mínimo do dado
+                            else if (tipoCampo == 2968)
+                            {
+                                respostaSitef = mCampoAberto.TamanhoMinimo.ToString();
+                                TefRetorno obj34 = new TefRetorno(3, 4, respostaSitef);
+                                TefRetornoAdicionar(obj34, gTefTransacao);
+                            }
+                            //2969-Tamanho máximo do dado
+                            else if (tipoCampo == 2969)
+                            {
+                                respostaSitef = mCampoAberto.TamanhoMaximo.ToString();
+                                TefRetorno obj56 = new TefRetorno(5, 6, respostaSitef);
+                                TefRetornoAdicionar(obj56, gTefTransacao);
+                            }
+                            //2970-Tempo de espera máximo de inatividade até que a função aborte. Valor 0 = infinito.
+                            else if (tipoCampo == 2970)
+                                respostaSitef = mCampoAberto.TempoEsperaInatividade.ToString();
+                            #endregion
                             Application.DoEvents();
                             break;
                         case 30: //Deve ser lido um campo cujo tamanho está entre TamMinimo e TamMaximo. O campo lido deve ser devolvido em Buffer
@@ -636,7 +670,7 @@ namespace Lib.CliSitef.Classes
                                 if (tipoCampo == 505)
                                 {
                                     TefRetorno obj505 = new TefRetorno(505, 0, respostaSitef);
-                                    TefRetornoAdicionar(obj505, mTefTransacao);
+                                    TefRetornoAdicionar(obj505, gTefTransacao);
                                 }
                             }
                             Application.DoEvents();
@@ -664,7 +698,7 @@ namespace Lib.CliSitef.Classes
                                 {
                                     string valor = Convert.ToDecimal(respostaSitef).ToString("N2");
                                     TefRetorno obj3 = new TefRetorno(3, taxas, valor + "|" + RemoverQuebraDeLinhas(mensagem));
-                                    TefRetornoAdicionar(obj3, mTefTransacao);
+                                    TefRetornoAdicionar(obj3, gTefTransacao);
                                     taxas++;
                                 }
                             }
@@ -729,7 +763,6 @@ namespace Lib.CliSitef.Classes
                     interromper = false;
                     continua = -1;
                 }
-
                 valorBuffer = Encoding.ASCII.GetBytes(respostaSitef + new string('\0', 20000 - respostaSitef.Length));
             } while (result == 10000);
             return result;
@@ -743,6 +776,8 @@ namespace Lib.CliSitef.Classes
                 _parametrosAdicionais += "{TipoTratamento=4}";
             if (_header.Contains("CRT") && !mTefConfig.Tef_PinPadQrCode)
                 _parametrosAdicionais += "{DevolveStringQRCode=1}";
+            if (_header.Contains("LCA"))
+                _parametrosAdicionais = "";
 
             var dataHora = DateTime.Now;
             var dataStr = dataHora.ToString("yyyyMMdd");
@@ -869,25 +904,25 @@ namespace Lib.CliSitef.Classes
                 #region Retornos TEF
 
                 DefinirTefTransacao(_documentoVinculado, 0m);
-                gCupomVenda.Transacoes.Add(mTefTransacao);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "ADM");
-                TefRetornoAdicionar(obj0, mTefTransacao);
+                TefRetornoAdicionar(obj0, gTefTransacao);
 
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
-                TefRetornoAdicionar(obj2, mTefTransacao);
+                TefRetornoAdicionar(obj2, gTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
-                TefRetornoAdicionar(obj2_1, mTefTransacao);
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
-                TefRetornoAdicionar(obj4, mTefTransacao);
+                TefRetornoAdicionar(obj4, gTefTransacao);
 
                 TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
-                TefRetornoAdicionar(obj718, mTefTransacao);
+                TefRetornoAdicionar(obj718, gTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
-                TefRetornoAdicionar(obj719, mTefTransacao);
+                TefRetornoAdicionar(obj719, gTefTransacao);
 
                 #endregion
 
@@ -905,28 +940,28 @@ namespace Lib.CliSitef.Classes
             {
                 #region Retornos TEF
                 DefinirTefTransacao(_documentoVinculado, _valor);
-                gCupomVenda.Transacoes.Add(mTefTransacao);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CRT");
-                TefRetornoAdicionar(obj0, mTefTransacao);
+                TefRetornoAdicionar(obj0, gTefTransacao);
 
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
-                TefRetornoAdicionar(obj2, mTefTransacao);
+                TefRetornoAdicionar(obj2, gTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
-                TefRetornoAdicionar(obj2_1, mTefTransacao);
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
 
                 TefRetorno obj3 = new TefRetorno(3, 0, _valor.ToString("N2"));
-                TefRetornoAdicionar(obj3, mTefTransacao);
+                TefRetornoAdicionar(obj3, gTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
-                TefRetornoAdicionar(obj4, mTefTransacao);
+                TefRetornoAdicionar(obj4, gTefTransacao);
 
                 TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
-                TefRetornoAdicionar(obj718, mTefTransacao);
+                TefRetornoAdicionar(obj718, gTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
-                TefRetornoAdicionar(obj719, mTefTransacao);
+                TefRetornoAdicionar(obj719, gTefTransacao);
 
                 #endregion
 
@@ -937,7 +972,7 @@ namespace Lib.CliSitef.Classes
                 #region Retornos TEF
 
                 TefRetorno obj9 = new TefRetorno(9, 0, "0");
-                TefRetornoAdicionar(obj9, mTefTransacao);
+                TefRetornoAdicionar(obj9, gTefTransacao);
 
                 #endregion
 
@@ -954,25 +989,25 @@ namespace Lib.CliSitef.Classes
             {
                 #region Retornos TEF
                 DefinirTefTransacao(_documentoVinculado, 0m);
-                gCupomVenda.Transacoes.Add(mTefTransacao);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CNC");
-                TefRetornoAdicionar(obj0, mTefTransacao);
+                TefRetornoAdicionar(obj0, gTefTransacao);
 
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
-                TefRetornoAdicionar(obj2, mTefTransacao);
+                TefRetornoAdicionar(obj2, gTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
-                TefRetornoAdicionar(obj2_1, mTefTransacao);
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
-                TefRetornoAdicionar(obj4, mTefTransacao);
+                TefRetornoAdicionar(obj4, gTefTransacao);
 
                 TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
-                TefRetornoAdicionar(obj718, mTefTransacao);
+                TefRetornoAdicionar(obj718, gTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
-                TefRetornoAdicionar(obj719, mTefTransacao);
+                TefRetornoAdicionar(obj719, gTefTransacao);
 
                 #endregion
 
@@ -990,25 +1025,25 @@ namespace Lib.CliSitef.Classes
                 #region Retornos TEF
 
                 DefinirTefTransacao(_documentoVinculado, 0m);
-                gCupomVenda.Transacoes.Add(mTefTransacao);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CEL");
-                TefRetornoAdicionar(obj0, mTefTransacao);
+                TefRetornoAdicionar(obj0, gTefTransacao);
 
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
-                TefRetornoAdicionar(obj2, mTefTransacao);
+                TefRetornoAdicionar(obj2, gTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
-                TefRetornoAdicionar(obj2_1, mTefTransacao);
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
-                TefRetornoAdicionar(obj4, mTefTransacao);
+                TefRetornoAdicionar(obj4, gTefTransacao);
 
                 TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
-                TefRetornoAdicionar(obj718, mTefTransacao);
+                TefRetornoAdicionar(obj718, gTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
-                TefRetornoAdicionar(obj719, mTefTransacao);
+                TefRetornoAdicionar(obj719, gTefTransacao);
 
                 #endregion
 
@@ -1026,25 +1061,25 @@ namespace Lib.CliSitef.Classes
                 #region Retornos TEF
 
                 DefinirTefTransacao(_documentoVinculado, 0m);
-                gCupomVenda.Transacoes.Add(mTefTransacao);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CBC");
-                TefRetornoAdicionar(obj0, mTefTransacao);
+                TefRetornoAdicionar(obj0, gTefTransacao);
 
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
-                TefRetornoAdicionar(obj2, mTefTransacao);
+                TefRetornoAdicionar(obj2, gTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
-                TefRetornoAdicionar(obj2_1, mTefTransacao);
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
-                TefRetornoAdicionar(obj4, mTefTransacao);
+                TefRetornoAdicionar(obj4, gTefTransacao);
 
                 TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
-                TefRetornoAdicionar(obj718, mTefTransacao);
+                TefRetornoAdicionar(obj718, gTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
-                TefRetornoAdicionar(obj719, mTefTransacao);
+                TefRetornoAdicionar(obj719, gTefTransacao);
 
                 #endregion
 
@@ -1062,25 +1097,25 @@ namespace Lib.CliSitef.Classes
                 #region Retornos TEF
 
                 DefinirTefTransacao(_documentoVinculado, 0m);
-                gCupomVenda.Transacoes.Add(mTefTransacao);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
 
                 TefRetorno obj0 = new TefRetorno(0, 0, "CBC");
-                TefRetornoAdicionar(obj0, mTefTransacao);
+                TefRetornoAdicionar(obj0, gTefTransacao);
 
                 TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
-                TefRetornoAdicionar(obj2, mTefTransacao);
+                TefRetornoAdicionar(obj2, gTefTransacao);
 
-                TefRetorno obj2_1 = new TefRetorno(2, 1, mTefTransacao.IdentificadorTransacao.ToString());
-                TefRetornoAdicionar(obj2_1, mTefTransacao);
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
 
                 TefRetorno obj4 = new TefRetorno(4, 0, "0");
-                TefRetornoAdicionar(obj4, mTefTransacao);
+                TefRetornoAdicionar(obj4, gTefTransacao);
 
                 TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
-                TefRetornoAdicionar(obj718, mTefTransacao);
+                TefRetornoAdicionar(obj718, gTefTransacao);
 
                 TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
-                TefRetornoAdicionar(obj719, mTefTransacao);
+                TefRetornoAdicionar(obj719, gTefTransacao);
 
                 #endregion
 
@@ -1099,10 +1134,10 @@ namespace Lib.CliSitef.Classes
             #region Retornos TEF
 
             TefRetorno obj729 = new TefRetorno(729, 0, "1");
-            TefRetornoAdicionar(obj729, mTefTransacao);
+            TefRetornoAdicionar(obj729, gTefTransacao);
 
             TefRetorno obj999 = new TefRetorno(999, 0, "0");
-            TefRetornoAdicionar(obj999, mTefTransacao);
+            TefRetornoAdicionar(obj999, gTefTransacao);
 
             if (_gerarArquivo)
                 GerarArquivoRetornoDaTransacao();
@@ -1117,6 +1152,56 @@ namespace Lib.CliSitef.Classes
         {
             return VerificaPresencaPinPad();
         }
+        public string LeituraCampoAberto(CampoAberto _campoAberto)
+        {
+            mCampoAberto = _campoAberto;
+            string retorno = "";
+            int sts = FazerRequisicao(789, "LCA", 0, "", "", "");
+            if (sts == 10000)
+            {
+                #region Retornos TEF
+                DefinirTefTransacao();
+                gCupomVenda.Transacoes.Add(gTefTransacao);
+
+                TefRetorno obj0 = new TefRetorno(0, 0, "LCA");
+                TefRetornoAdicionar(obj0, gTefTransacao);
+
+                TefRetorno obj2 = new TefRetorno(2, 0, "");
+                TefRetornoAdicionar(obj2, gTefTransacao);
+
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
+
+                TefRetorno obj3 = new TefRetorno(3, 0, "0,00");
+                TefRetornoAdicionar(obj3, gTefTransacao);
+
+                TefRetorno obj4 = new TefRetorno(4, 0, "0");
+                TefRetornoAdicionar(obj4, gTefTransacao);
+
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
+                TefRetornoAdicionar(obj718, gTefTransacao);
+
+                TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
+                TefRetornoAdicionar(obj719, gTefTransacao);
+
+                #endregion
+
+                sts = ContinuarRequisicao();
+            }
+            if (sts == 0)
+            {
+                mCampoAberto = null;
+
+                var obj = gTefTransacao.Retornos.Where(p => p.Codigo == 7 && p.Indice == 38).FirstOrDefault();
+                if (obj != null)
+                    retorno = obj.Valor;
+                GerarArquivoRetornoDaTransacao();
+
+                if (mTefConfig.Tef_PinPadVerificar)
+                    EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
+            }
+            return retorno;
+        }
         public string CpfCnpjCapturar(bool _pessoaFisica = true)
         {
             string opcao = "020808DIGITAR CNPJ P1                 CONFIRME CNPJ P1|xx.xxx.xxx      " + "0606DIGITAR CNPJ P2                 CONFIRME CNPJ P2|xxxx-xx         ";
@@ -1125,9 +1210,9 @@ namespace Lib.CliSitef.Classes
 
             string retornoPinPad = new string(' ', 50);
             ObtemDadoPinPadDiretoEx("", "", opcao, ref retornoPinPad);
-
             return _pessoaFisica ? retornoPinPad.Substring(4, 11).Replace("\0", "").Trim() : (retornoPinPad.Substring(4, 08) + retornoPinPad.Substring(14, 06)).Replace("\0", "").Trim();
         }
+
         public void CancelarTransacaoPendente(string _documentoVinculado = "")
         {
             FinalizarOperacao(0, _documentoVinculado);
@@ -1143,12 +1228,12 @@ namespace Lib.CliSitef.Classes
         }
         private void InicializarTefTransacao(string _documentoVinculado = "", decimal _valor = 0m)
         {
-            if (mTefTransacao == null)
+            if (gTefTransacao == null)
                 DefinirTefTransacao(_documentoVinculado, _valor);
         }
         private void DefinirTefTransacao(string _documentoVinculado = "", decimal _valor = 0m)
         {
-            mTefTransacao = new TefTransacao
+            gTefTransacao = new TefTransacao
             {
                 DocumentoVinculado = _documentoVinculado,
                 ValorTransacao = _valor

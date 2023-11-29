@@ -32,7 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTelaTesteVenda));
             this.txtValorVenda = new TextBoxCurrency.TextBoxCurrency();
             this.pnlBody = new System.Windows.Forms.Panel();
-            this.btnCpfCnpj = new System.Windows.Forms.Button();
+            this.btnCpfCnpj2 = new System.Windows.Forms.Button();
+            this.btnSenha4Dig = new System.Windows.Forms.Button();
+            this.btnCpfCnpj1 = new System.Windows.Forms.Button();
             this.btnRecargaCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnCorrespondenteBancario = new System.Windows.Forms.Button();
             this.btnRecarga = new System.Windows.Forms.Button();
@@ -54,11 +56,11 @@
             this.btnCrt = new System.Windows.Forms.Button();
             this.btnAdm = new System.Windows.Forms.Button();
             this.btnAtv = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.pnlQrCode = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.lblQrCode = new System.Windows.Forms.Label();
             this.lblMenuTituloQrCode = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlBottom = new System.Windows.Forms.Panel();
@@ -86,7 +88,9 @@
             // 
             // pnlBody
             // 
-            this.pnlBody.Controls.Add(this.btnCpfCnpj);
+            this.pnlBody.Controls.Add(this.btnCpfCnpj2);
+            this.pnlBody.Controls.Add(this.btnSenha4Dig);
+            this.pnlBody.Controls.Add(this.btnCpfCnpj1);
             this.pnlBody.Controls.Add(this.btnRecargaCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnCorrespondenteBancario);
             this.pnlBody.Controls.Add(this.btnRecarga);
@@ -109,25 +113,49 @@
             this.pnlBody.Controls.Add(this.btnAdm);
             this.pnlBody.Controls.Add(this.btnAtv);
             this.pnlBody.Controls.Add(this.txtValorVenda);
-            this.pnlBody.Controls.Add(this.pnlQrCode);
             this.pnlBody.Controls.Add(this.label5);
+            this.pnlBody.Controls.Add(this.pnlQrCode);
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBody.Location = new System.Drawing.Point(0, 60);
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Size = new System.Drawing.Size(567, 336);
             this.pnlBody.TabIndex = 1;
             // 
-            // btnCpfCnpj
+            // btnCpfCnpj2
             // 
-            this.btnCpfCnpj.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCpfCnpj.Location = new System.Drawing.Point(6, 130);
-            this.btnCpfCnpj.Name = "btnCpfCnpj";
-            this.btnCpfCnpj.Size = new System.Drawing.Size(75, 23);
-            this.btnCpfCnpj.TabIndex = 24;
-            this.btnCpfCnpj.Text = "Cpf / Cnpj";
-            this.toolTip1.SetToolTip(this.btnCpfCnpj, "Capturar Cpf / Cnpj no PinPad");
-            this.btnCpfCnpj.UseVisualStyleBackColor = true;
-            this.btnCpfCnpj.Click += new System.EventHandler(this.btnCpfCnpj_Click);
+            this.btnCpfCnpj2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCpfCnpj2.Location = new System.Drawing.Point(6, 159);
+            this.btnCpfCnpj2.Name = "btnCpfCnpj2";
+            this.btnCpfCnpj2.Size = new System.Drawing.Size(75, 23);
+            this.btnCpfCnpj2.TabIndex = 26;
+            this.btnCpfCnpj2.Text = "Cpf/Cnpj 2";
+            this.toolTip1.SetToolTip(this.btnCpfCnpj2, "Capturar Cpf/Cnpj no PinPad (Novo Padrao DLL  7.0.115.34/Superior)");
+            this.btnCpfCnpj2.UseVisualStyleBackColor = true;
+            this.btnCpfCnpj2.Click += new System.EventHandler(this.btnCpfCnpj2_Click);
+            // 
+            // btnSenha4Dig
+            // 
+            this.btnSenha4Dig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSenha4Dig.Location = new System.Drawing.Point(6, 188);
+            this.btnSenha4Dig.Name = "btnSenha4Dig";
+            this.btnSenha4Dig.Size = new System.Drawing.Size(75, 23);
+            this.btnSenha4Dig.TabIndex = 25;
+            this.btnSenha4Dig.Text = "Senha 4 Dig";
+            this.toolTip1.SetToolTip(this.btnSenha4Dig, "Capturar Código de Segurança do Cliente");
+            this.btnSenha4Dig.UseVisualStyleBackColor = true;
+            this.btnSenha4Dig.Click += new System.EventHandler(this.btnSenha4Dig_Click);
+            // 
+            // btnCpfCnpj1
+            // 
+            this.btnCpfCnpj1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCpfCnpj1.Location = new System.Drawing.Point(6, 130);
+            this.btnCpfCnpj1.Name = "btnCpfCnpj1";
+            this.btnCpfCnpj1.Size = new System.Drawing.Size(75, 23);
+            this.btnCpfCnpj1.TabIndex = 24;
+            this.btnCpfCnpj1.Text = "Cpf/Cnpj 1";
+            this.toolTip1.SetToolTip(this.btnCpfCnpj1, "Capturar Cpf/Cnpj no PinPad (Padrão Antigo)");
+            this.btnCpfCnpj1.UseVisualStyleBackColor = true;
+            this.btnCpfCnpj1.Click += new System.EventHandler(this.btnCpfCnpj1_Click);
             // 
             // btnRecargaCorrespondenteBancario
             // 
@@ -371,6 +399,17 @@
             this.btnAtv.UseVisualStyleBackColor = true;
             this.btnAtv.Click += new System.EventHandler(this.btnAtv_Click);
             // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(329, 85);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(231, 246);
+            this.label5.TabIndex = 15;
+            this.label5.Text = resources.GetString("label5.Text");
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pnlQrCode
             // 
             this.pnlQrCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -414,17 +453,6 @@
             this.lblMenuTituloQrCode.TabIndex = 2;
             this.lblMenuTituloQrCode.Text = "[lblMenuTituloQrCode]";
             this.lblMenuTituloQrCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(329, 85);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(231, 246);
-            this.label5.TabIndex = 15;
-            this.label5.Text = resources.GetString("label5.Text");
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlTop
             // 
@@ -544,7 +572,9 @@
         private System.Windows.Forms.Label lblMenuTituloQrCode;
         private System.Windows.Forms.Button btnCorrespondenteBancario;
         private System.Windows.Forms.Button btnRecargaCorrespondenteBancario;
-        private System.Windows.Forms.Button btnCpfCnpj;
+        private System.Windows.Forms.Button btnCpfCnpj1;
+        private System.Windows.Forms.Button btnSenha4Dig;
+        private System.Windows.Forms.Button btnCpfCnpj2;
     }
 }
 
