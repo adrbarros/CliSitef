@@ -543,7 +543,7 @@ namespace App.CliSiTef_DLL
             LimparRetornoTef();
             ExibirMensagem("", 0);
             if (!string.IsNullOrWhiteSpace(senha))
-                MessageBox.Show(" Capturado -> " + senha, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Conteúdo Capturado -> " + senha, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void btnAdm_Click(object sender, EventArgs e)
         {
