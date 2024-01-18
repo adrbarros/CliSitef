@@ -373,6 +373,16 @@ namespace Lib.CliSitef.Classes
                                 TefRetorno obj13_1 = new TefRetorno(13, 1, mensagem);
                                 TefRetornoAdicionar(obj13_1, gTefTransacao);
                             }
+                            //154-Contém o novo valor de pagamento
+                            else if (tipoCampo == 154)
+                            {
+                                if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
+                                {
+                                    string valor = Convert.ToDecimal(respostaSitef).ToString("N2");
+                                    TefRetorno obj3 = new TefRetorno(3, 10, valor + "|" + RemoverQuebraDeLinhas(mensagem));
+                                    TefRetornoAdicionar(obj3, gTefTransacao);
+                                }
+                            }
                             //156-Nome da instituição
                             else if (tipoCampo == 156)
                             {
