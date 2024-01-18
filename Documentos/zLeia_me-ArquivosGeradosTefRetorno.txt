@@ -13,6 +13,7 @@ De               -> Para
 *DocViculado     002-000=827715                               //Documento Fiscal
 *Id Transacao    002-001=8daa2aa3-41d6-4c26-bf13-f636a4d2d333 //Identificador de Transação para controle interno (Retaguarda que deve gerar esse Guid)
 *Valor Transacao 003-000=10,00                                //Valores adicionais virá na sequencia 003-001 - 003-002 etc
+154              003-010=12,00                                //Contem valor alterado da transação
 *Moeda           004-000=0                                    //Moeda
 *Status          009-000=0                                    //
 131              010-000=00271                                //** Recupera o Nome da Adquirente baseado na lista estatica da classe RedeAutorizadoraConst
