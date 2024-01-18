@@ -281,7 +281,7 @@ namespace App.CliSiTef_DLL
                 }
                 else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Currency)
                 {
-                    if (_tefFuncaoInterativa.TipoCampo == 0 || _tefFuncaoInterativa.TipoCampo == 130 || _tefFuncaoInterativa.TipoCampo == 146 || _tefFuncaoInterativa.TipoCampo == 504)
+                    if (_tefFuncaoInterativa.TipoCampo == 0 || _tefFuncaoInterativa.TipoCampo == 130 || _tefFuncaoInterativa.TipoCampo == 146 || _tefFuncaoInterativa.TipoCampo == 154 || _tefFuncaoInterativa.TipoCampo == 504)
                     {
                         using (FrmTefColetaDados frm = new FrmTefColetaDados())
                         {

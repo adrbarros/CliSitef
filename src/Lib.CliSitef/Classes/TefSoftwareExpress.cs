@@ -143,6 +143,7 @@ namespace Lib.CliSitef.Classes
         {
             if (string.IsNullOrWhiteSpace(_texto))
                 return "";
+
             _texto = Regex.Replace(_texto, @"\r\n?|\n|\t", " "); //Remover Quebra de Linha (ENTER)
             _texto = Regex.Replace(_texto, @"\s{2,}", " "); //Remover espaços a mais no meio da palavra
 
@@ -373,15 +374,11 @@ namespace Lib.CliSitef.Classes
                                 TefRetorno obj13_1 = new TefRetorno(13, 1, mensagem);
                                 TefRetornoAdicionar(obj13_1, gTefTransacao);
                             }
-                            //154-Contém o novo valor de pagamento
-                            else if (tipoCampo == 154)
+                            //136-Contém as 6 primeiras posições do cartão (bin)
+                            else if (tipoCampo == 136)
                             {
-                                if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
-                                {
-                                    string valor = Convert.ToDecimal(respostaSitef).ToString("N2");
-                                    TefRetorno obj3 = new TefRetorno(3, 10, valor + "|" + RemoverQuebraDeLinhas(mensagem));
-                                    TefRetornoAdicionar(obj3, gTefTransacao);
-                                }
+                                TefRetorno obj740_1 = new TefRetorno(740, 1, mensagem);
+                                TefRetornoAdicionar(obj740_1, gTefTransacao);
                             }
                             //156-Nome da instituição
                             else if (tipoCampo == 156)
@@ -701,7 +698,8 @@ namespace Lib.CliSitef.Classes
                             respostaSitef = objForm34.RespostaSitef;
                             interromper = objForm34.Interromper;
                             voltarAoMenuAnterior = objForm34.Voltar;
-                            //504-Taxa de Serviço      130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente.Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
+                            //504-Taxa de Serviço
+                            //130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente.Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             if (tipoCampo == 504 || tipoCampo == 130)
                             {
                                 if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
@@ -710,6 +708,16 @@ namespace Lib.CliSitef.Classes
                                     TefRetorno obj3 = new TefRetorno(3, taxas, valor + "|" + RemoverQuebraDeLinhas(mensagem));
                                     TefRetornoAdicionar(obj3, gTefTransacao);
                                     taxas++;
+                                }
+                            }
+                            //154-Contém o novo valor de pagamento
+                            if (tipoCampo == 154)
+                            {
+                                if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
+                                {
+                                    string valor = Convert.ToDecimal(respostaSitef).ToString("N2");
+                                    TefRetorno obj3 = new TefRetorno(3, 10, valor + "|" + RemoverQuebraDeLinhas(mensagem));
+                                    TefRetornoAdicionar(obj3, gTefTransacao);
                                 }
                             }
                             Application.DoEvents();

@@ -60,6 +60,7 @@ Grupo Pagto      731-001=CARTAO DEBITO                        //** Recupera o De
 SubGrupo Pagto   732-001=A VISTA                              //** Recupera o Descrição da Modalidade SubGrupo de Pagamento baseado na lista estatica da classe ModalidadePagamentoSubGrupoConst
 158              739-000=ER                                   //Indice da Rede Adquirente
 2021             740-000=506722******8888                     //Número do cartão
+136              740-001=506722                               //Contém as 6 primeiras posições do cartão (bin)
 590              742-000=                                     //Operadora da Recarga de Celular
 591              742-001=                                     //Valor da Regarga de Celular
 2022             747-000=1221                                 //Data de vencimento do cartão
