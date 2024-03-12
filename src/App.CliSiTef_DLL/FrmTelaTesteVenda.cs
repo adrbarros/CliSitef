@@ -235,6 +235,7 @@ namespace App.CliSiTef_DLL
                         frm.gMensagem = _tefFuncaoInterativa.Mensagem;
                         frm.Focus();
                         frm.ShowDialog();
+                        Refresh();
                     }
                 }
                 else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Confirmation)
@@ -257,6 +258,7 @@ namespace App.CliSiTef_DLL
                         else
                             _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
                         _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
+                        Refresh();
                     }
                 }
                 else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Numeric)
@@ -276,6 +278,7 @@ namespace App.CliSiTef_DLL
                             else
                                 _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
                             _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
+                            Refresh();
                         }
                     }
                 }
@@ -301,6 +304,7 @@ namespace App.CliSiTef_DLL
                             else
                                 _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
                             _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
+                            Refresh();
                         }
                     }
                 }
@@ -320,6 +324,7 @@ namespace App.CliSiTef_DLL
                                     _tefFuncaoInterativa.RespostaSitef = frm.lblQrCode.Text;
                                 else
                                     _tefFuncaoInterativa.Interromper = true;
+                                Refresh();
                             }
                         }
                     }
@@ -695,6 +700,7 @@ namespace App.CliSiTef_DLL
             using (FrmConfirmarValor frm = new FrmConfirmarValor(valorParaEstaTransacao))
             {
                 frm.ShowDialog();
+                Refresh();
                 if (frm.DialogResult == DialogResult.Cancel)
                     return;
 
@@ -779,6 +785,7 @@ namespace App.CliSiTef_DLL
             using (FrmConfirmarValor frm = new FrmConfirmarValor(valorParaEstaTransacao))
             {
                 frm.ShowDialog();
+                Refresh();
                 if (frm.DialogResult == DialogResult.Cancel)
                     return;
 
@@ -865,6 +872,7 @@ namespace App.CliSiTef_DLL
             {
                 frm.Focus();
                 frm.ShowDialog();
+                Refresh();
                 if (frm.DialogResult == DialogResult.Cancel)
                     return;
 
@@ -949,6 +957,7 @@ namespace App.CliSiTef_DLL
             using (FrmConfirmarValor frm = new FrmConfirmarValor(valorParaEstaTransacao))
             {
                 frm.ShowDialog();
+                Refresh();
                 if (frm.DialogResult == DialogResult.Cancel)
                     return;
 
