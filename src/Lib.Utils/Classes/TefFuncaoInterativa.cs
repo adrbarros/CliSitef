@@ -11,6 +11,7 @@ namespace Lib.Utils.Classes
         }
 
         public DataTypeEnum DataType { get; set; }
+        public int Comando { get; set; }
         public long TipoCampo { get; set; }
         public short TamanhoMinimo { get; set; }
         public short TamanhoMaximo { get; set; }

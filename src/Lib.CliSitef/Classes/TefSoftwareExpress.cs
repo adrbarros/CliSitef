@@ -689,6 +689,7 @@ namespace Lib.CliSitef.Classes
                             TefFuncaoInterativa objForm34 = new TefFuncaoInterativa
                             {
                                 DataType = DataTypeEnum.Currency,
+                                Comando = 34,
                                 TipoCampo = tipoCampo,
                                 TamanhoMinimo = tamanhoMinimo,
                                 TamanhoMaximo = tamanhoMaximo,
@@ -698,8 +699,8 @@ namespace Lib.CliSitef.Classes
                             respostaSitef = objForm34.RespostaSitef;
                             interromper = objForm34.Interromper;
                             voltarAoMenuAnterior = objForm34.Voltar;
+                            //130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente. Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             //504-Taxa de Serviço
-                            //130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente.Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             if (tipoCampo == 504 || tipoCampo == 130)
                             {
                                 if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
@@ -710,8 +711,10 @@ namespace Lib.CliSitef.Classes
                                     taxas++;
                                 }
                             }
+                            //146-A rotina está sendo chamada para ler o Valor a ser cancelado. Caso o aplicativo de automação possua esse valor, pode apresentá-lo para o operador e permitir que ele confirme o valor antes de passá-lo devolvê-lo para a rotina. Caso ele não possua esse valor, deve lê-lo.
+                            //147-Valor do cancelamento
                             //154-Contém o novo valor de pagamento
-                            if (tipoCampo == 154)
+                            if (tipoCampo == 146 || tipoCampo == 147 || tipoCampo == 154)
                             {
                                 if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
                                 {

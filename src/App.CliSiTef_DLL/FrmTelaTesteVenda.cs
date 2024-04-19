@@ -62,22 +62,11 @@ namespace App.CliSiTef_DLL
             {
                 using (StreamWriter sw = File.AppendText(path))
                 {
-                    sw.WriteLine("[Redes]");
-                    sw.WriteLine("HabilitaRedeTelecheque=1");
-                    sw.WriteLine("HabilitaRedeSigaCred=1");
-                    sw.WriteLine("HabilitaRedeSoftWay=1");
-                    sw.WriteLine("");
                     sw.WriteLine("[PinPad]");
                     sw.WriteLine("Tipo=Compartilhado");
                     sw.WriteLine("");
                     sw.WriteLine("[PinPadCompartilhado]");
                     sw.WriteLine("Porta=" + mTefConfig.Tef_PinPadPorta);
-                    sw.WriteLine("");
-                    sw.WriteLine("[CliSiTef]");
-                    sw.WriteLine("HabilitaTrace=0");
-                    sw.WriteLine("");
-                    sw.WriteLine("[CliSiTefI]");
-                    sw.WriteLine("HabilitaTrace=0");
                     sw.WriteLine("");
                     sw.WriteLine("[SiTef]");
                     sw.WriteLine("MantemConexaoAtiva=1");
@@ -85,6 +74,7 @@ namespace App.CliSiTef_DLL
                     sw.WriteLine("");
                     sw.WriteLine("[Geral]");
                     sw.WriteLine("TransacoesAdicionaisHabilitadas=7;8;16;26;29;30;40;42;43;3014;3044;");
+                    sw.WriteLine("TransacoesDesabilitadas=18;19;27;28;36;44;3031;3227;3480;3988;3989;");
                     sw.WriteLine("");
                     sw.WriteLine("[SrvCliSiTef]");
                     sw.WriteLine("IpSiTef=" + mTefConfig.Tef_Ip);
@@ -284,7 +274,7 @@ namespace App.CliSiTef_DLL
                 }
                 else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Currency)
                 {
-                    if (_tefFuncaoInterativa.TipoCampo == 0 || _tefFuncaoInterativa.TipoCampo == 130 || _tefFuncaoInterativa.TipoCampo == 146 || _tefFuncaoInterativa.TipoCampo == 154 || _tefFuncaoInterativa.TipoCampo == 504)
+                    if (_tefFuncaoInterativa.TipoCampo == 0 || _tefFuncaoInterativa.Comando == 34)
                     {
                         using (FrmTefColetaDados frm = new FrmTefColetaDados())
                         {
