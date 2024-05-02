@@ -74,7 +74,7 @@ namespace App.CliSiTef_DLL
                     sw.WriteLine("");
                     sw.WriteLine("[Geral]");
                     sw.WriteLine("TransacoesAdicionaisHabilitadas=7;8;16;26;29;30;40;42;43;3014;3044;");
-                    sw.WriteLine("TransacoesDesabilitadas=18;19;27;28;36;44;3031;3227;3480;3988;3989;");
+                    sw.WriteLine("TransacoesDesabilitadas=17;18;19;27;28;36;44;3031;3227;3480;3988;3989;");
                     sw.WriteLine("");
                     sw.WriteLine("[SrvCliSiTef]");
                     sw.WriteLine("IpSiTef=" + mTefConfig.Tef_Ip);
