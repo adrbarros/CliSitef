@@ -714,7 +714,7 @@ namespace App.CliSiTef_DLL
                                             cupom.DataStr = item.Valor;
                                             break;
                                         case 804:
-                                            cupom.DataStr = item.Valor;
+                                            cupom.HoraStr = item.Valor;
                                             break;
                                         case 805:
                                             cupom.FuncaoCodigo = Convert.ToInt32(item.Valor);
@@ -735,29 +735,32 @@ namespace App.CliSiTef_DLL
                 }
 
                 if (lstCupons.Count > 0)
-                    MessageBox.Show("Existe(m) " + lstCupons.Count.ToString() + " pendente(s).", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Existe(m) " + lstCupons.Count.ToString() + " pendente(s).", "T R A N S A Ç Ã O", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("Não existe transações pendentes", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Não existe transações pendentes", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 foreach (Cupom item in lstCupons)
                 {
                     if (item != null && item.ValorTotal > 0)
                     {
-                        string cupomDados = "Referencia: " + item.DocumentoVinculado + " - Operação: " + item.FuncaoDescricao + "\r\n";
+                        string cupomDados = "Referência: " + item.DocumentoVinculado + " - Operação: " + item.FuncaoDescricao + "\r\n";
                         cupomDados += "Data/Hora: " + item.DataStr + " " + item.HoraStr + "\r\n";
                         cupomDados += "Valor: " + item.ValorTotal.ToString("N2") + "\r\n\r\n";
                         cupomDados += "Transação Pendente, o que deseja? ";
 
                         MessageBoxManager.Yes = "&1-Confirmar";
                         MessageBoxManager.No = "&2-Cancelar";
+                        MessageBoxManager.Cancel = "&3-Voltar";
                         MessageBoxManager.Register();
-                        switch (MessageBox.Show(cupomDados, "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
+                        switch (MessageBox.Show(cupomDados, "Atenção", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1))
                         {
                             case DialogResult.No:
                                 mTefSoftwareExpress.CancelarTransacaoPendente(item.DocumentoVinculado);
                                 break;
                             case DialogResult.Yes:
                                 mTefSoftwareExpress.ConfirmarTransacaoPendente(item.DocumentoVinculado);
+                                break;
+                            default:
                                 break;
                         }
                         MessageBoxManager.Unregister();
@@ -768,7 +771,7 @@ namespace App.CliSiTef_DLL
 
             LimparRetornoTef();
         }
-        
+
         private void btnCrt_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
@@ -1110,7 +1113,7 @@ namespace App.CliSiTef_DLL
             }
             txtDocumentoVinculado.Focus();
         }
-        
+
         private void btnCnc_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
