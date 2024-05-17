@@ -9,6 +9,7 @@ namespace Lib.FormsAuxiliares
         public string[] gItens { get; set; }
         public int gSelecionado { get; set; }
         public bool VoltarSelecionado { get; set; }
+
         public FrmTefMenu()
         {
             InitializeComponent();

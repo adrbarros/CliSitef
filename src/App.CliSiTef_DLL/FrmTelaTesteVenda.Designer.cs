@@ -67,6 +67,7 @@
             this.lblMensagem = new System.Windows.Forms.TextBox();
             this.bkgInicioTef = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnTransacaoPendente = new System.Windows.Forms.Button();
             this.pnlBody.SuspendLayout();
             this.pnlQrCode.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -88,6 +89,7 @@
             // 
             // pnlBody
             // 
+            this.pnlBody.Controls.Add(this.btnTransacaoPendente);
             this.pnlBody.Controls.Add(this.btnCpfCnpj2);
             this.pnlBody.Controls.Add(this.btnSenha4Dig);
             this.pnlBody.Controls.Add(this.btnCpfCnpj1);
@@ -507,6 +509,18 @@
             this.bkgInicioTef.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bkgInicioTef_DoWork);
             this.bkgInicioTef.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bkgInicioTef_RunWorkerCompleted);
             // 
+            // btnTransacaoPendente
+            // 
+            this.btnTransacaoPendente.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTransacaoPendente.Location = new System.Drawing.Point(87, 217);
+            this.btnTransacaoPendente.Name = "btnTransacaoPendente";
+            this.btnTransacaoPendente.Size = new System.Drawing.Size(75, 23);
+            this.btnTransacaoPendente.TabIndex = 27;
+            this.btnTransacaoPendente.Text = "TRN.PEND";
+            this.toolTip1.SetToolTip(this.btnTransacaoPendente, "Verificar Transações Pendentes");
+            this.btnTransacaoPendente.UseVisualStyleBackColor = true;
+            this.btnTransacaoPendente.Click += new System.EventHandler(this.btnTransacaoPendente_Click);
+            // 
             // FrmTelaTesteVenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -575,6 +589,7 @@
         private System.Windows.Forms.Button btnCpfCnpj1;
         private System.Windows.Forms.Button btnSenha4Dig;
         private System.Windows.Forms.Button btnCpfCnpj2;
+        private System.Windows.Forms.Button btnTransacaoPendente;
     }
 }
 

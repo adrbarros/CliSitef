@@ -178,6 +178,14 @@ namespace Lib.CliSitef.Classes
                 _tefTransacao.Retornos.Add(_obj);
         }
 
+        private void TefRetornoProximoIndice(TefRetorno _obj, TefTransacao _tefTransacao)
+        {
+            _obj.Indice = 1;
+            TefRetorno obj = _tefTransacao.Retornos.Where(p => p.Codigo == _obj.Codigo).OrderBy(p => p.Indice).LastOrDefault();
+            if (obj != null)
+                _obj.Indice = obj.Indice + 1;
+        }
+
         private int ContinuarRequisicao()
         {
             byte[] valorBuffer = new byte[20000];
@@ -392,6 +400,67 @@ namespace Lib.CliSitef.Classes
                                 TefRetorno obj739 = new TefRetorno(739, 0, mensagem);
                                 TefRetornoAdicionar(obj739, gTefTransacao);
                             }
+                            //160-Cupom Fiscal (Pendente)
+                            else if (tipoCampo == 160)
+                            {
+                                TefRetorno obj801 = new TefRetorno
+                                {
+                                    Codigo = 801,
+                                    Valor = mensagem
+                                };
+                                TefRetornoProximoIndice(obj801, gTefTransacao);
+                                TefRetornoAdicionar(obj801, gTefTransacao);
+                            }
+                            //161-Número Identificador do Cupom do Pagamento  (Pendente)
+                            else if (tipoCampo == 161)
+                            {
+                                TefRetorno obj802 = new TefRetorno
+                                {
+                                    Codigo = 802,
+                                    Valor = mensagem
+                                };
+                                TefRetornoProximoIndice(obj802, gTefTransacao);
+                                TefRetornoAdicionar(obj802, gTefTransacao);
+                            }
+                            //163-Data Fiscal  (Pendente)
+                            else if (tipoCampo == 163)
+                            {
+                                TefRetorno obj803 = new TefRetorno
+                                {
+                                    Codigo = 803,
+                                    Valor = mensagem
+                                };
+                                TefRetornoProximoIndice(obj803, gTefTransacao);
+                                TefRetornoAdicionar(obj803, gTefTransacao);
+                            }
+                            //164-Hora Fiscal  (Pendente)
+                            else if (tipoCampo == 164)
+                            {
+                                TefRetorno obj804 = new TefRetorno
+                                {
+                                    Codigo = 804,
+                                    Valor = mensagem
+                                };
+                                TefRetornoProximoIndice(obj804, gTefTransacao);
+                                TefRetornoAdicionar(obj804, gTefTransacao);
+                            }
+                            //210-Quantidade total de pendências, listadas nos blocos de dados abaixo
+                            else if (tipoCampo == 210)
+                            {
+                                TefRetorno obj800 = new TefRetorno(800, 0, mensagem);
+                                TefRetornoAdicionar(obj800, gTefTransacao);
+                            }
+                            //211-Código da “Funcao” original  (Pendente)
+                            else if (tipoCampo == 211)
+                            {
+                                TefRetorno obj805 = new TefRetorno
+                                {
+                                    Codigo = 805,
+                                    Valor = mensagem
+                                };
+                                TefRetornoProximoIndice(obj805, gTefTransacao);
+                                TefRetornoAdicionar(obj805, gTefTransacao);
+                            }
                             //545-Tipo de Pagamento para Carteiras Digitais
                             else if (tipoCampo == 545)
                             {
@@ -495,6 +564,17 @@ namespace Lib.CliSitef.Classes
                                         TefRetornoAdicionar(obj603_1, gTefTransacao);
                                     }
                                 }
+                            }
+                            //1319-Valor da transação original (Pendente)
+                            else if (tipoCampo == 1319)
+                            {
+                                TefRetorno obj806 = new TefRetorno
+                                {
+                                    Codigo = 806,
+                                    Valor = (Convert.ToDecimal(mensagem) / 100M).ToString("N2")
+                                };
+                                TefRetornoProximoIndice(obj806, gTefTransacao);
+                                TefRetornoAdicionar(obj806, gTefTransacao);
                             }
                             //2021-Número do cartão
                             else if (tipoCampo == 2021)
@@ -1038,6 +1118,42 @@ namespace Lib.CliSitef.Classes
                 Cnf(_documentoVinculado: _documentoVinculado);
             return sts;
         }
+        public int FuncaoExecutar(int _funcao, string _documentoVinculado = "")
+        {
+            int sts = FazerRequisicao(_funcao, "FNC", _documento: _documentoVinculado);
+            if (sts == 10000)
+            {
+                #region Retornos TEF
+
+                DefinirTefTransacao(_documentoVinculado, 0m);
+                gCupomVenda.Transacoes.Add(gTefTransacao);
+
+                TefRetorno obj0 = new TefRetorno(0, 0, "FNC");
+                TefRetornoAdicionar(obj0, gTefTransacao);
+
+                TefRetorno obj2 = new TefRetorno(2, 0, _documentoVinculado);
+                TefRetornoAdicionar(obj2, gTefTransacao);
+
+                TefRetorno obj2_1 = new TefRetorno(2, 1, gTefTransacao.IdentificadorTransacao.ToString());
+                TefRetornoAdicionar(obj2_1, gTefTransacao);
+
+                TefRetorno obj4 = new TefRetorno(4, 0, "0");
+                TefRetornoAdicionar(obj4, gTefTransacao);
+
+                TefRetorno obj718 = new TefRetorno(718, 0, "IP" + mTefConfig.Tef_Terminal);
+                TefRetornoAdicionar(obj718, gTefTransacao);
+
+                TefRetorno obj719 = new TefRetorno(719, 0, mTefConfig.Tef_Empresa);
+                TefRetornoAdicionar(obj719, gTefTransacao);
+
+                #endregion
+
+                sts = ContinuarRequisicao();
+            }
+            if (sts == 0)
+                Cnf(_documentoVinculado: _documentoVinculado);
+            return sts;
+        }
         public int RecargaCelular(string _documentoVinculado = "")
         {
             int sts = FazerRequisicao(300, "CEL", _documento: _documentoVinculado);
@@ -1234,6 +1350,13 @@ namespace Lib.CliSitef.Classes
             return _pessoaFisica ? retornoPinPad.Substring(4, 11).Replace("\0", "").Trim() : (retornoPinPad.Substring(4, 08) + retornoPinPad.Substring(14, 06)).Replace("\0", "").Trim();
         }
 
+        public void ConfirmarTransacaoPendente(string _documentoVinculado = "")
+        {
+            FinalizarOperacao(1, _documentoVinculado);
+
+            if (mTefConfig.Tef_PinPadVerificar)
+                EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
+        }
         public void CancelarTransacaoPendente(string _documentoVinculado = "")
         {
             FinalizarOperacao(0, _documentoVinculado);
