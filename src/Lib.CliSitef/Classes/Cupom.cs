@@ -15,7 +15,7 @@ namespace Lib.CliSitef.Classes
         {
             get
             {
-                return FuncaoCodigo == 0 ? "" : FuncaoCodigo == 2 ? "DEBITO" : FuncaoCodigo == 3 ? "CREDITO" : "OUTROS";
+                return FuncaoCodigo == 0 ? "" : FuncaoCodigo == 2 ? "DEBITO" : FuncaoCodigo == 3 ? "CREDITO" : FuncaoCodigo == 122 ? "CARTEIRA DIGITAL" : "OUTROS";
             }
         }
 
