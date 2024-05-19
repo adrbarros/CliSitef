@@ -184,11 +184,11 @@ namespace App.CliSiTef_DLL
             mTefSoftwareExpress.gCupomVenda = null;
             mCupomVenda = null;
         }
-        private bool VerificarTeclaPressionada(Keys _tecla)
+        private bool VerificarTeclaPressionada(Keys _tecla, string _callLocation = "")
         {
             bool escapePressed = (GetAsyncKeyState((int)_tecla) & 0x8000) != 0;
             if (escapePressed)
-                Log.GerarLogProcessoExecucao("ESC Precionado - Operação abortada.");
+                Log.GerarLogProcessoExecucao("ESC Precionado - Operação abortada. -> " + _callLocation);
             return escapePressed;
         }
 
@@ -200,12 +200,13 @@ namespace App.CliSiTef_DLL
             mTefSoftwareExpress.OnCallForm += new TefSoftwareExpress.OnCallFormtHandle(MTefSoftwareExpress_OnCallForm);
             mTefSoftwareExpress.OnCallPanelQrCode += new TefSoftwareExpress.OnCallPanelQrCodeHandle(MTefSoftwareExpress_OnCallPanelQrCode);
             mTefSoftwareExpress.OnClosePanelQrCode += new TefSoftwareExpress.OnClosePanelQrCodeHandle(MTefSoftwareExpress_OnClosePanelQrCode);
+            mTefSoftwareExpress.OnVerifyDataCollectionInterruption += new TefSoftwareExpress.OnVerifyDataCollectionInterruptionHandle(MTefSoftwareExpress_OnVerifyDataCollectionInterruption);
         }
 
         private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos, TefFuncaoInterativa _tefFuncaoInterativa = null)
         {
             if (_tefFuncaoInterativa != null)
-                _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape);
+                _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape, "OnMessageClient");
 
             lblMensagem.Invoke((MethodInvoker)delegate
             {
@@ -356,6 +357,10 @@ namespace App.CliSiTef_DLL
                 _tefFuncaoInterativa.FormAberto = false;
                 _tefFuncaoInterativa.FormFechar = false;
             }
+        }
+        private void MTefSoftwareExpress_OnVerifyDataCollectionInterruption(TefFuncaoInterativa _tefFuncaoInterativa)
+        {
+            _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape, "OnVerifyDataCollectionInterruption");
         }
 
         private void FrmTelaTesteVenda_Load(object sender, EventArgs e)

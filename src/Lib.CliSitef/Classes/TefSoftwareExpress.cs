@@ -94,7 +94,7 @@ namespace Lib.CliSitef.Classes
         public delegate void OnClosePanelQrCodeHandle(TefFuncaoInterativa _tefFuncaoInterativa);
         public event OnClosePanelQrCodeHandle OnClosePanelQrCode;
 
-        public delegate void OnVerifyDataCollectionInterruptionHandle(ref bool _interromper);
+        public delegate void OnVerifyDataCollectionInterruptionHandle(TefFuncaoInterativa _tefFuncaoInterativa);
         public event OnVerifyDataCollectionInterruptionHandle OnVerifyDataCollectionInterruption;
 
         private TefFuncaoInterativa mObjForm50 { get; set; }
@@ -705,7 +705,10 @@ namespace Lib.CliSitef.Classes
                             Application.DoEvents();
                             break;
                         case 23: //Este comando indica que a rotina está perguntando para a aplicação se ele deseja interromper o processo de coleta de dados ou não. Esse código ocorre quando a CliSiTef está acessando algum periférico e permite que a automação interrompa esse acesso (por exemplo: aguardando a passagem de um cartão pela leitora ou a digitação de senha pelo cliente)
-                            OnVerifyDataCollectionInterruption?.Invoke(ref interromper);
+
+                            TefFuncaoInterativa objForm23 = new TefFuncaoInterativa();
+                            OnVerifyDataCollectionInterruption?.Invoke(objForm23);
+                            interromper = objForm23.Interromper;
                             Application.DoEvents();
                             break;
                         case 29: //Deve ser fornecido um campo, sem captura, cujo tamanho está entre TamMinimo e TamMaximo. O campo deve ser devolvido em Buffer
