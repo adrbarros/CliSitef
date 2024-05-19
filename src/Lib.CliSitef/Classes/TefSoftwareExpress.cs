@@ -98,7 +98,6 @@ namespace Lib.CliSitef.Classes
         public event OnVerifyDataCollectionInterruptionHandle OnVerifyDataCollectionInterruption;
 
         private TefFuncaoInterativa mObjForm50 { get; set; }
-        private TefFuncaoInterativa mObjForm3 { get; set; }
 
         private TefConfig mTefConfig { get; set; }
         private CampoAberto mCampoAberto { get; set; }
@@ -615,23 +614,18 @@ namespace Lib.CliSitef.Classes
                         case 3: //Mensagem para os dois visores
                             if (!string.IsNullOrWhiteSpace(mensagem) && mensagem.ToLower().Contains("solicite a leitura do qr code no pinpad utilizando o smartphone"))
                                 qrCodePinPad = true;
-
-                            mObjForm3 = new TefFuncaoInterativa
+                            TefFuncaoInterativa objForm3 = new TefFuncaoInterativa
                             {
                                 DataType = DataTypeEnum.Message,
                                 TipoCampo = tipoCampo,
                                 Mensagem = mensagem
                             };
-
-                            OnMessageClient?.Invoke(mensagem, 250, mObjForm3);
-                            Application.DoEvents();
-
-                            if (qrCodePinPad && mObjForm3.Interromper)
-                            {
-                                interromper = mObjForm3.Interromper;
+                            OnVerifyDataCollectionInterruption?.Invoke(objForm3);
+                            interromper = objForm3.Interromper;
+                            if (qrCodePinPad && interromper)
                                 qrCodePinPad = false;
-                            }
-                            mObjForm3 = null;
+                            OnMessageClient?.Invoke(mensagem, 250);
+                            Application.DoEvents();
                             break;
                         case 4: //Texto que deverá ser utilizado como cabeçalho na apresentação do menu (Comando 21)
                             captionMenu = mensagem;
@@ -842,14 +836,15 @@ namespace Lib.CliSitef.Classes
                             Application.DoEvents();
                             break;
                         case 52: //Mensagem de rodapé, opcional para o caso haja um espaço para ela ser exibida, no caso em que o QRCode foi exibido e está aguardando que o cliente faça a sua leitura.
-                            OnMessageClient?.Invoke(mensagem, 500, mObjForm50);
-                            if (mObjForm50 != null && mObjForm50.FormAberto && mObjForm50.Interromper)
+                            TefFuncaoInterativa objForm52 = new TefFuncaoInterativa();
+                            OnVerifyDataCollectionInterruption?.Invoke(objForm52);
+                            interromper = objForm52.Interromper;
+                            if (interromper && mObjForm50 != null && mObjForm50.FormAberto)
                             {
                                 mObjForm50.FormFechar = true;
                                 OnClosePanelQrCode?.Invoke(mObjForm50);
-                                interromper = mObjForm50.Interromper;
-                                respostaSitef = mObjForm50.RespostaSitef;
                             }
+                            OnMessageClient?.Invoke(mensagem, 500);
                             Application.DoEvents();
                             break;
                         case 99:

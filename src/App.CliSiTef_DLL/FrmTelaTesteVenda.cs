@@ -205,9 +205,6 @@ namespace App.CliSiTef_DLL
 
         private void MTefSoftwareExpress_OnMessageClient(string _mensagem, int _tempoMiliSegundos, TefFuncaoInterativa _tefFuncaoInterativa = null)
         {
-            if (_tefFuncaoInterativa != null)
-                _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape, "OnMessageClient");
-
             lblMensagem.Invoke((MethodInvoker)delegate
             {
                 lblMensagem.Text = _mensagem;
