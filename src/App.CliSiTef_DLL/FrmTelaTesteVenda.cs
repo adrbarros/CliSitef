@@ -20,7 +20,9 @@ namespace App.CliSiTef_DLL
     public partial class FrmTelaTesteVenda : Form
     {
         [DllImport("User32.dll")]
-        public static extern short GetAsyncKeyState(int vKey);
+        public static extern short GetAsyncKeyState(int _vKey);
+
+        private const int VK_ESCAPE = 0x1B;
 
         private int mStatusTefInicio { get; set; }
         private decimal gValorTotalDaTransacao { get; set; }
@@ -184,11 +186,11 @@ namespace App.CliSiTef_DLL
             mTefSoftwareExpress.gCupomVenda = null;
             mCupomVenda = null;
         }
-        private bool VerificarTeclaPressionada(Keys _tecla, string _callLocation = "")
+        private bool VerificarTeclaEscPressionada(string _callLocation = "")
         {
-            bool escapePressed = (GetAsyncKeyState((int)_tecla) & 0x8000) != 0;
+            bool escapePressed = (GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0;
             if (escapePressed)
-                Log.GerarLogProcessoExecucao("ESC Precionado - Operação abortada. -> " + _callLocation);
+                Log.GerarLogProcessoExecucao("ESC Pressionado - Operação abortada. -> " + _callLocation);
             return escapePressed;
         }
 
@@ -357,7 +359,7 @@ namespace App.CliSiTef_DLL
         }
         private void MTefSoftwareExpress_OnVerifyDataCollectionInterruption(TefFuncaoInterativa _tefFuncaoInterativa)
         {
-            _tefFuncaoInterativa.Interromper = VerificarTeclaPressionada(Keys.Escape, "OnVerifyDataCollectionInterruption");
+            _tefFuncaoInterativa.Interromper = VerificarTeclaEscPressionada("OnVerifyDataCollectionInterruption");
         }
 
         private void FrmTelaTesteVenda_Load(object sender, EventArgs e)
