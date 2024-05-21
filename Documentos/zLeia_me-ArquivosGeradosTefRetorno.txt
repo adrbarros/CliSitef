@@ -31,6 +31,8 @@ De               -> Para
 953              603-000=025                                  //Quando Modulo SAT_NFCe esta instalado no SiteTEF   
                  603-001=025|REDECARD S/A|01.425.787/0001-04  //** Recupera o Informção baseado na lista estatica da classe SatNfceCredenciadoraConst
 132              702-000=20032                                //Indice do Estabelecimento
+130              708-000=3,50                                 //Valor Total do Troco/Saque
+4029             709-000=3,00                                 //Valor Total do Desconto
 121              712-000=8                                    //Tamanho via Cliente
 123              712-001=
 121              713-000="X SIMULACAO"                        //Via do Cliente
@@ -53,6 +55,7 @@ De               -> Para
 122              715-007="                              (SiTef)"
 *Tef_Terminal    718-000=CX000001                             //Número lógico do terminal
 *Tef_Empresa     719-000=00000000                             //Código do estabelecimento
+504              727-000=3,00                                 //Taxas de Serviços
 *Fixo            729-000=1                                    //Status da confirmação
 100              731-000=01                                   //Tipo de cartão
 Grupo Pagto      731-001=CARTAO DEBITO                        //** Recupera o Descrição da Modalidade Grupo de Pagamento baseado na lista estatica da classe ModalidadePagamentoGrupoConst

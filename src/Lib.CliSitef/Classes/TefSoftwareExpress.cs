@@ -184,13 +184,21 @@ namespace Lib.CliSitef.Classes
             if (obj != null)
                 _obj.Indice = obj.Indice + 1;
         }
+        private void TefRetornoRemoverUltimoIndice(int _codigo, TefTransacao _tefTransacao)
+        {
+            TefRetorno obj = _tefTransacao.Retornos.Where(p => p.Codigo == _codigo).OrderBy(p => p.Indice).LastOrDefault();
+            if (obj != null)
+                _tefTransacao.Retornos.Remove(obj);
+        }
 
         private int ContinuarRequisicao()
         {
             byte[] valorBuffer = new byte[20000];
             int result;
             int continua = 0;
-            int taxas = 1;
+            int descontos = 0;
+            int taxas = 0;
+            int troco = 0;
             string captionMenu = "";
             string captionCarteiraDigital = "";
             bool interromper = false;
@@ -301,7 +309,6 @@ namespace Lib.CliSitef.Classes
                                 string[] viaCliente = mensagem.Split('\n', '\r');
                                 TefRetorno obj712 = new TefRetorno(712, 0, viaCliente.Length.ToString());
                                 TefRetornoAdicionar(obj712, gTefTransacao);
-
                                 for (int i = 0; i < viaCliente.Length; i++)
                                 {
                                     TefRetorno obj713 = new TefRetorno(713, i, "\"" + viaCliente[i] + "\"");
@@ -314,7 +321,6 @@ namespace Lib.CliSitef.Classes
                                 string[] viaEstab = mensagem.Split('\n', '\r');
                                 TefRetorno obj714 = new TefRetorno(714, 0, viaEstab.Length.ToString());
                                 TefRetornoAdicionar(obj714, gTefTransacao);
-
                                 for (int i = 0; i < viaEstab.Length; i++)
                                 {
                                     TefRetorno obj715 = new TefRetorno(715, i, "\"" + viaEstab[i] + "\"");
@@ -342,7 +348,6 @@ namespace Lib.CliSitef.Classes
                             {
                                 TefRetorno obj10 = new TefRetorno(10, 0, mensagem);
                                 TefRetornoAdicionar(obj10, gTefTransacao);
-
                                 var obj = RedeAutorizadora.RetornarAutorizadora(obj10.Valor);
                                 if (obj != null)
                                 {
@@ -355,7 +360,6 @@ namespace Lib.CliSitef.Classes
                             {
                                 TefRetorno obj748_1 = new TefRetorno(748, 1, mensagem);
                                 TefRetornoAdicionar(obj748_1, gTefTransacao);
-
                                 BandeiraPadraoConst obj = BandeiraPadrao.RetornarBandeiraPadrao(Convert.ToInt32(mensagem));
                                 if (obj != null)
                                 {
@@ -467,7 +471,6 @@ namespace Lib.CliSitef.Classes
                                 {
                                     TefRetorno obj749 = new TefRetorno(749, 0, mensagem);
                                     TefRetornoAdicionar(obj749, gTefTransacao);
-
                                     CarteiraDigitalTipoPagamentoConst obj = CarteiraDigitalTipoPagamento.RetornarTipoPagamento(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
@@ -483,7 +486,6 @@ namespace Lib.CliSitef.Classes
                                 {
                                     TefRetorno obj750 = new TefRetorno(750, 0, mensagem);
                                     TefRetornoAdicionar(obj750, gTefTransacao);
-
                                     CarteiraDigitalTipoVoucherConst obj = CarteiraDigitalTipoVoucher.RetornarTipoVoucher(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
@@ -530,7 +532,6 @@ namespace Lib.CliSitef.Classes
                                 {
                                     TefRetorno obj601 = new TefRetorno(601, 0, mensagem);
                                     TefRetornoAdicionar(obj601, gTefTransacao);
-
                                     SatNfceBandeiraConst obj = SatNfceBandeira.RetornarSatNfceBandeira(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
@@ -555,7 +556,6 @@ namespace Lib.CliSitef.Classes
                                 {
                                     TefRetorno obj603 = new TefRetorno(603, 0, mensagem);
                                     TefRetornoAdicionar(obj603, gTefTransacao);
-
                                     SatNfceCredenciadoraConst obj = SatNfceCredenciadora.RetornarSatNfceCredenciadora(Convert.ToInt32(mensagem));
                                     if (obj != null)
                                     {
@@ -599,6 +599,17 @@ namespace Lib.CliSitef.Classes
                             {
                                 TefRetorno obj07 = new TefRetorno(7, 38, mensagem);
                                 TefRetornoAdicionar(obj07, gTefTransacao);
+                            }
+                            //4029-Valor do desconto total, em centavos
+                            else if (tipoCampo == 4029)
+                            {
+                                if (!string.IsNullOrWhiteSpace(mensagem) && Convert.ToDecimal(mensagem) > 0)
+                                {
+                                    decimal valor = Convert.ToDecimal(mensagem) / 100M;
+                                    TefRetorno obj709 = new TefRetorno(709, descontos, valor.ToString("N2"));
+                                    TefRetornoAdicionar(obj709, gTefTransacao);
+                                    descontos++;
+                                }
                             }
                             #endregion
                             Application.DoEvents();
@@ -683,7 +694,6 @@ namespace Lib.CliSitef.Classes
                             respostaSitef = objForm21.RespostaSitef;
                             interromper = objForm21.Interromper;
                             voltarAoMenuAnterior = objForm21.Voltar;
-
                             Application.DoEvents();
                             break;
                         case 22: //Deve aguardar uma tecla do operador. É utilizada quando se deseja que o operador seja avisado de alguma mensagem apresentada na tela
@@ -694,6 +704,13 @@ namespace Lib.CliSitef.Classes
                                 DataType = DataTypeEnum.Await,
                                 Mensagem = mensagem
                             };
+                            if (mensagem.ToLower().Contains("excede taxa"))
+                            {
+                                TefRetornoRemoverUltimoIndice(727, gTefTransacao);
+                                taxas--;
+                                if (taxas < 0)
+                                    taxas = 0;
+                            }
                             OnCallForm?.Invoke(objForm22);
                             respostaSitef = "";
                             Application.DoEvents();
@@ -777,16 +794,27 @@ namespace Lib.CliSitef.Classes
                             voltarAoMenuAnterior = objForm34.Voltar;
                             //130-Indica, na coleta, que o campo em questão é o valor do troco em dinheiro a ser devolvido para o cliente. Na devolução de resultado(Comando = 0) contém o valor efetivamente aprovado para o troco
                             //504-Taxa de Serviço
-                            if (tipoCampo == 504 || tipoCampo == 130)
+                            if (tipoCampo == 130)
                             {
                                 if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
                                 {
                                     string valor = Convert.ToDecimal(respostaSitef).ToString("N2");
-                                    TefRetorno obj3 = new TefRetorno(3, taxas, valor + "|" + RemoverQuebraDeLinhas(mensagem));
-                                    TefRetornoAdicionar(obj3, gTefTransacao);
+                                    TefRetorno obj708 = new TefRetorno(708, troco, valor + "|" + RemoverQuebraDeLinhas(mensagem));
+                                    TefRetornoAdicionar(obj708, gTefTransacao);
+                                    troco++;
+                                }
+                            }
+                            else if (tipoCampo == 504)
+                            {
+                                if (!string.IsNullOrWhiteSpace(respostaSitef) && Convert.ToDecimal(respostaSitef) > 0)
+                                {
+                                    string valor = Convert.ToDecimal(respostaSitef).ToString("N2");
+                                    TefRetorno obj727 = new TefRetorno(727, taxas, valor + "|" + RemoverQuebraDeLinhas(mensagem));
+                                    TefRetornoAdicionar(obj727, gTefTransacao);
                                     taxas++;
                                 }
                             }
+
                             //146-A rotina está sendo chamada para ler o Valor a ser cancelado. Caso o aplicativo de automação possua esse valor, pode apresentá-lo para o operador e permitir que ele confirme o valor antes de passá-lo devolvê-lo para a rotina. Caso ele não possua esse valor, deve lê-lo.
                             //147-Valor do cancelamento
                             //154-Contém o novo valor de pagamento
