@@ -615,11 +615,11 @@ namespace Lib.CliSitef.Classes
                             Application.DoEvents();
                             break;
                         case 1: //Mensagem para o visor do operador
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            OnMessageClient?.Invoke(mensagem, 250);
                             Application.DoEvents();
                             break;
                         case 2: //Mensagem para o visor do cliente
-                            OnMessageClient?.Invoke(mensagem, 100);
+                            OnMessageClient?.Invoke(mensagem, 250);
                             Application.DoEvents();
                             break;
                         case 3: //Mensagem para os dois visores
@@ -927,7 +927,7 @@ namespace Lib.CliSitef.Classes
 
         public string MensagemTef(int _retornoTef)
         {
-            string msg = "Erro não definido";
+            string msg = "";
             switch (_retornoTef)
             {
                 case -1:
@@ -948,8 +948,41 @@ namespace Lib.CliSitef.Classes
                 case -6:
                     msg = "Operação cancelada pelo usuário";
                     break;
+                case -8:
+                    msg = "A CliSiTef não possui a implementação da função necessária, provavelmente está desatualizada";
+                    break;
+                case -9:
+                    msg = "A automação chamou a rotina ContinuaFuncaoSiTefInterativo sem antes iniciar uma função iterativa";
+                    break;
+                case -10:
+                    msg = "Algum parâmetro obrigatório não foi passado pela automação comercial";
+                    break;
+                case -12:
+                    msg = "Erro na execução da rotina iterativa";
+                    break;
+                case -13:
+                    msg = "Documento fiscal não encontrado nos registros da CliSiTef";
+                    break;
+                case -15:
+                    msg = "Operação cancelada pela automação comercial";
+                    break;
+                case -20:
+                    msg = "Parâmetro inválido passado para a função";
+                    break;
+                case -21:
+                    msg = "Utilizada uma palavra proibida";
+                    break;
+                case -25:
+                    msg = "Erro no Correspondente Bancário";
+                    break;
+                case -30:
+                    msg = "Erro de acesso ao arquivo";
+                    break;
                 case -40:
                     msg = "Transação negada pelo SiTef";
+                    break;
+                case -41:
+                    msg = "Dados Inválidos";
                     break;
                 case -43:
                     msg = "Falha no pinpad";
@@ -961,7 +994,6 @@ namespace Lib.CliSitef.Classes
                     msg = "Erro interno do módulo";
                     break;
                 case 0:
-                    msg = "";
                     break;
                 case 1:
                     msg = "Endereço IP inválido ou não resolvido";
@@ -985,13 +1017,13 @@ namespace Lib.CliSitef.Classes
                     msg = "Configuração de servidores SiTef foi excedida";
                     break;
                 case 10:
-                    msg = "Erro de acesso na pasta CliSiTef(possível falta de permissão para escrita)";
+                    msg = "Erro de acesso na pasta CliSiTef (possível falta de permissão para escrita)";
                     break;
                 case 11:
                     msg = "Dados inválidos passados pela automaçãoo";
                     break;
                 case 12:
-                    msg = "Modo seguro não ativo(possível falta de configuração no servidor SiTef do arquivo.cha)";
+                    msg = "Modo seguro não ativo (possível falta de configuração no servidor SiTef do arquivo.cha)";
                     break;
                 case 13:
                     msg = "Caminho DLL inválido(o caminho completo das bibliotecas está muito grande)";
