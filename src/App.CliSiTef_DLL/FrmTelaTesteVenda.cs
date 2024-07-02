@@ -56,7 +56,8 @@ namespace App.CliSiTef_DLL
                 Tef_PinPadPorta = ConfigurationManager.AppSettings["Tef_PinPadPorta"],
                 Tef_PinPadMensagem = ConfigurationManager.AppSettings["Tef_PinPadMensagem"],
                 Tef_PinPadVerificar = ConfigurationManager.AppSettings["Tef_PinPadVerificar"] == "1",
-                Tef_PinPadQrCode = ConfigurationManager.AppSettings["Tef_PinPadQrCode"] == "1"
+                Tef_PinPadQrCode = ConfigurationManager.AppSettings["Tef_PinPadQrCode"] == "1",
+                Tef_SenhaCodigoSupervisor = ConvertHelper.ToInt32(ConfigurationManager.AppSettings["Tef_SenhaCodigoSupervisor"], 1234)
             };
 
             string path = Application.StartupPath + "\\CliSiTef.ini";
@@ -253,7 +254,32 @@ namespace App.CliSiTef_DLL
                 }
                 else if (_tefFuncaoInterativa.DataType == DataTypeEnum.Numeric)
                 {
-                    if (_tefFuncaoInterativa.TipoCampo != 500)
+                    if (_tefFuncaoInterativa.TipoCampo == 500)
+                    {
+                        using (FrmTefColetaDados frm = new FrmTefColetaDados())
+                        {
+                            frm.gTitulo = _tefFuncaoInterativa.Titulo;
+                            frm.gTamanhoMinimo = _tefFuncaoInterativa.TamanhoMinimo;
+                            frm.gTamanhoMaximo = _tefFuncaoInterativa.TamanhoMaximo;
+                            frm.gTipoDeDados = DataTypeEnum.Numeric;
+                            frm.Focus();
+                            frm.ShowDialog();
+                            if (frm.DialogResult == DialogResult.OK)
+                            {
+                                _tefFuncaoInterativa.RespostaSitef = frm.txtDados.Text;
+                                if (!frm.VoltarSelecionado && mTefConfig.Tef_SenhaCodigoSupervisor != ConvertHelper.ToInt32(frm.txtDados.Text))
+                                {
+                                    ExibirMensagem("Senha/Código Supervisor Inválido", 3000);
+                                    _tefFuncaoInterativa.Interromper = true;
+                                }
+                            }
+                            else
+                                _tefFuncaoInterativa.Interromper = !frm.VoltarSelecionado;
+                            _tefFuncaoInterativa.Voltar = frm.VoltarSelecionado;
+                            Refresh();
+                        }
+                    }
+                    else
                     {
                         using (FrmTefColetaDados frm = new FrmTefColetaDados())
                         {

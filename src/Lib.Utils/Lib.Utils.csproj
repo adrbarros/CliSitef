@@ -39,6 +39,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ConvertHelper.cs" />
     <Compile Include="Classes\Functions.cs" />
     <Compile Include="Classes\TefFuncaoInterativa.cs" />
     <Compile Include="Enuns\Enumeradores.cs" />

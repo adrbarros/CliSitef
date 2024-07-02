@@ -12,5 +12,6 @@
         public bool Tef_PinPadVerificar { get; set; }
         public bool Tef_PinPadQrCode { get; set; }
         public string Tef_PathArquivos { get; set; }
+        public int Tef_SenhaCodigoSupervisor { get; set; }
     }
 }
