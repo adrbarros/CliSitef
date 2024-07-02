@@ -270,7 +270,7 @@ namespace App.CliSiTef_DLL
                                 if (!frm.VoltarSelecionado && mTefConfig.Tef_SenhaCodigoSupervisor != ConvertHelper.ToInt32(frm.txtDados.Text))
                                 {
                                     ExibirMensagem("Senha/Código Supervisor Inválido", 3000);
-                                    _tefFuncaoInterativa.Interromper = true;
+                                    frm.VoltarSelecionado = true;
                                 }
                             }
                             else

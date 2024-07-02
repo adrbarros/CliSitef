@@ -65,7 +65,7 @@ namespace Lib.FormsAuxiliares
         private void btnVoltar_Click(object sender, EventArgs e)
         {
             VoltarSelecionado = true;
-            DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.Abort;
             Close();
         }
     }

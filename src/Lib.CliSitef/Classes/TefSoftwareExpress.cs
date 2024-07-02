@@ -991,7 +991,7 @@ namespace Lib.CliSitef.Classes
                     msg = "Transação não segura";
                     break;
                 case -100:
-                    msg = "Erro interno do módulo";
+                    msg = "";
                     break;
                 case 0:
                     break;
