@@ -262,6 +262,7 @@ namespace App.CliSiTef_DLL
                             frm.gTamanhoMinimo = _tefFuncaoInterativa.TamanhoMinimo;
                             frm.gTamanhoMaximo = _tefFuncaoInterativa.TamanhoMaximo;
                             frm.gTipoDeDados = DataTypeEnum.Numeric;
+                            frm.txtDados.PasswordChar = '*';
                             frm.Focus();
                             frm.ShowDialog();
                             if (frm.DialogResult == DialogResult.OK)
@@ -269,7 +270,7 @@ namespace App.CliSiTef_DLL
                                 _tefFuncaoInterativa.RespostaSitef = frm.txtDados.Text;
                                 if (!frm.VoltarSelecionado && mTefConfig.Tef_SenhaCodigoSupervisor != ConvertHelper.ToInt32(frm.txtDados.Text))
                                 {
-                                    ExibirMensagem("Senha/Código Supervisor Inválido", 3000);
+                                    ExibirMensagem("Senha/Código Supervisor Inválido", 2000);
                                     frm.VoltarSelecionado = true;
                                 }
                             }
