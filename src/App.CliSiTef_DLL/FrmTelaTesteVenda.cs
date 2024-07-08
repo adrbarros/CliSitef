@@ -575,11 +575,7 @@ namespace App.CliSiTef_DLL
         private void btnAdm_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
 
             if (mCupomVenda == null)
             {
@@ -605,11 +601,7 @@ namespace App.CliSiTef_DLL
         private void btnRecarga_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
 
             if (mCupomVenda == null)
             {
@@ -639,11 +631,8 @@ namespace App.CliSiTef_DLL
         private void btnCorrespondenteBancario_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (mCupomVenda == null)
             {
                 mCupomVenda = new Cupom
@@ -672,11 +661,8 @@ namespace App.CliSiTef_DLL
         private void btnRecargaCorrespondenteBancario_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (mCupomVenda == null)
             {
                 mCupomVenda = new Cupom
@@ -704,20 +690,22 @@ namespace App.CliSiTef_DLL
         }
         private void btnTransacaoPendente_Click(object sender, EventArgs e)
         {
-            string docVinculado = new Random().Next(999999).ToString("000000");
+            if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (mCupomVenda == null)
             {
                 mCupomVenda = new Cupom
                 {
                     TipoOperacao = "Fnc",
-                    DocumentoVinculado = docVinculado,
+                    DocumentoVinculado = txtDocumentoVinculado.Text,
                     ValorTotal = 0
                 };
             }
             mTefSoftwareExpress.gCupomVenda = mCupomVenda;
 
             //Verificar Transações Pendentes
-            mTefSoftwareExpress.FuncaoExecutar(130, docVinculado);
+            mTefSoftwareExpress.FuncaoExecutar(130, txtDocumentoVinculado.Text);
             if (mTefSoftwareExpress.gCupomVenda != null && mTefSoftwareExpress.gCupomVenda.Transacoes.Count > 0)
             {
                 List<Cupom> lstCupons = new List<Cupom>();
@@ -800,17 +788,15 @@ namespace App.CliSiTef_DLL
                 }
             }
 
+            txtDocumentoVinculado.Text = "";
             LimparRetornoTef();
         }
 
         private void btnCrt_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (Convert.ToDecimal(txtValorVenda.Text) <= 0m)
             {
                 MessageBox.Show("Digite o valor da operação", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -890,11 +876,8 @@ namespace App.CliSiTef_DLL
         private void btnCrtDebito_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (Convert.ToDecimal(txtValorVenda.Text) <= 0m)
             {
                 MessageBox.Show("Digite o valor da operação", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -975,11 +958,8 @@ namespace App.CliSiTef_DLL
         private void btnCrtCredito_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (Convert.ToDecimal(txtValorVenda.Text) <= 0m)
             {
                 MessageBox.Show("Digite o valor da operação", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1062,11 +1042,8 @@ namespace App.CliSiTef_DLL
         private void btnCrtCd_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
+
             if (Convert.ToDecimal(txtValorVenda.Text) <= 0m)
             {
                 MessageBox.Show("Digite o valor da operação", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1148,11 +1125,7 @@ namespace App.CliSiTef_DLL
         private void btnCnc_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
 
             if (mCupomVenda == null)
             {
@@ -1182,11 +1155,7 @@ namespace App.CliSiTef_DLL
         private void btnCncDebito_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
 
             if (mCupomVenda == null)
             {
@@ -1216,11 +1185,7 @@ namespace App.CliSiTef_DLL
         private void btnCncCredito_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
 
             if (mCupomVenda == null)
             {
@@ -1250,11 +1215,7 @@ namespace App.CliSiTef_DLL
         private void btnCncCd_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDocumentoVinculado.Text) || Convert.ToInt32(txtDocumentoVinculado.Text) <= 0)
-            {
-                MessageBox.Show("Digite o número do documento vinculado", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtDocumentoVinculado.Focus();
-                return;
-            }
+                txtDocumentoVinculado.Text = new Random().Next(999999).ToString("000000");
 
             if (mCupomVenda == null)
             {
