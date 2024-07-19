@@ -439,9 +439,13 @@ namespace App.CliSiTef_DLL
         private void btnCpfCnpj1_Click(object sender, EventArgs e)
         {
             int sts = mTefSoftwareExpress.VerificarPinpad();
-            if (sts != 1)
+            if (sts <= 0)
             {
-                MessageBox.Show("PinPad não responde.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string msg = "Não existe um PinPad conectado ao micro";
+                if (sts < 0)
+                    msg = "Biblioteca de acesso ao PinPad não encontrada";
+
+                MessageBox.Show("PinPad não responde: " + msg, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -482,9 +486,13 @@ namespace App.CliSiTef_DLL
         private void btnCpfCnpj2_Click(object sender, EventArgs e)
         {
             int sts = mTefSoftwareExpress.VerificarPinpad();
-            if (sts != 1)
+            if (sts <= 0)
             {
-                MessageBox.Show("PinPad não responde.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string msg = "Não existe um PinPad conectado ao micro";
+                if (sts < 0)
+                    msg = "Biblioteca de acesso ao PinPad não encontrada";
+
+                MessageBox.Show("PinPad não responde: " + msg, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -538,9 +546,13 @@ namespace App.CliSiTef_DLL
         private void btnSenha4Dig_Click(object sender, EventArgs e)
         {
             int sts = mTefSoftwareExpress.VerificarPinpad();
-            if (sts != 1)
+            if (sts <= 0)
             {
-                MessageBox.Show("PinPad não responde.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string msg = "Não existe um PinPad conectado ao micro";
+                if (sts < 0)
+                    msg = "Biblioteca de acesso ao PinPad não encontrada";
+
+                MessageBox.Show("PinPad não responde: " + msg, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 

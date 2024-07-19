@@ -29,7 +29,7 @@ namespace Lib.CliSitef.Classes
         static extern int ContinuaFuncaoSiTefInterativo(out int Comando, out long TipoCampo, out short TamMinimo, out short TamMaximo, byte[] Buffer, int TamBuffer, int Continua);
 
         [DllImport("CliSiTef32I.dll")]
-        static extern int FinalizaFuncaoSiTefInterativo(short Confirma, string CupomFiscal, string DataFiscal, string HoraFiscal, string ParamAdic);
+        static extern void FinalizaFuncaoSiTefInterativo(short Confirma, string CupomFiscal, string DataFiscal, string HoraFiscal, string ParamAdic);
 
         [DllImport("CliSiTef32I.dll")]
         static extern int ObtemQuantidadeTransacoesPendentes(string DataFiscal, string CupomFiscal);
@@ -75,10 +75,6 @@ namespace Lib.CliSitef.Classes
 
         [DllImport("CliSiTef32I.dll")]
         static extern int ObtemDadoPinPadDiretoEx(string ChaveAcesso, string Identificador, string Entrada, [MarshalAs(UnmanagedType.VBByRefStr)] ref string Saida);
-
-        [DllImport("CliSiTef32I.dll")]
-        static extern int ObtemDadoPinPadDiretoExA(string Resultado, string ChaveAcesso, string Identificador, string Entrada, ref string Saida);
-
 
         #endregion
 
@@ -153,11 +149,11 @@ namespace Lib.CliSitef.Classes
             int sts = 0;
             if (mTefConfig.Tef_PinPadVerificar)
             {
-                int stsPinPad = VerificaPresencaPinPad();
+                int stsPinPad = KeepAlivePinPad();
                 if (stsPinPad > 0)
                     EscreveMensagemPermanentePinPad(mTefConfig.Tef_PinPadMensagem);
                 else
-                    sts = 50001;
+                    sts = stsPinPad == 0 ? 50001 : 5002;
             }
             return sts;
         }
@@ -919,9 +915,8 @@ namespace Lib.CliSitef.Classes
         {
             string dataStr = DateTime.Now.ToString("yyyyMMdd");
             string horaStr = DateTime.Now.ToString("HHmmss");
-            int doc = new Random().Next(999999);
             if (string.IsNullOrWhiteSpace(_documentoVinculado))
-                _documentoVinculado = doc.ToString("000000");
+                _documentoVinculado = new Random().Next(999999).ToString("000000");
             FinalizaFuncaoSiTefInterativo(_confirma, _documentoVinculado, dataStr, horaStr, null);
         }
 
@@ -1029,7 +1024,10 @@ namespace Lib.CliSitef.Classes
                     msg = "Caminho DLL inválido(o caminho completo das bibliotecas está muito grande)";
                     break;
                 case 50001:
-                    msg = "PinPad não encontrado";
+                    msg = "Não existe um PinPad conectado ao micro";
+                    break;
+                case 50002:
+                    msg = "Biblioteca de acesso ao PinPad não encontrada";
                     break;
                 default:
                     break;
@@ -1344,7 +1342,7 @@ namespace Lib.CliSitef.Classes
 
         public int VerificarPinpad()
         {
-            return VerificaPresencaPinPad();
+            return KeepAlivePinPad();
         }
         public string LeituraCampoAberto(CampoAberto _campoAberto)
         {
