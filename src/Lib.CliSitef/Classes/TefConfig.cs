@@ -13,5 +13,6 @@
         public bool Tef_PinPadQrCode { get; set; }
         public string Tef_PathArquivos { get; set; }
         public int Tef_SenhaCodigoSupervisor { get; set; }
+        public string Tef_TipoComunicacaoExterna { get; set; }
     }
 }

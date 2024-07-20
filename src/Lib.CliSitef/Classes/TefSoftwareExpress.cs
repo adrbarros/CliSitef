@@ -1038,7 +1038,10 @@ namespace Lib.CliSitef.Classes
         public int InicializarTef(TefConfig _tefConfig)
         {
             mTefConfig = _tefConfig;
-            int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]");
+            string tipoComunicacaoExterna = "";
+            if (!string.IsNullOrWhiteSpace(_tefConfig.Tef_TipoComunicacaoExterna) && (_tefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "SSL" || _tefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "TLS"))
+                tipoComunicacaoExterna = ";[TipoComunicacaoExterna=" + _tefConfig.Tef_TipoComunicacaoExterna.ToUpper() + "]";
+            int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]" + tipoComunicacaoExterna);
             if (sts == 0)
                 sts = VerificarEscreverMsgPinPad();
             return sts;

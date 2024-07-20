@@ -57,7 +57,8 @@ namespace App.CliSiTef_DLL
                 Tef_PinPadMensagem = ConfigurationManager.AppSettings["Tef_PinPadMensagem"],
                 Tef_PinPadVerificar = ConfigurationManager.AppSettings["Tef_PinPadVerificar"] == "1",
                 Tef_PinPadQrCode = ConfigurationManager.AppSettings["Tef_PinPadQrCode"] == "1",
-                Tef_SenhaCodigoSupervisor = ConvertHelper.ToInt32(ConfigurationManager.AppSettings["Tef_SenhaCodigoSupervisor"], 1234)
+                Tef_SenhaCodigoSupervisor = ConvertHelper.ToInt32(ConfigurationManager.AppSettings["Tef_SenhaCodigoSupervisor"], 1234), 
+                Tef_TipoComunicacaoExterna = ConfigurationManager.AppSettings["Tef_TipoComunicacaoExterna"]
             };
 
             string path = Application.StartupPath + "\\CliSiTef.ini";
