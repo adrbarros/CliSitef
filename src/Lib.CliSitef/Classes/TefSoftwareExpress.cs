@@ -898,6 +898,8 @@ namespace Lib.CliSitef.Classes
                 _parametrosAdicionais += "{TipoTratamento=4}";
             if (_header.Contains("CRT") && !mTefConfig.Tef_PinPadQrCode)
                 _parametrosAdicionais += "{DevolveStringQRCode=1}";
+            if (!string.IsNullOrWhiteSpace(mTefConfig.Tef_TipoComunicacaoExterna) && (mTefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "SSL" || mTefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "TLS"))
+                _parametrosAdicionais += "{TipoComunicacaoExterna=" + mTefConfig.Tef_TipoComunicacaoExterna.ToUpper() + "}";
             if (_header.Contains("LCA"))
                 _parametrosAdicionais = "";
 
@@ -1093,7 +1095,7 @@ namespace Lib.CliSitef.Classes
         }
         public int Crt(decimal _valor, string _documentoVinculado = "", string _operador = "", int _funcao = 0, bool _confirmarCnf = true)
         {
-            string parametrosAdicionais = ""; // "[10]"; //Cheques
+            string parametrosAdicionais = "";
             int sts = FazerRequisicao(_funcao, "CRT", _valor, _documentoVinculado, parametrosAdicionais, _operador);
             if (sts == 10000)
             {
@@ -1142,7 +1144,7 @@ namespace Lib.CliSitef.Classes
         }
         public int Cnc(string _documentoVinculado, string _operador = "", int _funcao = 200)
         {
-            string parametrosAdicionais = ""; // "[10]"; //Cheques
+            string parametrosAdicionais = "";
             int sts = FazerRequisicao(_funcao, "CNC", 0M, _documentoVinculado, parametrosAdicionais, _operador);
             if (sts == 10000)
             {
@@ -1351,7 +1353,7 @@ namespace Lib.CliSitef.Classes
         {
             mCampoAberto = _campoAberto;
             string retorno = "";
-            int sts = FazerRequisicao(789, "LCA", 0, "", "", "");
+            int sts = FazerRequisicao(789, "LCA", 0);
             if (sts == 10000)
             {
                 #region Retornos TEF
