@@ -898,8 +898,6 @@ namespace Lib.CliSitef.Classes
                 _parametrosAdicionais += "{TipoTratamento=4}";
             if (_header.Contains("CRT") && !mTefConfig.Tef_PinPadQrCode)
                 _parametrosAdicionais += "{DevolveStringQRCode=1}";
-            if (!string.IsNullOrWhiteSpace(mTefConfig.Tef_TipoComunicacaoExterna) && (mTefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "SSL" || mTefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "TLS"))
-                _parametrosAdicionais += "{TipoComunicacaoExterna=" + mTefConfig.Tef_TipoComunicacaoExterna.ToUpper() + "}";
             if (_header.Contains("LCA"))
                 _parametrosAdicionais = "";
 
@@ -1041,7 +1039,7 @@ namespace Lib.CliSitef.Classes
         {
             mTefConfig = _tefConfig;
             string tipoComunicacaoExterna = "";
-            if (!string.IsNullOrWhiteSpace(_tefConfig.Tef_TipoComunicacaoExterna) && (_tefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "SSL" || _tefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "TLS"))
+            if (!string.IsNullOrWhiteSpace(_tefConfig.Tef_TipoComunicacaoExterna) && _tefConfig.Tef_TipoComunicacaoExterna.ToUpper() == "TLSGWP")
                 tipoComunicacaoExterna = ";[TipoComunicacaoExterna=" + _tefConfig.Tef_TipoComunicacaoExterna.ToUpper() + "]";
             int sts = ConfiguraIntSiTefInterativoEx(_tefConfig.Tef_Ip, _tefConfig.Tef_Empresa, "IP" + _tefConfig.Tef_Terminal, "0", "[VersaoAutomacaoCielo=G310];[ParmsClient=1=" + _tefConfig.Tef_EmpresaCnpj + ";2=" + _tefConfig.Tef_SoftwareHouseCnpj + "]" + tipoComunicacaoExterna);
             if (sts == 0)
