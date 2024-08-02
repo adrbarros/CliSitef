@@ -77,7 +77,7 @@ namespace App.CliSiTef_DLL
                     sw.WriteLine("TempoEsperaConexao=10");
                     sw.WriteLine("");
                     sw.WriteLine("[Geral]");
-                    sw.WriteLine("TransacoesAdicionaisHabilitadas=7;8;16;26;29;30;40;42;43;3014;3044;");
+                    sw.WriteLine("TransacoesAdicionaisHabilitadas=7;8;16;26;29;30;40;42;43;3014;3044;4178;");
                     sw.WriteLine("TransacoesDesabilitadas=10;11;12;13;14;17;18;19;31;27;28;32;33;36;44;45;47;3031;3084;3086;3145;3165;3227;3480;3988;3989;");
                     sw.WriteLine("");
                     sw.WriteLine("[SrvCliSiTef]");
@@ -610,6 +610,7 @@ namespace App.CliSiTef_DLL
             else
                 ExibirMensagem(mTefSoftwareExpress.MensagemTef(sts));
             LimparRetornoTef();
+            ExibirMensagem("", 0);
         }
         private void btnRecarga_Click(object sender, EventArgs e)
         {
