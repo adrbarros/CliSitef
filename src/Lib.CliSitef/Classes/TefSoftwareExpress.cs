@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace Lib.CliSitef.Classes
 {
@@ -608,15 +607,15 @@ namespace Lib.CliSitef.Classes
                                 }
                             }
                             #endregion
-                            Application.DoEvents();
+                            
                             break;
                         case 1: //Mensagem para o visor do operador
                             OnMessageClient?.Invoke(mensagem, 250);
-                            Application.DoEvents();
+                            
                             break;
                         case 2: //Mensagem para o visor do cliente
                             OnMessageClient?.Invoke(mensagem, 250);
-                            Application.DoEvents();
+                            
                             break;
                         case 3: //Mensagem para os dois visores
                             if (!string.IsNullOrWhiteSpace(mensagem) && mensagem.ToLower().Contains("solicite a leitura do qr code no pinpad utilizando o smartphone"))
@@ -632,37 +631,37 @@ namespace Lib.CliSitef.Classes
                             if (qrCodePinPad && interromper)
                                 qrCodePinPad = false;
                             OnMessageClient?.Invoke(mensagem, 250);
-                            Application.DoEvents();
+                            
                             break;
                         case 4: //Texto que deverá ser utilizado como cabeçalho na apresentação do menu (Comando 21)
                             captionMenu = mensagem;
-                            Application.DoEvents();
+                            
                             break;
                         case 11: //Deve remover a mensagem apresentada no visor do operador
                             mensagem = "";
                             OnMessageClient?.Invoke(mensagem, 0);
-                            Application.DoEvents();
+                            
                             break;
                         case 12: //Deve remover a mensagem apresentada no visor do cliente
                             mensagem = "";
                             OnMessageClient?.Invoke(mensagem, 0);
-                            Application.DoEvents();
+                            
                             break;
                         case 13: //Deve remover mensagem apresentada no visor do operador e do cliente
                             mensagem = "";
                             OnMessageClient?.Invoke(mensagem, 0);
-                            Application.DoEvents();
+                            
                             break;
                         case 14: //Deve limpar o texto utilizado como cabeçalho na apresentação do menu
                             captionMenu = "";
-                            Application.DoEvents();
+                            
                             break;
                         case 15: //Cabeçalho a ser apresentado pela aplicação
-                            Application.DoEvents();
+                            
                             break;
                         case 16: //Deve remover o cabeçalho
                             captionMenu = "";
-                            Application.DoEvents();
+                            
                             break;
                         case 20: //Deve obter uma resposta do tipo SIM/NÃO.
                             if (string.IsNullOrWhiteSpace(mensagem))
@@ -677,7 +676,7 @@ namespace Lib.CliSitef.Classes
                             OnCallForm?.Invoke(objForm20);
                             respostaSitef = objForm20.RespostaSitef;
                             interromper = objForm20.Interromper;
-                            Application.DoEvents();
+                            
                             break;
                         case 21: //Deve apresentar um menu de opções e permitir que o usuário selecione uma delas. Na chamada o parâmetro Buffer contém as opções no formato 1:texto;2:texto;...i:Texto;... A rotina da aplicação deve apresentar as opções da forma que ela desejar (não sendo necessário incluir os índices 1,2, ...) e após a seleção feita pelo usuário, retornar em Buffer o índice i escolhido pelo operador (em ASCII)
                             TefFuncaoInterativa objForm21 = new TefFuncaoInterativa
@@ -690,7 +689,7 @@ namespace Lib.CliSitef.Classes
                             respostaSitef = objForm21.RespostaSitef;
                             interromper = objForm21.Interromper;
                             voltarAoMenuAnterior = objForm21.Voltar;
-                            Application.DoEvents();
+                            
                             break;
                         case 22: //Deve aguardar uma tecla do operador. É utilizada quando se deseja que o operador seja avisado de alguma mensagem apresentada na tela
                             if (string.IsNullOrWhiteSpace(mensagem))
@@ -709,13 +708,13 @@ namespace Lib.CliSitef.Classes
                             }
                             OnCallForm?.Invoke(objForm22);
                             respostaSitef = "";
-                            Application.DoEvents();
+                            
                             break;
                         case 23: //Este comando indica que a rotina está perguntando para a aplicação se ele deseja interromper o processo de coleta de dados ou não. Esse código ocorre quando a CliSiTef está acessando algum periférico e permite que a automação interrompa esse acesso (por exemplo: aguardando a passagem de um cartão pela leitora ou a digitação de senha pelo cliente)
                             TefFuncaoInterativa objForm23 = new TefFuncaoInterativa();
                             OnVerifyDataCollectionInterruption?.Invoke(objForm23);
                             interromper = objForm23.Interromper;
-                            Application.DoEvents();
+                            
                             break;
                         case 29: //Deve ser fornecido um campo, sem captura, cujo tamanho está entre TamMinimo e TamMaximo. O campo deve ser devolvido em Buffer
                             #region Trata Tipo de Campo
@@ -746,7 +745,7 @@ namespace Lib.CliSitef.Classes
                             else if (tipoCampo == 2970)
                                 respostaSitef = mCampoAberto.TempoEsperaInatividade.ToString();
                             #endregion
-                            Application.DoEvents();
+                            
                             break;
                         case 30: //Deve ser lido um campo cujo tamanho está entre TamMinimo e TamMaximo. O campo lido deve ser devolvido em Buffer
                             TefFuncaoInterativa objForm30 = new TefFuncaoInterativa
@@ -769,10 +768,10 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj505, gTefTransacao);
                                 }
                             }
-                            Application.DoEvents();
+                            
                             break;
                         case 31: //Deve ser lido o número de um cheque. A coleta pode ser feita via leitura de CMC-7 ou pela digitação da primeira linha do cheque. No retorno deve ser devolvido em Buffer “0:” ou “1:” seguido do número coletado manualmente ou pela leitura do CMC-7, respectivamente. Quando o número for coletado manualmente o formato é o seguinte: Compensação (3), Banco (3), Agencia (4), C1 (1), ContaCorrente (10), C2 (1), Numero do Cheque (6) e C3 (1), nesta ordem. Notar que estes campos são os que estão na parte superior de um cheque e na ordem apresentada. Sugerimos que na coleta seja apresentada uma interface que permita ao operador identificar e digitar adequadamente estas informações de forma que a consulta não seja feita com dados errados, retornando como bom um cheque com problemas
-                            Application.DoEvents();
+                            
                             break;
                         case 34: //Deve ser lido um campo monetário ou seja, aceita o delimitador de centavos e devolvido no parâmetro Buffer
                             TefFuncaoInterativa objForm34 = new TefFuncaoInterativa
@@ -823,16 +822,16 @@ namespace Lib.CliSitef.Classes
                                     TefRetornoAdicionar(obj3, gTefTransacao);
                                 }
                             }
-                            Application.DoEvents();
+                            
                             break;
                         case 35: //Deve ser lido um código em barras ou o mesmo deve ser coletado manualmente. No retorno Buffer deve conter “0:” ou “1:” seguido do código em barras coletado manualmente ou pela leitora, respectivamente. Cabe ao aplicativo decidir se a coleta será manual ou através de uma leitora. Caso seja coleta manual, recomenda-se seguir o procedimento descrito na rotina ValidaCampoCodigoEmBarras de forma a tratar um código em barras da forma mais genérica possível, deixando o aplicativo de automação independente de futuras alterações que possam surgir nos formatos em barras. No retorno do Buffer também pode ser passado “2:”, indicando que a coleta foi cancelada, porém o fluxo não será interrompido, logo no caso de pagamentos múltiplos, todos os documentados coletados anteriormente serão mantidos e o fluxo retomado, permitindo a efetivação de tais pagamentos.
-                            Application.DoEvents();
+                            
                             break;
                         case 41: //Análogo ao Comando 30 (TextInputNeeded), porém o campo deve ser coletado de forma mascarada (senha).
-                            Application.DoEvents();
+                            
                             break;
                         case 42: //Deve apresentar um menu de opções e permitir que o usuário selecione uma delas.
-                            Application.DoEvents();
+                            
                             break;
                         case 50: //A automação comercial deve exibir o QRCode na tela. Para tanto, neste mesmo comando, será devolvida a string do QRCode com a identificação de campo 584.
                             mObjForm50 = new TefFuncaoInterativa
@@ -843,7 +842,7 @@ namespace Lib.CliSitef.Classes
                                 Mensagem = mensagem
                             };
                             OnCallPanelQrCode?.Invoke(mObjForm50);
-                            Application.DoEvents();
+                            
                             break;
                         case 51: //A automação comercial deve remover da tela o QRCode exibido anteriormente, pois o SiTef já devolveu uma resposta à CliSiTef.
                             OnMessageClient?.Invoke(mensagem, 1000);
@@ -856,7 +855,7 @@ namespace Lib.CliSitef.Classes
                             }
                             mObjForm50 = null;
                             captionCarteiraDigital = "";
-                            Application.DoEvents();
+                            
                             break;
                         case 52: //Mensagem de rodapé, opcional para o caso haja um espaço para ela ser exibida, no caso em que o QRCode foi exibido e está aguardando que o cliente faça a sua leitura.
                             TefFuncaoInterativa objForm52 = new TefFuncaoInterativa();
@@ -868,13 +867,13 @@ namespace Lib.CliSitef.Classes
                                 OnClosePanelQrCode?.Invoke(mObjForm50);
                             }
                             OnMessageClient?.Invoke(mensagem, 500);
-                            Application.DoEvents();
+                            
                             break;
                         case 99:
-                            Application.DoEvents();
+                            
                             break;
                         default:
-                            Application.DoEvents();
+                            
                             break;
                     }
                 }

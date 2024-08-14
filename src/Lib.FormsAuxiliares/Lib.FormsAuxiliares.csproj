@@ -31,12 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lib.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib.Utils\bin\Debug\net462\Lib.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="TextBoxCurrency">
-      <HintPath>..\ExternalLibraries\TextBoxCurrency.dll</HintPath>
+    <Reference Include="TextBoxCurrency, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalLibraries\TextBoxCurrency\net462\TextBoxCurrency.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -88,12 +93,6 @@
     <EmbeddedResource Include="FrmTefQrCode.resx">
       <DependentUpon>FrmTefQrCode.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lib.Utils\Lib.Utils.csproj">
-      <Project>{541cd1dc-63e2-4a64-8b0c-3edf253ababf}</Project>
-      <Name>Lib.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

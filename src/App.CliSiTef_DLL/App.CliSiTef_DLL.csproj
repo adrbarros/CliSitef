@@ -56,19 +56,25 @@
     <ApplicationIcon>PinPad.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lib.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib.Utils\bin\Debug\net462\Lib.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.8.0.7\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="TextBoxCurrency">
-      <HintPath>..\ExternalLibraries\TextBoxCurrency.dll</HintPath>
+    <Reference Include="TextBoxCurrency, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalLibraries\TextBoxCurrency\net462\TextBoxCurrency.dll</HintPath>
     </Reference>
-    <Reference Include="Vip.Printer">
+    <Reference Include="Vip.Printer, Version=1.0.23.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalLibraries\Vip.Printer.dll</HintPath>
-    </Reference>
-    <Reference Include="zxing">
-      <HintPath>..\ExternalLibraries\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +99,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -114,10 +121,6 @@
     <ProjectReference Include="..\Lib.FormsAuxiliares\Lib.FormsAuxiliares.csproj">
       <Project>{5f271317-c015-47a3-aecb-0f8a455c42dd}</Project>
       <Name>Lib.FormsAuxiliares</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib.Utils\Lib.Utils.csproj">
-      <Project>{541cd1dc-63e2-4a64-8b0c-3edf253ababf}</Project>
-      <Name>Lib.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

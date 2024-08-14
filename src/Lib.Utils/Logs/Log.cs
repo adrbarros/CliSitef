@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 
 namespace Lib.Utils.Logs
 {
@@ -8,7 +7,7 @@ namespace Lib.Utils.Logs
     {
         public static void GerarLogProcessoExecucao(string _msg, string _path = "")
         {
-            string pathFinal = !string.IsNullOrWhiteSpace(_path) ? _path : Application.StartupPath + "\\Logs";
+            string pathFinal = !string.IsNullOrWhiteSpace(_path) ? _path : Environment.CurrentDirectory + "\\Logs";
             if (!Directory.Exists(pathFinal))
                 Directory.CreateDirectory(pathFinal);
 

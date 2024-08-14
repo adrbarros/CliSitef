@@ -8,11 +8,11 @@ namespace Lib.Utils.Classes
         {
             try
             {
-                var bw = new ZXing.BarcodeWriter();
+                ZXing.Windows.Compatibility.BarcodeWriter bw = new ZXing.Windows.Compatibility.BarcodeWriter();
                 var encOptions = new ZXing.Common.EncodingOptions() { Width = width, Height = height, Margin = 0 };
                 bw.Options = encOptions;
                 bw.Format = ZXing.BarcodeFormat.QR_CODE;
-                var resultado = new Bitmap(bw.Write(text));
+                Bitmap resultado = new Bitmap(bw.Write(text));
                 return resultado;
             }
             catch
