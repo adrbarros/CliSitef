@@ -559,6 +559,12 @@ namespace Lib.CliSitef.Classes
                                     }
                                 }
                             }
+                            //1190 - Últimos 4 dígitos do cartão
+                            else if (tipoCampo == 1190)
+                            {
+                                TefRetorno obj740_2 = new TefRetorno(740, 2, mensagem);
+                                TefRetornoAdicionar(obj740_2, gTefTransacao);
+                            }
                             //1319-Valor da transação original (Pendente)
                             else if (tipoCampo == 1319)
                             {
