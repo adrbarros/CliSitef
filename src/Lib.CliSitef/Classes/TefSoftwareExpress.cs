@@ -92,6 +92,9 @@ namespace Lib.CliSitef.Classes
         public delegate void OnVerifyDataCollectionInterruptionHandle(TefFuncaoInterativa _tefFuncaoInterativa);
         public event OnVerifyDataCollectionInterruptionHandle OnVerifyDataCollectionInterruption;
 
+        public delegate void OnDataCollectionCompletedHandle(TefFuncaoInterativa _tefFuncaoInterativa);
+        public event OnDataCollectionCompletedHandle OnDataCollectionCompleted;
+
         private TefFuncaoInterativa mObjForm50 { get; set; }
 
         private TefConfig mTefConfig { get; set; }
@@ -223,6 +226,15 @@ namespace Lib.CliSitef.Classes
                             {
                                 TefRetorno obj1 = new TefRetorno(1, 0, mensagem);
                                 TefRetornoAdicionar(obj1, gTefTransacao);
+
+                                //Última chance de interromper antes da autorização (Continua = -1 aqui encerra sem aprovar)
+                                TefFuncaoInterativa objForm0 = new TefFuncaoInterativa
+                                {
+                                    TipoCampo = tipoCampo,
+                                    Mensagem = mensagem
+                                };
+                                OnDataCollectionCompleted?.Invoke(objForm0);
+                                interromper = objForm0.Interromper;
                             }
                             //100-Modalidade de pagamento no formato xxnn. xx corresponde ao grupo da modalidade e nn ao subgrupo.
                             else if (tipoCampo == 100)
